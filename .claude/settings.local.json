@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(git rm:*)",
+      "Bash(git restore:*)",
+      "Bash(ls:*)",
+      "Bash(magick:*)",
+      "Bash(convert:*)",
+      "Bash(python3:*)",
+      "Bash(pngquant:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)"
     ]
   }
 }
