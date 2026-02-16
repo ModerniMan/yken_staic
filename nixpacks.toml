@@ -1,0 +1,12 @@
+[phases.setup]
+nixPkgs = []
+
+[phases.build]
+cmds = ["echo 'No build needed for static site'"]
+
+[start]
+cmd = "echo 'Static files served directly'"
+
+[staticAssets]
+# Prevent image optimization/compression
+optimizeImages = false
