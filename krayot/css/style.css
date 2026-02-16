@@ -939,20 +939,22 @@
         }
 
         .header-section h1 {
-            font-size: 34px;
+            font-size: 28px;
             font-weight: 900;
             margin: 0;
-            line-height: 1.1;
+            line-height: 1.2;
             letter-spacing: -0.5px;
             /* Text Background for contrast */
             background: rgba(227, 242, 253, 0.15);
             /* Light Blue Transparent */
             backdrop-filter: blur(4px);
-            padding: 4px 12px;
+            padding: 6px 14px;
             border-radius: 12px;
             display: inline-block;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 95%;
+            word-wrap: break-word;
         }
 
         .header-section .header-subtitle {
