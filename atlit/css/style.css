@@ -876,7 +876,7 @@
         /* --- Header Section (Shared) --- */
         .header-section {
             /* Map background with lighter overlay for visibility */
-            background: linear-gradient(180deg, rgba(13, 59, 102, 0.6) 0%, rgba(20, 45, 85, 0.7) 100%), url('../krayot-map.png') center/cover no-repeat;
+            background: linear-gradient(180deg, rgba(13, 59, 102, 0.6) 0%, rgba(20, 45, 85, 0.7) 100%), url('../atlit_banner.png') center/cover no-repeat;
             background-blend-mode: overlay;
             color: #fff;
             padding: 15px 15px 25px 15px;
@@ -1448,7 +1448,7 @@
         }
 
         .header-blue {
-            background: linear-gradient(135deg, rgba(33, 150, 243, 0.9), rgba(13, 71, 161, 0.9)), url('../krayot-map.png') center/cover no-repeat;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.9), rgba(13, 71, 161, 0.9)), url('../atlit_banner.png') center/cover no-repeat;
             /* Removed overlay to ensure text contrast */
             border-bottom: 4px solid #bbdefb;
             box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
@@ -1485,7 +1485,7 @@
         }
 
         .header-red {
-            background: linear-gradient(135deg, rgba(211, 47, 47, 0.9), rgba(183, 28, 28, 0.9)), url('../krayot-map.png') center/cover no-repeat;
+            background: linear-gradient(135deg, rgba(211, 47, 47, 0.9), rgba(183, 28, 28, 0.9)), url('../atlit_banner.png') center/cover no-repeat;
             border-bottom: 4px solid #ffcdd2;
             box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3);
         }
@@ -1597,7 +1597,7 @@
         }
 
         .v-list-header {
-            background: linear-gradient(135deg, rgba(44, 109, 166, 0.9), rgba(21, 101, 192, 0.95)), url('../krayot-map.png') center/cover no-repeat;
+            background: linear-gradient(135deg, rgba(44, 109, 166, 0.9), rgba(21, 101, 192, 0.95)), url('../atlit_banner.png') center/cover no-repeat;
             color: #fff;
             text-align: center;
             padding: 20px 15px;
