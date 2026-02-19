@@ -1762,13 +1762,13 @@
 
         .v-list-grid.two-cols .v-list-row {
             border-bottom: none;
-            border-right: 1px solid #f0f0f0;
+            border-left: 1px solid #f0f0f0;
             padding-left: 8px;
             padding-right: 8px;
         }
 
         .v-list-grid.two-cols .v-list-row:nth-child(2n) {
-            border-right: none;
+            border-left: none;
         }
 
         .v-list-row:last-child {

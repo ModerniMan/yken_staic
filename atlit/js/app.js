@@ -201,9 +201,16 @@ function parseNames(text) {
     let result = [];
     lines.forEach(line => {
         let clean = line.trim();
+        // Option 1: Name - Score
         let match = clean.match(/^(.*?)[ \-\.]+(\d+)$/);
         if (match) {
             result.push({ name: match[1].trim(), score: parseInt(match[2]) });
+        } else {
+            // Option 2: Score - Name (reverse)
+            let matchRev = clean.match(/^(\d+)[ \-\.]+(.*?)$/);
+            if (matchRev) {
+                result.push({ name: matchRev[2].trim(), score: parseInt(matchRev[1]) });
+            }
         }
     });
     return result.sort((a, b) => b.score - a.score);
@@ -356,10 +363,10 @@ function renderStats(triggeredBySelect = false) {
     let btnsHTML = '<button class="download-btn" onclick="downloadImage()">📥 שמור דוח פודיום</button>';
 
     if (list.length > 3) {
-        const maxScore = list[0] ? list[0].score : 1;
         let listHTML = '';
 
-        // שלושת הראשונים - שורה רגילה
+        // שלושת הראשונים - כרטיסים ממורכזים
+        listHTML += '<div class="v-top3-cards">';
         for (let i = 0; i < Math.min(3, list.length); i++) {
             const p = list[i];
             const rank = i + 1;
@@ -368,16 +375,14 @@ function renderStats(triggeredBySelect = false) {
             if (rank === 1) { rowClass = 'v-gold'; medalEmoji = '🥇'; }
             else if (rank === 2) { rowClass = 'v-silver'; medalEmoji = '🥈'; }
             else if (rank === 3) { rowClass = 'v-bronze'; medalEmoji = '🥉'; }
-            const barWidth = maxScore > 0 ? (p.score / maxScore * 100) : 0;
-            const barColor = rank <= 3 ? '#2c6da6' : '#90a4ae';
             listHTML += `
-                <div class="v-list-row ${rowClass}">
-                    <div class="v-bar-bg" style="width:${barWidth}%; background:${barColor};"></div>
-                    <span class="v-rank">${medalEmoji || rank + '.'}</span>
-                    <span class="v-name">${p.name}</span>
-                    <span class="v-score">${p.score}</span>
+                <div class="v-top3-card ${rowClass}">
+                    <span class="v-top3-medal">${medalEmoji}</span>
+                    <span class="v-top3-name">${p.name}</span>
+                    <span class="v-top3-score">${p.score} קריאות</span>
                 </div>`;
         }
+        listHTML += '</div>';
 
         // מקומות 4+ - שניים בשורה (grid) עם תצוגה פשוטה
         if (list.length > 3) {
