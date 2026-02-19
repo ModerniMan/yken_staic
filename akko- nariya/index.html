@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=2.1">
+    <link rel="stylesheet" href="css/style.css?v=2.2">
 </head>
 
 <body>
@@ -153,13 +153,7 @@
                         placeholder="הדבק שמות ומספרים..."></textarea>
                 </div>
 
-                <div class="section-label">מצטיין השבוע</div>
-                <div class="input-group">
-                    <label>בחירת מצטיין ידנית (ברירת מחדל: הכונן המוביל)</label>
-                    <input type="text" id="in-star-select" list="star-options" oninput="renderStats(true)"
-                        placeholder="השאר ריק לבחירה אוטומטית...">
-                    <datalist id="star-options"></datalist>
-                </div>
+                <!-- מצטיין השבוע - מוסתר לסניף זה -->
             </div>
 
             <!-- WELCOME INPUTS -->
@@ -394,17 +388,6 @@
                     <!-- Section Divider -->
                     <div class="section-divider"></div>
 
-                    <!-- Podium -->
-                    <div class="card-heading" style="margin-top: 5px;" contenteditable="true">טבלת המובילים</div>
-                    <div id="podium-area">
-                        <!-- JS Injected -->
-                    </div>
-
-                    <!-- Star Volunteer Section -->
-                    <div id="star-area">
-                        <!-- JS Injected -->
-                    </div>
-
                     <div class="card-footer">כונני עכו נהריה - גאווה ישראלית! | לע"נ ניב בן שרון</div>
                 </div>
             </div>
@@ -467,7 +450,7 @@
     </div>
 
     <!-- Application Script -->
-    <script src="js/app.js?v=2.1"></script>
+    <script src="js/app.js?v=2.2"></script>
 </body>
 
 </html>
