@@ -1210,6 +1210,8 @@
             align-items: flex-end;
             justify-content: center;
             line-height: 1.2;
+            width: 100%;
+            word-break: break-word;
         }
 
         .p-block {
