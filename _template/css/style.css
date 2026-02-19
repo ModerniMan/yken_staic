@@ -1205,9 +1205,7 @@
             text-align: center;
             margin-bottom: 20px;
             min-height: 35px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
+            display: block;
             line-height: 1.2;
             width: 100%;
             word-break: break-word;
