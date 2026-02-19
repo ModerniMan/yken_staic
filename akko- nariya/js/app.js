@@ -355,34 +355,33 @@ function renderStats(triggeredBySelect = false) {
         starArea.innerHTML = '';
     }
 
-    // 4. List Card (Full volunteers list)
+    // 4. Volunteers list (merged into main stats card)
     const downBtn = document.getElementById('btn-stat-down');
-    const listCard = document.getElementById('card-volunteers-list');
     const volunteersListContent = document.getElementById('volunteers-list-content');
 
-    let btnsHTML = '<button class="download-btn" onclick="downloadImage()">📥 שמור דוח פודיום</button>';
-
-    if (list.length > 3) {
+    if (list.length > 0) {
         let listHTML = '';
 
         // שלושת הראשונים - כרטיסים ממורכזים
-        listHTML += '<div class="v-top3-cards">';
-        for (let i = 0; i < Math.min(3, list.length); i++) {
-            const p = list[i];
-            const rank = i + 1;
-            let rowClass = '';
-            let medalEmoji = '';
-            if (rank === 1) { rowClass = 'v-gold'; medalEmoji = '🥇'; }
-            else if (rank === 2) { rowClass = 'v-silver'; medalEmoji = '🥈'; }
-            else if (rank === 3) { rowClass = 'v-bronze'; medalEmoji = '🥉'; }
-            listHTML += `
-                <div class="v-top3-card ${rowClass}">
-                    <span class="v-top3-medal">${medalEmoji}</span>
-                    <span class="v-top3-name">${p.name}</span>
-                    <span class="v-top3-score">${p.score} קריאות</span>
-                </div>`;
+        if (list.length >= 1) {
+            listHTML += '<div class="v-top3-cards">';
+            for (let i = 0; i < Math.min(3, list.length); i++) {
+                const p = list[i];
+                const rank = i + 1;
+                let rowClass = '';
+                let medalEmoji = '';
+                if (rank === 1) { rowClass = 'v-gold'; medalEmoji = '🥇'; }
+                else if (rank === 2) { rowClass = 'v-silver'; medalEmoji = '🥈'; }
+                else if (rank === 3) { rowClass = 'v-bronze'; medalEmoji = '🥉'; }
+                listHTML += `
+                    <div class="v-top3-card ${rowClass}">
+                        <span class="v-top3-medal">${medalEmoji}</span>
+                        <span class="v-top3-name">${p.name}</span>
+                        <span class="v-top3-score">${p.score} קריאות</span>
+                    </div>`;
+            }
+            listHTML += '</div>';
         }
-        listHTML += '</div>';
 
         // מקומות 4+ - מעל 20 בזוגות, אחרת ממורכז בשורה אחת
         if (list.length > 3) {
@@ -422,17 +421,12 @@ function renderStats(triggeredBySelect = false) {
         }
 
         if (volunteersListContent) volunteersListContent.innerHTML = listHTML;
-
-        if (currentTab === 'stats') {
-            if (listCard) listCard.style.display = 'flex';
-            btnsHTML += `<button class="download-btn" style="background:linear-gradient(135deg, #607d8b, #455a64); margin-top:10px;" onclick="downloadVolunteersList()">📜 הורד רשימה מלאה (${list.length}) 📥</button>`;
-        }
     } else {
-        if (listCard) listCard.style.display = 'none';
+        if (volunteersListContent) volunteersListContent.innerHTML = '';
     }
 
     if (currentTab === 'stats' && downBtn) {
-        downBtn.innerHTML = btnsHTML;
+        downBtn.innerHTML = '<button class="download-btn" onclick="downloadImage()">📥 שמור דוח</button>';
     }
 }
 
@@ -575,9 +569,6 @@ function downloadWelcome(type) {
     generateAndDownload(targetId, `yedidim_welcome_${type}.png`);
 }
 
-function downloadVolunteersList() {
-    generateAndDownload('card-volunteers-list', 'yedidim_stats_full_list.png');
-}
 
 // --- Template URL System (Restored) ---
 function copyTemplateLink() {
