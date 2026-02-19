@@ -1902,4 +1902,96 @@
             border-top: 2px solid #eee;
         }
 
+        /* Email Paste Button */
+        .paste-email-btn {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #1565c0, #42a5f5);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .paste-email-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(21, 101, 192, 0.4);
+        }
+
+        /* Email Modal */
+        .email-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .email-modal.hidden { display: none; }
+
+        .email-modal-content {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .email-modal-content h3 { font-size: 18px; margin-bottom: 4px; color: #1565c0; }
+        .email-modal-content p { font-size: 13px; color: #78909c; margin-bottom: 12px; }
+
+        .email-modal-content textarea {
+            width: 100%;
+            height: 250px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 13px;
+            font-family: inherit;
+            resize: vertical;
+            direction: rtl;
+            box-sizing: border-box;
+        }
+
+        .email-modal-content textarea:focus { border-color: #42a5f5; outline: none; }
+
+        .email-modal-buttons { display: flex; gap: 10px; margin-top: 12px; justify-content: center; }
+
+        .email-btn-ok {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #43a047, #66bb6a);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .email-btn-cancel {
+            padding: 10px 24px;
+            background: #e0e0e0;
+            color: #546e7a;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
         /* Mobile Blocker Removed */

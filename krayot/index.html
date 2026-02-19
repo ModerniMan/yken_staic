@@ -16,7 +16,7 @@
         rel="stylesheet">
 
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=2.1">
+    <link rel="stylesheet" href="css/style.css?v=3.0">
 </head>
 
 <body>
@@ -113,6 +113,7 @@
 
             <!-- STATS INPUTS -->
             <div id="inputs-stats">
+                <button class="paste-email-btn" onclick="openEmailModal()">📧 הדבק מייל מעוגן</button>
                 <div class="section-label">נתונים כלליים</div>
                 <div class="input-row">
                     <div class="input-group"><label>קריאות סה"כ</label><input type="number" id="in-total" value=""
@@ -466,8 +467,21 @@
         </div>
     </div>
 
+    <!-- Email Modal -->
+    <div id="email-modal" class="email-modal hidden">
+        <div class="email-modal-content">
+            <h3>📧 הדבק את תוכן המייל מעוגן</h3>
+            <p>העתק את כל תוכן המייל השבועי והדבק כאן</p>
+            <textarea id="email-paste-area" placeholder="הדבק כאן את תוכן המייל..."></textarea>
+            <div class="email-modal-buttons">
+                <button class="email-btn-ok" onclick="parseEmail()">✓ מלא נתונים</button>
+                <button class="email-btn-cancel" onclick="closeEmailModal()">✕ ביטול</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Application Script -->
-    <script src="js/app.js?v=2.1"></script>
+    <script src="js/app.js?v=3.0"></script>
 </body>
 
 </html>

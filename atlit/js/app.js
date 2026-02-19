@@ -838,6 +838,80 @@ function applyProjectData(data) {
     }
 }
 
+// ======================================================
+//   📧 Email Parser - הדבקת מייל מעוגן
+// ======================================================
+function openEmailModal() {
+    const modal = document.getElementById('email-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.getElementById('email-paste-area').value = '';
+        document.getElementById('email-paste-area').focus();
+    }
+}
+
+function closeEmailModal() {
+    const modal = document.getElementById('email-modal');
+    if (modal) modal.classList.add('hidden');
+}
+
+function parseEmail() {
+    const text = document.getElementById('email-paste-area').value;
+    if (!text.trim()) { alert('לא הודבק תוכן'); return; }
+
+    // 1. סה"כ קריאות
+    const totalMatch = text.match(/סך הכל\s+(\d+)\s+קריאות/);
+    if (totalMatch) setField('in-total', totalMatch[1]);
+
+    // 2. מספר מתנדבים
+    const volsMatch = text.match(/(\d+)\s+מתנדבים\s+השתתפו/);
+    if (volsMatch) setField('in-vols', volsMatch[1]);
+
+    // 3. התפלגות קטגוריות
+    const categories = {
+        'in-hanaa': /התנעה\s*[-–]\s*(\d+)/,
+        'in-pancer': /פנצ['\u05F3]?ר\s*[-–]\s*(\d+)/,
+        'in-locked': /רכב נעול\s*[-–]\s*(\d+)/,
+        'in-fuel': /דלק\s*[-–]\s*(\d+)/,
+        'in-door': /דלת\s*[-–]\s*(\d+)/,
+        'in-transport': /שינוע\s*[-–]\s*(\d+)/,
+        'in-war': /לחימה\s*[-–]\s*(\d+)/,
+        'in-other': /אחר\s*[-–]\s*(\d+)/
+    };
+
+    for (const [fieldId, regex] of Object.entries(categories)) {
+        const match = text.match(regex);
+        setField(fieldId, match ? match[1] : '0');
+    }
+
+    // 4. רשימת מתנדבים - אחרי "רשימת כל המתנדבים" ועד "עד כאן הספירה"
+    const listMatch = text.match(/רשימת כל המתנדבים[^\n]*\n([\s\S]*?)(?:עד כאן הספירה|בברכה|$)/);
+    if (listMatch) {
+        const lines = listMatch[1].trim().split('\n')
+            .map(l => l.trim())
+            .filter(l => l.length > 0)
+            .map(l => {
+                // Format: "שם מספר" or "שם - מספר"
+                const m = l.match(/^(.+?)\s+(\d+)$/);
+                return m ? `${m[1].trim()} - ${m[2]}` : l;
+            });
+
+        const listArea = document.getElementById('in-list-stats');
+        if (listArea) {
+            listArea.value = lines.join('\n');
+        }
+    }
+
+    // 5. עדכון תצוגה וסגירה
+    renderStats();
+    closeEmailModal();
+}
+
+function setField(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.value = value;
+}
+
 // Removed Auto-Save Listeners per user request
 // window.addEventListener('input', saveData); 
 // document.body.addEventListener('blur', ...) 
