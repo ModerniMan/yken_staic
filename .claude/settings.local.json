@@ -10,7 +10,9 @@
       "Bash(python3:*)",
       "Bash(pngquant:*)",
       "Bash(ffmpeg:*)",
-      "Bash(powershell -ExecutionPolicy Bypass -File:*)"
+      "Bash(powershell -ExecutionPolicy Bypass -File:*)",
+      "Bash(git add:*)",
+      "Bash(node -e:*)"
     ]
   }
 }
