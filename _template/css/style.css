@@ -1715,6 +1715,22 @@
             flex-shrink: 0;
         }
 
+        /* Single column centered layout (under 20) */
+        .v-list-single {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .v-list-single .v-list-row {
+            justify-content: center;
+        }
+
+        .v-list-single .v-name {
+            flex: none;
+            text-align: center;
+        }
+
         /* Medal rows (4+) */
         .v-rank {
             font-weight: 900;

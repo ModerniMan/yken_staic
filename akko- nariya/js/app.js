@@ -384,24 +384,37 @@ function renderStats(triggeredBySelect = false) {
         }
         listHTML += '</div>';
 
-        // מקומות 4+ - שניים בשורה (grid) עם תצוגה פשוטה
+        // מקומות 4+ - מעל 20 בזוגות, אחרת ממורכז בשורה אחת
         if (list.length > 3) {
-            listHTML += '<div class="v-list-grid two-cols">';
-            for (let i = 3; i < list.length; i += 2) {
-                let row1 = list[i];
-                let row2 = list[i + 1];
-                listHTML += `
-                    <div class="v-list-row">
-                        <span class="v-rank">${i + 1}.</span>
-                        <span class="v-name">${row1.name}</span>
-                        <span class="v-score">${row1.score}</span>
-                    </div>`;
-                if (row2) {
+            const usePairs = list.length > 20;
+            listHTML += usePairs ? '<div class="v-list-grid two-cols">' : '<div class="v-list-single">';
+            if (usePairs) {
+                for (let i = 3; i < list.length; i += 2) {
+                    let row1 = list[i];
+                    let row2 = list[i + 1];
                     listHTML += `
                         <div class="v-list-row">
-                            <span class="v-rank">${i + 2}.</span>
-                            <span class="v-name">${row2.name}</span>
-                            <span class="v-score">${row2.score}</span>
+                            <span class="v-rank">${i + 1}.</span>
+                            <span class="v-name">${row1.name}</span>
+                            <span class="v-score">${row1.score}</span>
+                        </div>`;
+                    if (row2) {
+                        listHTML += `
+                            <div class="v-list-row">
+                                <span class="v-rank">${i + 2}.</span>
+                                <span class="v-name">${row2.name}</span>
+                                <span class="v-score">${row2.score}</span>
+                            </div>`;
+                    }
+                }
+            } else {
+                for (let i = 3; i < list.length; i++) {
+                    const p = list[i];
+                    listHTML += `
+                        <div class="v-list-row">
+                            <span class="v-rank">${i + 1}.</span>
+                            <span class="v-name">${p.name}</span>
+                            <span class="v-score">${p.score}</span>
                         </div>`;
                 }
             }
