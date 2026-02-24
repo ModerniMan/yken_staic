@@ -117,7 +117,7 @@
                 <button class="paste-email-btn" onclick="openEmailModal()">📧 הדבק מייל מעוגן</button>
                 <div class="section-label">נתונים כלליים</div>
                 <div class="input-row">
-                    <div class="input-group"><label>קריאות סה"כ</label><input type="number" id="in-total" value=""
+                    <div class="input-group"><label>אירועים סה"כ</label><input type="number" id="in-total" value=""
                             oninput="renderStats()"></div>
                     <div class="input-group"><label>מתנדבים</label><input type="number" id="in-vols" value=""
                             oninput="renderStats()"></div>
@@ -262,7 +262,7 @@
 
             <div class="instruction-step">
                 <h3>3. דוח שבועי</h3>
-                <p>הזן את נתוני הקריאות, מספר מתנדבים וחירום. בתיבת רשימת המתנדבים הדבק שמות ומספרים בפורמט: שם - מספר
+                <p>הזן את נתוני האירועים, מספר מתנדבים וחירום. בתיבת רשימת המתנדבים הדבק שמות ומספרים בפורמט: שם - מספר
                     (כל שורה חדשה). שלושת הראשונים יופיעו בפודיום.</p>
             </div>
 
@@ -311,7 +311,7 @@
                                 <div class="stat-icon">🔍</div>
                                 <div id="out-total">0</div>
                             </div>
-                            <div class="stat-label">קריאות סה"כ</div>
+                            <div class="stat-label">אירועים סה"כ</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-circle" style="border-color: var(--ring-green);">
@@ -325,7 +325,7 @@
                                 <div class="stat-icon">🔔</div>
                                 <div id="out-emer">0</div>
                             </div>
-                            <div class="stat-label">קריאות חירום</div>
+                            <div class="stat-label">אירועי חירום</div>
                         </div>
                     </div>
 
@@ -333,7 +333,7 @@
                     <div class="section-divider"></div>
 
                     <!-- Vertical Column Chart -->
-                    <div class="card-heading" contenteditable="true">התפלגות סוגי הקריאות</div>
+                    <div class="card-heading" contenteditable="true">התפלגות סוגי האירועים</div>
                     <div class="graph-container">
                         <div class="graph-col" id="col-hanaa">
                             <div class="g-val" id="txt-hanaa">0</div>

@@ -302,21 +302,21 @@ function renderStats(triggeredBySelect = false) {
                         <div class="podium-title">🏆 המתנדבים המובילים</div>
                         <div class="podium-wrapper">
                             <div class="podium-col place-2">
-                                <div class="p-avatar" contenteditable="true">${top2.name}<br>${top2.score} קריאות</div>
+                                <div class="p-avatar" contenteditable="true">${top2.name}<br>${top2.score} אירועים</div>
                                 <div class="p-block">
                                     <div class="rank-num">2</div>
                                     <div class="medal-icon"></div>
                                 </div>
                             </div>
                             <div class="podium-col place-1">
-                                <div class="p-avatar" contenteditable="true">${top1.name}<br>${top1.score} קריאות</div>
+                                <div class="p-avatar" contenteditable="true">${top1.name}<br>${top1.score} אירועים</div>
                                 <div class="p-block">
                                     <div class="rank-num">1</div>
                                     <div class="medal-icon"></div>
                                 </div>
                             </div>
                             <div class="podium-col place-3">
-                                <div class="p-avatar" contenteditable="true">${top3.name}<br>${top3.score} קריאות</div>
+                                <div class="p-avatar" contenteditable="true">${top3.name}<br>${top3.score} אירועים</div>
                                 <div class="p-block">
                                     <div class="rank-num">3</div>
                                     <div class="medal-icon"></div>
@@ -341,7 +341,7 @@ function renderStats(triggeredBySelect = false) {
             starPerson = list[0]; // Default: top volunteer
         }
 
-        const scoreText = starPerson.score ? `${starPerson.score} קריאות` : '';
+        const scoreText = starPerson.score ? `${starPerson.score} אירועים` : '';
         starArea.innerHTML = `
             <div class="star-section">
                 <div class="star-icon-box">⭐</div>
@@ -379,7 +379,7 @@ function renderStats(triggeredBySelect = false) {
                 <div class="v-top3-card ${rowClass}">
                     <span class="v-top3-medal">${medalEmoji}</span>
                     <span class="v-top3-name">${p.name}</span>
-                    <span class="v-top3-score">${p.score} קריאות</span>
+                    <span class="v-top3-score">${p.score} אירועים</span>
                 </div>`;
         }
         listHTML += '</div>';
@@ -859,7 +859,7 @@ function parseEmail() {
     const text = document.getElementById('email-paste-area').value;
     if (!text.trim()) { alert('לא הודבק תוכן'); return; }
 
-    const totalMatch = text.match(/סך הכל\s+(\d+)\s+קריאות/);
+    const totalMatch = text.match(/סך הכל\s+(\d+)\s+אירועים/);
     if (totalMatch) setField('in-total', totalMatch[1]);
 
     const volsMatch = text.match(/(\d+)\s+מתנדבים\s+השתתפו/);
