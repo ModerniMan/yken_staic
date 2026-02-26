@@ -155,6 +155,10 @@
 
                 <div class="section-label">מצטיין השבוע</div>
                 <div class="input-group">
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:6px;">
+                        <input type="checkbox" id="in-no-star" onchange="renderStats()" style="width:auto; cursor:pointer;">
+                        ללא מצטיין (הסתר מהדוח)
+                    </label>
                     <label>בחירת מצטיין ידנית (ברירת מחדל: הכונן המוביל)</label>
                     <input type="text" id="in-star-select" list="star-options" oninput="renderStats(true)"
                         placeholder="השאר ריק לבחירה אוטומטית...">

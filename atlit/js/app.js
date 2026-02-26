@@ -330,9 +330,17 @@ function renderStats(triggeredBySelect = false) {
     // 3.5 Star Volunteer
     const starArea = document.getElementById('star-area');
     const starInput = document.getElementById('in-star-select');
+    const noStarCheckbox = document.getElementById('in-no-star');
+    const noStar = noStarCheckbox ? noStarCheckbox.checked : false;
     const starName = starInput ? starInput.value.trim() : '';
 
-    if (starArea && list.length > 0) {
+    // Disable/enable the star select input based on checkbox
+    if (starInput) starInput.disabled = noStar;
+
+    if (noStar) {
+        // Hide star area when "no star" is checked
+        if (starArea) starArea.innerHTML = '';
+    } else if (starArea && list.length > 0) {
         let starPerson;
         if (starName) {
             starPerson = list.find(p => p.name === starName);
