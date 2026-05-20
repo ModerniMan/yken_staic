@@ -867,39 +867,118 @@ function parseEmail() {
     const text = document.getElementById('email-paste-area').value;
     if (!text.trim()) { alert('לא הודבק תוכן'); return; }
 
-    const totalMatch = text.match(/סך הכל\s+(\d+)\s+אירועים/);
+    // 1. סה"כ אירועים
+    const totalMatch = text.match(/(?:סך הכל|סה"כ)\s*(?:אירועים|קריאות|פעילויות)?\s*[-–—:]?\s*(\d+)/) ||
+                       text.match(/(?:אירועים|קריאות|פעילויות)\s*(?:סה"כ|סך הכל)\s*[-–—:]?\s*(\d+)/) ||
+                       text.match(/סך הכל\s+(\d+)\s+(?:אירועים|קריאות|פעילויות)/);
     if (totalMatch) setField('in-total', totalMatch[1]);
 
-    const volsMatch = text.match(/(\d+)\s+מתנדבים\s+השתתפו/);
+    // 2. מספר מתנדבים
+    const volsMatch = text.match(/(\d+)\s+(?:מתנדבים|כוננים)/) ||
+                      text.match(/(?:מתנדבים|כוננים)(?:\s+שהשתתפו|\s+השתתפו)?\s*[-–—:]?\s*(\d+)/) ||
+                      text.match(/(?:כמות|מספר)\s+(?:מתנדבים|כוננים)\s*[-–—:]?\s*(\d+)/);
     if (volsMatch) setField('in-vols', volsMatch[1]);
 
-    const categories = {
-        'in-hanaa': /התנעה\s*[-–]\s*(\d+)/,
-        'in-pancer': /פנצ['\u05F3]?ר\s*[-–]\s*(\d+)/,
-        'in-locked': /רכב נעול\s*[-–]\s*(\d+)/,
-        'in-fuel': /דלק\s*[-–]\s*(\d+)/,
-        'in-door': /דלת\s*[-–]\s*(\d+)/,
-        'in-transport': /שינוע\s*[-–]\s*(\d+)/,
-        'in-war': /לחימה\s*[-–]\s*(\d+)/,
-        'in-other': /אחר\s*[-–]\s*(\d+)/
+    // 2.5 אירועי חירום
+    const emerMatch = text.match(/(?:אירועי\s+)?חירום\s*[-–—:]?\s*(\d+)/);
+    if (emerMatch) setField('in-emer', emerMatch[1]);
+
+    // 3. התפלגות קטגוריות
+    const lines = text.split('\n');
+    const categoryValues = {
+        'in-hanaa': 0,
+        'in-pancer': 0,
+        'in-locked': 0,
+        'in-fuel': 0,
+        'in-door': 0,
+        'in-transport': 0,
+        'in-war': 0,
+        'in-other': 0
     };
 
-    for (const [fieldId, regex] of Object.entries(categories)) {
-        const match = text.match(regex);
-        setField(fieldId, match ? match[1] : '0');
+    lines.forEach(line => {
+        const cleanLine = line.trim();
+        if (!cleanLine) return;
+
+        let m;
+        if (m = cleanLine.match(/^(?:הנעה|התנעה)\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-hanaa'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^פנצ['\u05F3\u2019]?ר\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-pancer'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^(?:רכב\s+)?נעול\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-locked'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^(?:דלק|שמן[\+\/\\ ]+מים|מים[\+\/\\ ]+שמן|שמן\/מים\/דלק)\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-fuel'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^(?:דלת|דלת\s+טרוקה)\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-door'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^שינוע\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-transport'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^(?:לחימה|זמן\s+לחימה)\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-war'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^אחר\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-other'] += parseInt(m[1]);
+        }
+    });
+
+    for (const [fieldId, val] of Object.entries(categoryValues)) {
+        setField(fieldId, val.toString());
     }
 
-    const listMatch = text.match(/רשימת כל המתנדבים[^\n]*\n([\s\S]*?)(?:עד כאן הספירה|בברכה|$)/);
+    // 4. רשימת מתנדבים
+    const listMatch = text.match(/(?:רשימת\s+(?:כל\s+)?(?:המתנדבים|הכוננים|החברים)|דירוג\s+(?:המתנדבים|הכוננים|החברים)|טבלת\s+(?:המתנדבים|הכוננים|החברים))[^\n]*\n([\s\S]*?)(?:עד כאן הספירה|בברכה|שבת שלום|$|על מנת|הדוח המלא)/);
+    
+    let volunteerLines = [];
+    const excludeKeywords = ['סה"כ', 'סך הכל', 'אירועים', 'מתנדבים', 'כוננים', 'השתתפו', 'קריאות', 'חירום', 'התנעה', 'הנעה', 'פנצ', 'נעול', 'דלק', 'דלת', 'שינוע', 'לחימה', 'אחר', 'שמן', 'מים', 'תודה', 'השתדלות', 'אזרחי'];
+    
     if (listMatch) {
-        const lines = listMatch[1].trim().split('\n')
-            .map(l => l.trim())
-            .filter(l => l.length > 0)
-            .map(l => {
-                const m = l.match(/^(.+?)\s+(\d+)$/);
-                return m ? `${m[1].trim()} - ${m[2]}` : l;
-            });
+        const rawLines = listMatch[1].trim().split('\n');
+        rawLines.forEach(l => {
+            const clean = l.trim();
+            if (!clean) return;
+            const hasExclude = excludeKeywords.some(kw => clean.includes(kw));
+            if (hasExclude) return;
+            if (clean.match(/\d+/) && clean.replace(/^\d+[\s\.\-\)]+\s*/, '').trim().match(/^(.+?)\s*[-–—:]?\s*(\d+)\s*(?:אירועים)?$/)) {
+                volunteerLines.push(clean);
+            }
+        });
+    }
+    
+    if (volunteerLines.length === 0) {
+        const volunteerMap = {};
+        lines.forEach(l => {
+            const clean = l.trim();
+            if (!clean) return;
+            if (clean.endsWith(':')) return;
+            const hasExclude = excludeKeywords.some(kw => clean.includes(kw));
+            if (hasExclude) return;
+            
+            let cleanLine = clean.replace(/^\d+[\s\.\-\)]+\s*/, '').trim();
+            const m = cleanLine.match(/^(.+?)\s*[-–—:]?\s*(\d+)\s*(?:אירועים)?$/);
+            if (m) {
+                const name = m[1].trim();
+                const count = parseInt(m[2]);
+                if (name && !isNaN(count)) {
+                    volunteerMap[name] = (volunteerMap[name] || 0) + count;
+                }
+            }
+        });
+        
+        const sortedVolunteers = Object.entries(volunteerMap)
+            .sort((a, b) => b[1] - a[1])
+            .map(([name, count]) => `${name} - ${count}`);
+            
+        volunteerLines = sortedVolunteers;
+    } else {
+        volunteerLines = volunteerLines.map(l => {
+            let cleanLine = l.replace(/^\d+[\s\.\-\)]+\s*/, '').trim();
+            const m = cleanLine.match(/^(.+?)\s*[-–—:]?\s*(\d+)\s*(?:אירועים)?$/);
+            return m ? `${m[1].trim()} - ${m[2]}` : cleanLine;
+        });
+    }
+
+    if (volunteerLines.length > 0) {
         const listArea = document.getElementById('in-list-stats');
-        if (listArea) listArea.value = lines.join('\n');
+        if (listArea) listArea.value = volunteerLines.join('\n');
     }
 
     renderStats();

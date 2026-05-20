@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
-    <title>מחולל ידידים | סניף עתלית טירת כרמל</title>
+    <title>מחולל ידידים | סניף עכו - נהריה [טיוטה - לא לפרסום]</title>
 
     <!-- External Libraries -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -16,11 +16,14 @@
         rel="stylesheet">
 
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="css/style.css?v=3.0">
+    <link rel="stylesheet" href="css/style.css?v=3.1">
 </head>
 
 <body>
-    <!-- Banner Image -->
+    <!-- Draft Banner -->
+    <div class="draft-banner" id="draft-banner">⚠️ גרסה פנימית - לא לפרסום | שימוש פנימי בלבד - זכויות יוצרים ⚠️ <span
+            onclick="document.getElementById('draft-banner').style.display='none'"
+            style="cursor:pointer;margin-right:10px;font-size:16px;opacity:0.8;">✕</span></div>
 
     <!-- Security Script (Loaded Early) -->
 
@@ -28,8 +31,9 @@
     <div id="portal-entry" class="portal-overlay">
         <div class="portal-container">
             <div class="portal-header">
-                <div class="portal-logo">🛡️</div>
-                <h1><input id="branch-name-input" value="ידידים סניף עתלית - טירה"
+                <div class="portal-logo"><img src="https://yedidim-il.org/wp-content/uploads/2021/03/logo-1230.png"
+                        alt="לוגו ידידים" onerror="this.outerHTML='🛡️'"></div>
+                <h1><input id="branch-name-input" value="ידידים סניף עכו - נהריה"
                         style="font-size:1.5em;text-align:center;border:none;background:transparent;width:90%;font-weight:bold;"
                         onchange="updateBranchName()"></h1>
                 <p>פורטל מערכת עיצוב</p>
@@ -155,18 +159,7 @@
                         placeholder="הדבק שמות ומספרים..."></textarea>
                 </div>
 
-                <div class="section-label">מצטיין השבוע</div>
-                <div class="input-group">
-                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:6px;">
-                        <input type="checkbox" id="in-no-star" onchange="renderStats()"
-                            style="width:auto; cursor:pointer;">
-                        ללא מצטיין (הסתר מהדוח)
-                    </label>
-                    <label>בחירת מצטיין ידנית (ברירת מחדל: הכונן המוביל)</label>
-                    <input type="text" id="in-star-select" list="star-options" oninput="renderStats(true)"
-                        placeholder="השאר ריק לבחירה אוטומטית...">
-                    <datalist id="star-options"></datalist>
-                </div>
+                <!-- מצטיין השבוע - מוסתר לסניף זה -->
             </div>
 
             <!-- WELCOME INPUTS -->
@@ -175,7 +168,6 @@
                 <div class="input-group">
                     <label>נוסח פנייה</label>
                     <select id="in-w-gender" onchange="renderWelcome()">
-                        <option value="multi" selected>משולב (ברוכים הבאים וברוכות הבאות)</option>
                         <option value="male">זכר (ברוך הבא - הכונן היקר)</option>
                         <option value="female">נקבה* (ברוכה הבאה - הכוננית היקרה)</option>
                     </select>
@@ -193,8 +185,6 @@
                                 titleInput.value = 'ברוך הבא';
                             } else if (this.value === 'female') {
                                 titleInput.value = 'ברוכה הבאה';
-                            } else if (this.value === 'multi') {
-                                titleInput.value = 'ברוכים הבאים וברוכות הבאות';
                             } else {
                                 titleInput.value = 'ברוכים הבאים';
                             }
@@ -205,14 +195,14 @@
                 <div class="input-row" style="margin-top:10px;">
                     <div class="input-group">
                         <label>תת-כותרת (משפחתית)</label>
-                        <input type="text" id="in-w-sub-blue" value="לפורום הסניף - אלופי עתלית"
+                        <input type="text" id="in-w-sub-blue" value="לפורום הסניף - עכו נהריה"
                             oninput="renderWelcome()">
                     </div>
                 </div>
                 <div class="input-row">
                     <div class="input-group">
                         <label>תת-כותרת (מבצעית)</label>
-                        <input type="text" id="in-w-sub-red" value="לקבוצה המבצעית של אלופי עתלית"
+                        <input type="text" id="in-w-sub-red" value="לקבוצה המבצעית של עכו נהריה"
                             oninput="renderWelcome()">
                     </div>
                 </div>
@@ -297,16 +287,18 @@
     <div class="preview-area">
         <div id="canvas-container">
             <!-- Background Map Layer (Shared) -->
-            <div class="map-layer" style="background: url('krayot-map.png') center/cover no-repeat;"></div>
+            <div class="map-layer" style="background: url('akko nariya banner.png') center/cover no-repeat;"></div>
 
             <!-- CARD 1: STATS -->
             <div id="card-stats" class="main-card">
+                <img class="header-logo-img" src="https://yedidim-il.org/wp-content/uploads/2021/03/logo-1230.png"
+                    alt="לוגו ידידים" onerror="this.style.display='none'">
                 <div class="header-section">
                     <div class="header-logo">
                         <div class="header-logo-icon">🛡️</div>
-                        <h1 contenteditable="true">ידידים סניף עתלית - טירה</h1>
+                        <h1 contenteditable="true">ידידים סניף עכו - נהריה</h1>
                     </div>
-                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | עתלית - טירה</span>
+                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | עכו נהריה</span>
 
                     <!-- Skyline SVG Removed per user request -->
                 </div>
@@ -404,31 +396,13 @@
                     <!-- Section Divider -->
                     <div class="section-divider"></div>
 
-                    <!-- Podium -->
-                    <div class="card-heading" style="margin-top: 5px;" contenteditable="true">טבלת המובילים</div>
-                    <div id="podium-area">
+                    <!-- Volunteer List (merged into main card) -->
+                    <div id="volunteers-list-content" class="v-list-grid">
                         <!-- JS Injected -->
                     </div>
 
-                    <!-- Star Volunteer Section -->
-                    <div id="star-area">
-                        <!-- JS Injected -->
-                    </div>
-
-                    <div class="card-footer">כונני עתלית - גאווה ישראלית! | לע"נ ניב בן שרון</div>
+                    <div class="card-footer">כונני עכו נהריה - גאווה ישראלית! | לע"נ ניב בן שרון</div>
                 </div>
-            </div>
-
-            <!-- CARD 1.5: VOLUNTEERS LIST (Hidden by default, shown if needed) -->
-            <div id="card-volunteers-list" class="main-card" style="display:none;">
-                <div class="v-list-header">
-                    <div class="v-list-title">🏆 אלופי עתלית - הרשימה המלאה</div>
-                    <div class="v-list-sub">תודה על העשייה המבורכת!</div>
-                </div>
-                <div class="v-list-grid" id="volunteers-list-content">
-                    <!-- JS Injected -->
-                </div>
-                <div class="card-footer">ידידים סניף עתלית - טירה | לע"נ ניב בן שרון</div>
             </div>
 
             <!-- CARD 2: WELCOME -->
@@ -437,7 +411,7 @@
                 <div id="card-welcome-family" class="welcome-card-base card-blue">
                     <div class="w-card-header header-blue">
                         <h1 class="w-title" contenteditable="true">ברוכים הבאים!</h1>
-                        <h2 class="w-sub-blue" contenteditable="true">לפורום הסניף - אלופי עתלית</h2>
+                        <h2 class="w-sub-blue" contenteditable="true">לפורום הסניף - עכו נהריה</h2>
                     </div>
                     <div class="welcome-content">
                         <div class="names-grid" id="w-list-family">
@@ -446,7 +420,7 @@
                         <div class="footer-msg footer-blue" contenteditable="true">
                             הקבוצה פעילה 6 ימים בשבוע<br>
                             אינה פעילה בשבת ומועדי ישראל ⛔<br>
-                            סניף עתלית - משפחה אחת גדולה! ❤️
+                            סניף עכו נהריה - משפחה אחת גדולה! ❤️
                         </div>
                     </div>
                 </div>
@@ -456,7 +430,7 @@
                     <div class="w-card-header header-red">
                         <div class="alert-badge">⚠️ קבוצה זו היא מבצעית בלבד!</div>
                         <h1 class="w-title" contenteditable="true">ברוכים הבאים!</h1>
-                        <h2 class="w-sub-red" contenteditable="true">לקבוצה המבצעית של אלופי עתלית</h2>
+                        <h2 class="w-sub-red" contenteditable="true">לקבוצה המבצעית של עכו נהריה</h2>
                     </div>
                     <div class="welcome-content">
                         <div class="names-grid" id="w-list-operational">
@@ -490,8 +464,7 @@
     </div>
 
     <!-- Application Script -->
-    <script src="js/app.js?v=3.0"></script>
-    <!-- אין צורך ב-style פנימי להסתרת side-image, side-bg, side-banner -->
+    <script src="js/app.js?v=3.1"></script>
 </body>
 
 </html>

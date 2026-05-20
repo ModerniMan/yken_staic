@@ -173,6 +173,7 @@
                 <div class="input-group">
                     <label>נוסח פנייה</label>
                     <select id="in-w-gender" onchange="renderWelcome()">
+                        <option value="multi" selected>משולב (ברוכים הבאים וברוכות הבאות)</option>
                         <option value="male">זכר (ברוך הבא - הכונן היקר)</option>
                         <option value="female">נקבה* (ברוכה הבאה - הכוננית היקרה)</option>
                     </select>
@@ -190,6 +191,8 @@
                                 titleInput.value = 'ברוך הבא';
                             } else if (this.value === 'female') {
                                 titleInput.value = 'ברוכה הבאה';
+                            } else if (this.value === 'multi') {
+                                titleInput.value = 'ברוכים הבאים וברוכות הבאות';
                             } else {
                                 titleInput.value = 'ברוכים הבאים';
                             }
