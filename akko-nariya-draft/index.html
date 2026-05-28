@@ -165,32 +165,12 @@
             <!-- WELCOME INPUTS -->
             <div id="inputs-welcome" class="hidden">
                 <div class="section-label">כותרות ראשיות</div>
-                <div class="input-group">
-                    <label>נוסח פנייה</label>
-                    <select id="in-w-gender" onchange="renderWelcome()">
-                        <option value="male">זכר (ברוך הבא - הכונן היקר)</option>
-                        <option value="female">נקבה* (ברוכה הבאה - הכוננית היקרה)</option>
-                    </select>
-                </div>
+                
                 <div class="input-group">
                     <label>כותרת ראשית</label>
-                    <input type="text" id="in-w-title" value="ברוכים הבאים" oninput="renderWelcome()">
+                    <input type="text" id="in-w-title" value="ברוכים הבאים!" oninput="renderWelcome()">
                 </div>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        var genderSelect = document.getElementById('in-w-gender');
-                        var titleInput = document.getElementById('in-w-title');
-                        genderSelect.addEventListener('change', function () {
-                            if (this.value === 'male') {
-                                titleInput.value = 'ברוך הבא';
-                            } else if (this.value === 'female') {
-                                titleInput.value = 'ברוכה הבאה';
-                            } else {
-                                titleInput.value = 'ברוכים הבאים';
-                            }
-                        });
-                    });
-                </script>
+                
 
                 <div class="input-row" style="margin-top:10px;">
                     <div class="input-group">
@@ -420,7 +400,8 @@
                         <div class="footer-msg footer-blue" contenteditable="true">
                             הקבוצה פעילה 6 ימים בשבוע<br>
                             אינה פעילה בשבת ומועדי ישראל ⛔<br>
-                            סניף עכו נהריה - משפחה אחת גדולה! ❤️
+                            סניף עכו נהריה - משפחה אחת גדולה! ❤️<br>
+                            לע"נ ניב בן שרון ✨
                         </div>
                     </div>
                 </div>
@@ -439,7 +420,8 @@
                         <div class="footer-msg footer-red" contenteditable="true">
                             הקבוצה פעילה 6 ימים בשבוע<br>
                             אינה פעילה בשבת ומועדי ישראל ⛔<br>
-                            אין להגיב להודעות בקבוצה זו
+                            אין להגיב להודעות בקבוצה זו<br>
+                            לע"נ ניב בן שרון ✨
                         </div>
                     </div>
                 </div>

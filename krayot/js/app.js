@@ -445,43 +445,17 @@ function renderStats(triggeredBySelect = false) {
 }
 
 function renderWelcome() {
-    // Gender Logic
-    const genderEl = document.getElementById('in-w-gender');
-    const gender = genderEl ? genderEl.value : 'male';
+    const defaultTitle = "ברוכים הבאים!";
 
-    // Default Titles based on gender
-    let defaultTitle, prefix;
-    if (gender === 'female') {
-        defaultTitle = "ברוכה הבאה!";
-        prefix = "הכוננית היקרה ";
-    } else {
-        defaultTitle = "ברוך הבא!";
-        prefix = "הכונן היקר ";
-    }
-
-    // Update Titles
     const mainTitleEl = document.getElementById('in-w-title');
-    // Only auto-update field if it was default or empty to avoid overwriting custom edit
-    // But for simplicity, we'll just update the DOM elements directly unless user typed custom
-    // Actually, best UX: Update the Value of the input if it matches a known default, then render
-
-    // Simpler approach: dynamic prefix in the subtitle or name tag?
-    // User asked for "Add The Dear Volunteer". Let's add it as a prefix to the name tags or subtitle.
-    // Let's add it to the name tags for a personal touch!
-
     const subBlueEl = document.getElementById('in-w-sub-blue');
     const subRedEl = document.getElementById('in-w-sub-red');
 
-    const mainTitle = mainTitleEl ? mainTitleEl.value : defaultTitle;
+    const mainTitle = mainTitleEl && mainTitleEl.value ? mainTitleEl.value : defaultTitle;
     const subBlue = subBlueEl ? subBlueEl.value : '';
     const subRed = subRedEl ? subRedEl.value : '';
 
-    // If the input value matches a default, update it to the new gender default
-    if (mainTitleEl && (mainTitleEl.value === 'ברוך הבא!' || mainTitleEl.value === 'ברוכה הבאה!')) {
-        mainTitleEl.value = defaultTitle;
-    }
-
-    document.querySelectorAll('.w-title').forEach(el => el.innerText = mainTitleEl ? mainTitleEl.value : defaultTitle);
+    document.querySelectorAll('.w-title').forEach(el => el.innerText = mainTitle);
     document.querySelectorAll('.w-sub-blue').forEach(el => el.innerText = subBlue);
     document.querySelectorAll('.w-sub-red').forEach(el => el.innerText = subRed);
 
@@ -499,13 +473,12 @@ function renderWelcome() {
 
         let divF = document.createElement('div');
         divF.className = 'name-tag';
-        // Family: "Happy to see you" vibe
-        divF.innerHTML = `👋 ${prefix}${cleanName}`;
+        divF.innerHTML = `👋 ${cleanName}`;
         if (listFamily) listFamily.appendChild(divF);
 
         let divO = document.createElement('div');
         divO.className = 'name-tag';
-        divO.innerHTML = `🛑 ${prefix}${cleanName}`;
+        divO.innerHTML = `🛑 ${cleanName}`;
         if (listOperational) listOperational.appendChild(divO);
     });
 }
