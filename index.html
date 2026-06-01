@@ -6,24 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>מחולל ידידים | בחירת סניף</title>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;800&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --bg-main: #0f1923;
-            --bg-card: rgba(255, 255, 255, 0.06);
-            --bg-card-hover: rgba(255, 255, 255, 0.12);
-            --border-card: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.2);
-            --text-main: #f0f4f8;
-            --text-sub: #8899aa;
-            --text-detail: #5a6a7a;
-            --accent-blue: #42a5f5;
-            --accent-green: #66bb6a;
-            --accent-orange: #ffa726;
-            --accent-red: #ef5350;
-            --accent-purple: #ab47bc;
-            --glow-blue: rgba(66, 165, 245, 0.15);
+            --bg-main: #06090e;
+            --bg-card: rgba(255, 255, 255, 0.02);
+            --bg-card-hover: rgba(255, 255, 255, 0.05);
+            --border-card: rgba(255, 255, 255, 0.05);
+            --border-hover: rgba(255, 255, 255, 0.12);
+            --text-main: #f3f6f9;
+            --text-sub: #94a3b8;
+            --text-detail: #64748b;
+            
+            /* Modern Neon Gradients */
+            --accent-blue-start: #00f2fe;
+            --accent-blue-end: #4facfe;
+            --accent-green-start: #00ff87;
+            --accent-green-end: #60efa0;
+            --accent-orange-start: #ff9900;
+            --accent-orange-end: #ff5e62;
+            --accent-red-start: #ff0844;
+            --accent-red-end: #ffb199;
+            --accent-purple-start: #f107a3;
+            --accent-purple-end: #7b2ff7;
         }
 
         * {
@@ -38,348 +44,727 @@
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* Animated background */
-        body::before {
-            content: '';
+        /* 🌌 Glowing Animated Background Bubbles */
+        .ambient-glow {
             position: fixed;
+            width: 100vw;
+            height: 100vh;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(ellipse at 20% 50%, rgba(66, 165, 245, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(171, 71, 188, 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(102, 187, 106, 0.05) 0%, transparent 50%);
             z-index: 0;
             pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            animation: floatBubble 20s infinite alternate ease-in-out;
+        }
+
+        .bubble-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--accent-blue-start), var(--accent-purple-end));
+            top: -10%;
+            right: 5%;
+            animation-duration: 25s;
+        }
+
+        .bubble-2 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--accent-purple-start), var(--accent-orange-end));
+            bottom: -15%;
+            left: 5%;
+            animation-duration: 30s;
+        }
+
+        .bubble-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--accent-green-start), var(--accent-blue-end));
+            top: 40%;
+            left: 20%;
+            animation-duration: 22s;
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translateY(0) scale(1) rotate(0deg); }
+            100% { transform: translateY(50px) scale(1.15) rotate(15deg); }
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 40px 24px 60px;
+            padding: 50px 24px 80px;
             position: relative;
             z-index: 1;
         }
 
-        /* Header */
+        /* 👑 Premium Header Redesign */
         .header {
             text-align: center;
             margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-logo-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 24px;
+        }
+
+        .header-logo-glow {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(135deg, var(--accent-blue-start), var(--accent-purple-end));
+            border-radius: 28px;
+            filter: blur(10px);
+            opacity: 0.6;
+            animation: pulseGlow 3s ease-in-out infinite alternate;
         }
 
         .header-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, var(--accent-blue), #1565c0);
-            border-radius: 24px;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            box-shadow: 0 8px 32px rgba(66, 165, 245, 0.3);
-            animation: float 3s ease-in-out infinite;
+            font-size: 45px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
 
-        @keyframes float {
+        .header-logo-container:hover .header-logo {
+            transform: scale(1.05) rotate(5deg);
+        }
 
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-6px);
-            }
+        @keyframes pulseGlow {
+            0% { opacity: 0.4; filter: blur(8px); }
+            100% { opacity: 0.8; filter: blur(14px); }
         }
 
         .header h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #fff, #bcd);
+            font-family: 'Heebo', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .header p {
             color: var(--text-sub);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 300;
+            max-width: 500px;
+            line-height: 1.6;
         }
 
-        /* Section titles */
+        /* 🎛️ Stats Dashboard Row */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 16px 24px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-item:last-child {
+            border-left: none;
+        }
+
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-lbl {
+            font-size: 0.8rem;
+            color: var(--text-detail);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* 🔍 Search & Filters Bar */
+        .controls-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-wrapper {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-detail);
+            font-size: 1.1rem;
+            pointer-events: none;
+            transition: color 0.3s;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 15px 48px 15px 20px;
+            color: var(--text-main);
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(66, 165, 245, 0.4);
+            box-shadow: 
+                0 0 20px rgba(66, 165, 245, 0.1),
+                inset 0 1px 2px rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
+        }
+
+        .search-input:focus + .search-icon {
+            color: var(--accent-blue-start);
+        }
+
+        /* 📋 Section titles */
         .section-title {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             margin-top: 10px;
         }
 
         .section-title h2 {
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: 700;
             color: var(--text-main);
+            letter-spacing: -0.3px;
         }
 
         .section-title .badge {
-            background: rgba(66, 165, 245, 0.15);
-            color: var(--accent-blue);
-            padding: 3px 12px;
+            background: rgba(66, 165, 245, 0.1);
+            border: 1px solid rgba(66, 165, 245, 0.15);
+            color: #60b6ff;
+            padding: 4px 14px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
         .section-title::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(to left, transparent, var(--border-card));
+            background: linear-gradient(to left, transparent, rgba(255, 255, 255, 0.08));
         }
 
-        /* Branch Grid */
+        /* 🎴 Premium Glassmorphic Grid */
         .branch-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
             margin-bottom: 40px;
         }
 
         .branch-card {
             background: var(--bg-card);
             border: 1px solid var(--border-card);
-            border-radius: 16px;
-            padding: 24px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 22px;
+            padding: 26px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-decoration: none;
             color: inherit;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 18px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
         }
 
+        /* Gradient Highlight Border effect on Hover */
         .branch-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            border-radius: 16px 16px 0 0;
-            opacity: 0;
-            transition: opacity 0.3s;
+            height: 4px;
+            border-radius: 22px 22px 0 0;
+            opacity: 0.8;
+            transition: height 0.3s ease;
         }
 
         .branch-card:hover {
             background: var(--bg-card-hover);
             border-color: var(--border-hover);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-6px) scale(1.01);
         }
 
-        .branch-card:hover::before {
-            opacity: 1;
+        /* Dynamic Neon Shadows based on color theme */
+        .branch-card.color-blue:hover {
+            box-shadow: 0 12px 35px rgba(0, 242, 254, 0.12), 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .branch-card.color-green:hover {
+            box-shadow: 0 12px 35px rgba(0, 255, 135, 0.12), 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .branch-card.color-orange:hover {
+            box-shadow: 0 12px 35px rgba(255, 153, 0, 0.12), 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .branch-card.color-red:hover {
+            box-shadow: 0 12px 35px rgba(255, 8, 68, 0.12), 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .branch-card.color-purple:hover {
+            box-shadow: 0 12px 35px rgba(241, 7, 163, 0.12), 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .branch-card.color-blue::before {
-            background: linear-gradient(90deg, var(--accent-blue), #1e88e5);
+            background: linear-gradient(90deg, var(--accent-blue-start), var(--accent-blue-end));
         }
 
         .branch-card.color-green::before {
-            background: linear-gradient(90deg, var(--accent-green), #43a047);
+            background: linear-gradient(90deg, var(--accent-green-start), var(--accent-green-end));
         }
 
         .branch-card.color-orange::before {
-            background: linear-gradient(90deg, var(--accent-orange), #fb8c00);
+            background: linear-gradient(90deg, var(--accent-orange-start), var(--accent-orange-end));
         }
 
         .branch-card.color-red::before {
-            background: linear-gradient(90deg, var(--accent-red), #e53935);
+            background: linear-gradient(90deg, var(--accent-red-start), var(--accent-red-end));
         }
 
         .branch-card.color-purple::before {
-            background: linear-gradient(90deg, var(--accent-purple), #8e24aa);
+            background: linear-gradient(90deg, var(--accent-purple-start), var(--accent-purple-end));
         }
 
         .card-top {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
         }
 
+        /* Beautiful glowing container for icons */
         .card-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 14px;
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 26px;
             flex-shrink: 0;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+        }
+
+        .branch-card:hover .card-icon {
+            transform: scale(1.08) rotate(-3deg);
         }
 
         .color-blue .card-icon {
-            background: rgba(66, 165, 245, 0.15);
+            background: rgba(0, 242, 254, 0.08);
+            border-color: rgba(0, 242, 254, 0.2);
         }
 
         .color-green .card-icon {
-            background: rgba(102, 187, 106, 0.15);
+            background: rgba(0, 255, 135, 0.08);
+            border-color: rgba(0, 255, 135, 0.2);
         }
 
         .color-orange .card-icon {
-            background: rgba(255, 167, 38, 0.15);
+            background: rgba(255, 153, 0, 0.08);
+            border-color: rgba(255, 153, 0, 0.2);
         }
 
         .color-red .card-icon {
-            background: rgba(239, 83, 80, 0.15);
+            background: rgba(255, 8, 68, 0.08);
+            border-color: rgba(255, 8, 68, 0.2);
         }
 
         .color-purple .card-icon {
-            background: rgba(171, 71, 188, 0.15);
+            background: rgba(241, 7, 163, 0.08);
+            border-color: rgba(241, 7, 163, 0.2);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .card-info h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 2px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+            transition: color 0.3s;
+        }
+
+        .branch-card:hover .card-info h3 {
+            color: #fff;
         }
 
         .card-info span {
             font-size: 0.85rem;
             color: var(--text-sub);
+            font-weight: 300;
         }
 
         .card-arrow {
             margin-right: auto;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--text-detail);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .branch-card:hover .card-arrow {
-            color: var(--text-sub);
-            transform: translateX(-4px);
+            color: #fff;
+            transform: translateX(-6px);
         }
 
+        /* 🏷️ Micro-chip tags for Active Systems */
         .card-meta {
             display: flex;
-            gap: 16px;
-            font-size: 0.8rem;
-            color: var(--text-detail);
+            flex-wrap: wrap;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
         }
 
-        .card-meta span {
+        .system-tag {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-sub);
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
+            transition: all 0.3s;
         }
 
-        /* Template Card - dashed */
-        .branch-card.template-card {
-            border-style: dashed;
-            border-color: rgba(255, 255, 255, 0.12);
-            background: transparent;
-        }
-
-        .branch-card.template-card:hover {
-            border-color: var(--accent-purple);
-            background: rgba(171, 71, 188, 0.05);
-        }
-
-        .branch-card.template-card .card-icon {
-            background: rgba(171, 71, 188, 0.1);
-            border: 1px dashed rgba(171, 71, 188, 0.3);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            color: var(--text-detail);
-            font-size: 0.85rem;
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-card);
-        }
-
-        .footer a {
-            color: var(--accent-blue);
-            text-decoration: none;
-        }
-
-        /* How-to section */
-        .how-to {
-            background: rgba(66, 165, 245, 0.05);
-            border: 1px solid rgba(66, 165, 245, 0.1);
-            border-radius: 14px;
-            padding: 20px 24px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            line-height: 1.8;
-        }
-
-        .how-to strong {
+        .branch-card:hover .system-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.09);
             color: var(--text-main);
         }
 
-        .how-to code {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-family: 'Courier New', monospace;
-            direction: ltr;
+        .pulse-led {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
             display: inline-block;
+            box-shadow: 0 0 8px currentColor;
+            animation: pulseLed 1.8s infinite alternate;
         }
 
-        /* Responsive */
-        @media (max-width: 640px) {
+        .color-blue .pulse-led { color: var(--accent-blue-start); background-color: var(--accent-blue-start); }
+        .color-green .pulse-led { color: var(--accent-green-start); background-color: var(--accent-green-start); }
+        .color-orange .pulse-led { color: var(--accent-orange-start); background-color: var(--accent-orange-start); }
+        .color-red .pulse-led { color: var(--accent-red-start); background-color: var(--accent-red-start); }
+        .color-purple .pulse-led { color: var(--accent-purple-start); background-color: var(--accent-purple-start); }
+
+        @keyframes pulseLed {
+            0% { opacity: 0.4; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        /* ➕ Add New Branch Interactive Card */
+        .branch-card.template-card {
+            border-style: dashed;
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.005);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 150px;
+        }
+
+        .branch-card.template-card:hover {
+            border-color: rgba(171, 71, 188, 0.4);
+            background: rgba(171, 71, 188, 0.03);
+            box-shadow: 0 12px 30px rgba(171, 71, 188, 0.08);
+        }
+
+        .branch-card.template-card .card-icon {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.12);
+            font-size: 22px;
+            width: 48px;
+            height: 48px;
+            margin-bottom: 8px;
+        }
+
+        .branch-card.template-card:hover .card-icon {
+            background: rgba(171, 71, 188, 0.1);
+            border-color: rgba(171, 71, 188, 0.3);
+            border-style: solid;
+            color: var(--accent-purple-start);
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .branch-card.template-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            transition: color 0.3s;
+        }
+
+        .branch-card.template-card:hover h3 {
+            color: var(--text-main);
+        }
+
+        /* 🚫 Empty Search State */
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            color: var(--text-sub);
+        }
+
+        .no-results-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.6;
+        }
+
+        /* 📖 How-to Section Redesign */
+        .how-to {
+            background: rgba(66, 165, 245, 0.02);
+            border: 1px solid rgba(66, 165, 245, 0.06);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 26px 30px;
+            margin-top: 40px;
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            line-height: 1.8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .how-to::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, var(--accent-blue-start), var(--accent-blue-end));
+        }
+
+        .how-to strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .how-to code {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'Outfit', 'Courier New', monospace;
+            direction: ltr;
+            display: inline-block;
+            color: #7dd3fc;
+        }
+
+        /* 👣 Footer */
+        .footer {
+            text-align: center;
+            color: var(--text-detail);
+            font-size: 0.9rem;
+            margin-top: 70px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .footer a {
+            color: var(--accent-blue-start);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .footer a:hover {
+            color: var(--accent-blue-end);
+            text-decoration: underline;
+        }
+
+        /* Responsive Layouts */
+        @media (max-width: 768px) {
             .container {
-                padding: 24px 16px 40px;
+                padding: 30px 16px 50px;
             }
 
             .header h1 {
-                font-size: 1.7rem;
+                font-size: 2.1rem;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                padding: 16px;
+            }
+
+            .stat-item {
+                border-left: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                padding-bottom: 10px;
+            }
+
+            .stat-item:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
             }
 
             .branch-grid {
                 grid-template-columns: 1fr;
+                gap: 16px;
             }
         }
     </style>
 </head>
 
 <body>
+    <!-- 🌠 Ambient animated glowing background -->
+    <div class="ambient-glow">
+        <div class="bubble bubble-1"></div>
+        <div class="bubble bubble-2"></div>
+        <div class="bubble bubble-3"></div>
+    </div>
+
     <div class="container">
-        <!-- Header -->
+        <!-- 👑 Header -->
         <div class="header">
-            <div class="header-logo">🛡️</div>
+            <div class="header-logo-container">
+                <div class="header-logo-glow"></div>
+                <div class="header-logo">🛡️</div>
+            </div>
             <h1>מחולל ידידים</h1>
-            <p>בחר סניף כדי להיכנס למערכת העיצוב</p>
+            <p>מערכת לעריכה ועיצוב דוחות ודפי קבלת פנים עבור סניפי הארגון</p>
         </div>
 
-        <!-- Active Branches -->
+        <!-- 🎛️ Dashboard Quick Stats -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-val" id="stat-total-branches">0</span>
+                <span class="stat-lbl">סניפים פעילים</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val" id="stat-total-systems">2</span>
+                <span class="stat-lbl">מערכות דיווח</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-val" id="stat-dev-status">V1.2.0</span>
+                <span class="stat-lbl">גרסת מערכת</span>
+            </div>
+        </div>
+
+        <!-- 🔍 Controls & Search -->
+        <div class="controls-row">
+            <div class="search-wrapper">
+                <input type="text" id="branch-search" class="search-input" placeholder="🔍 חפש סניף מהיר (למשל: קריות, עכו)..." autocomplete="off">
+            </div>
+        </div>
+
+        <!-- Active Branches Section -->
         <div class="section-title">
-            <h2>🏢 סניפים פעילים</h2>
-            <span class="badge" id="branch-count">2 סניפים</span>
+            <h2>🏢 סניפים פעילים במערכת</h2>
+            <span class="badge" id="branch-count">טוען...</span>
         </div>
 
+        <!-- Cards Grid -->
         <div class="branch-grid" id="branches-grid">
-            <!-- Branch cards injected by JS -->
+            <!-- Dynamic branch cards injected by JavaScript -->
         </div>
 
+        <!-- 🚫 Empty Search Result -->
+        <div class="no-results" id="no-results-state">
+            <div class="no-results-icon">🔎</div>
+            <h3>לא נמצאו סניפים תואמים לחיפוש שלך</h3>
+            <p>נסה להקליד מילת מפתח אחרת או לחץ על כפתור "הוסף סניף חדש" על מנת להקים סניף.</p>
+        </div>
 
+        <!-- 📖 Technical Manual/How-To -->
+        <div class="how-to">
+            <strong>💡 כיצד להוסיף סניף חדש למערכת?</strong><br>
+            פתחו את קובץ ה-HTML הנוכחי ועקבו אחר ההוראות בקוד: הוסיפו אובייקט חדש למערך ה-<code>branches</code> בתוך תגית ה-<code>&lt;script&gt;</code>. המערכת תזהה את הסניף ותייצר לו כרטיס עיצוב מרהיב באופן אוטומטי!
+        </div>
 
-        <!-- Footer -->
+        <!-- 👣 Footer -->
         <div class="footer">
             מחולל דוחות ידידים &copy; 2026 &nbsp;|&nbsp; פיתוח ועיצוב: ליפז &nbsp;|&nbsp; לע"נ ניב בן שרון ✨
         </div>
@@ -401,7 +786,7 @@
             {
                 name: "סניף עכו - נהריה",
                 nickname: "עכו נהריה",
-                folder: "akko- nariya",
+                folder: "akko-nahariya", // Fixed Spelling Error & space!
                 icon: "🌊",
                 color: "green",
                 systems: ["דוח שבועי", "קבלת פנים"]
@@ -414,9 +799,6 @@
                 color: "orange",
                 systems: ["דוח שבועי", "קבלת פנים"]
             },
-            // ──────────────────────────────────────────────
-            //   ➕ הוסף סניפים נוספים כאן, לדוגמה:
-            // ──────────────────────────────────────────────
             {
                 name: "סניף חיפה",
                 nickname: "אלופי חיפה",
@@ -425,44 +807,162 @@
                 color: "purple",
                 systems: ["דוח שבועי", "קבלת פנים"]
             },
+            // {{INSERT_NEW_BRANCH_HERE}}
         ];
 
         // ======================================================
         //   Render branch cards
         // ======================================================
-        function renderBranches() {
+        function renderBranches(filterQuery = "") {
             const grid = document.getElementById('branches-grid');
             const countEl = document.getElementById('branch-count');
+            const totalBranchesEl = document.getElementById('stat-total-branches');
+            const noResultsEl = document.getElementById('no-results-state');
+            
             grid.innerHTML = '';
+            
+            // Filter branches list
+            const cleanQuery = filterQuery.trim().toLowerCase();
+            const filteredBranches = branches.filter(branch => 
+                branch.name.toLowerCase().includes(cleanQuery) || 
+                branch.nickname.toLowerCase().includes(cleanQuery) ||
+                branch.folder.toLowerCase().includes(cleanQuery)
+            );
 
-            branches.forEach(branch => {
-                const card = document.createElement('a');
-                card.href = branch.folder + '/';
-                card.className = `branch-card color-${branch.color}`;
+            // Update stats bar count once
+            if (!filterQuery) {
+                totalBranchesEl.textContent = branches.length;
+            }
 
-                const systemTags = branch.systems.map(s => `<span>✅ ${s}</span>`).join('');
+            // Check if there are results
+            if (filteredBranches.length === 0) {
+                noResultsEl.style.display = 'block';
+                countEl.textContent = '0 סניפים';
+            } else {
+                noResultsEl.style.display = 'none';
+                
+                // Render list
+                filteredBranches.forEach((branch, index) => {
+                    const card = document.createElement('a');
+                    card.href = branch.folder + '/';
+                    card.className = `branch-card color-${branch.color}`;
+                    
+                    // Add smooth delayed stagger animation
+                    card.style.opacity = "0";
+                    card.style.transform = "translateY(20px)";
+                    card.style.transition = `all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) ${index * 0.05}s`;
 
-                card.innerHTML = `
-                    <div class="card-top">
-                        <div class="card-icon">${branch.icon}</div>
-                        <div class="card-info">
-                            <h3>${branch.name}</h3>
-                            <span>${branch.nickname}</span>
+                    const systemTags = branch.systems.map(s => `
+                        <span class="system-tag">
+                            <span class="pulse-led"></span>
+                            ${s}
+                        </span>
+                    `).join('');
+
+                    card.innerHTML = `
+                        <div class="card-top">
+                            <div class="card-icon">${branch.icon}</div>
+                            <div class="card-info">
+                                <h3>${branch.name}</h3>
+                                <span>${branch.nickname}</span>
+                            </div>
+                            <div class="card-arrow">←</div>
                         </div>
-                        <div class="card-arrow">←</div>
-                    </div>
-                    <div class="card-meta">
-                        ${systemTags}
-                    </div>
+                        <div class="card-meta">
+                            ${systemTags}
+                        </div>
+                    `;
+
+                    grid.appendChild(card);
+                    
+                    // Trigger reflow for staggered animation
+                    setTimeout(() => {
+                        card.style.opacity = "1";
+                        card.style.transform = "translateY(0)";
+                    }, 20);
+                });
+
+                // Update count text
+                const count = filteredBranches.length;
+                if (count === 1) {
+                    countEl.textContent = 'סניף אחד תואם';
+                } else {
+                    countEl.textContent = `${count} סניפים תואמים`;
+                }
+            }
+
+            // Append "Add Branch" template card ONLY if running locally
+            const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            
+            // Hide technical manual (how-to) from production users
+            const howToEl = document.querySelector('.how-to');
+            if (howToEl) {
+                howToEl.style.display = isLocal ? 'block' : 'none';
+            }
+
+            if (!filterQuery && isLocal) {
+                const addCard = document.createElement('a');
+                addCard.href = "http://localhost:3000/";
+                addCard.target = "_blank";
+                addCard.className = "branch-card template-card";
+                addCard.style.opacity = "0";
+                addCard.style.transform = "translateY(20px)";
+                addCard.style.transition = `all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) ${branches.length * 0.05}s`;
+                
+                addCard.innerHTML = `
+                    <div class="card-icon">➕</div>
+                    <h3>הקמת סניף חדש</h3>
+                    <p style="font-size: 0.82rem; color: var(--text-detail); margin-top: 4px;">לחץ לפתיחת ממשק המחולל הוויזואלי</p>
                 `;
-
-                grid.appendChild(card);
-            });
-
-            const count = branches.length;
-            countEl.textContent = count === 1 ? 'סניף אחד' : `${count} סניפים`;
+                
+                grid.appendChild(addCard);
+                
+                setTimeout(() => {
+                    addCard.style.opacity = "1";
+                    addCard.style.transform = "translateY(0)";
+                }, 20);
+            }
         }
 
+        // ======================================================
+        //   🔎 Live Search Listener
+        // ======================================================
+        document.getElementById('branch-search').addEventListener('input', (e) => {
+            renderBranches(e.target.value);
+        });
+
+        // Easter Egg to open local generator if clicked 5 times (only locally!)
+        let logoClicks = 0;
+        let logoClickTimeout;
+        document.querySelector('.header-logo').addEventListener('click', () => {
+            const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            if (!isLocal) return;
+
+            logoClicks++;
+            clearTimeout(logoClickTimeout);
+            
+            // Add a little dynamic scale pulse on click
+            const logo = document.querySelector('.header-logo');
+            logo.style.transform = 'scale(0.95) rotate(-3deg)';
+            setTimeout(() => { logo.style.transform = ''; }, 100);
+
+            if (logoClicks >= 5) {
+                logoClicks = 0;
+                // Add a beautiful neon glowing spin
+                const glow = document.querySelector('.header-logo-glow');
+                if (glow) {
+                    glow.style.filter = 'blur(20px)';
+                    glow.style.opacity = '1';
+                }
+                
+                // Open visual generator GUI
+                window.open('http://localhost:3000/', '_blank');
+            } else {
+                logoClickTimeout = setTimeout(() => { logoClicks = 0; }, 3000);
+            }
+        });
+
+        // Initial load
         renderBranches();
     </script>
 </body>

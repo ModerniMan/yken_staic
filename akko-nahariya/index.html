@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="robots" content="noindex, nofollow">
+    <title>מחולל ידידים | סניף עכו - נהריה</title>
+
+    <!-- External Libraries -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800;900&family=Heebo:wght@300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css?v=3.1">
+</head>
+
+<body>
+    <!-- Security Script (Loaded Early) -->
+
+    <!-- PORTAL ENTRY OVERLAY -->
+    <div id="portal-entry" class="portal-overlay">
+        <div class="portal-container">
+            <div class="portal-header">
+                <div class="portal-logo">🛡️</div>
+                <h1><input id="branch-name-input" value="ידידים סניף עכו - נהריה"
+                        style="font-size:1.5em;text-align:center;border:none;background:transparent;width:90%;font-weight:bold;"
+                        onchange="updateBranchName()"></h1>
+                <p>פורטל מערכת עיצוב</p>
+            </div>
+            <div class="portal-grid">
+                <!-- System 1: Weekly Report (Stats) -->
+                <div class="portal-card" onclick="enterSystem('stats')">
+                    <div class="p-icon-box">📊</div>
+                    <div class="p-info">
+                        <h3>מחולל דוחות</h3>
+                        <span>יצירת סיכום שבועי</span>
+                    </div>
+                    <div class="p-arrow">←</div>
+                </div>
+
+                <!-- System 2: Welcome System -->
+                <div class="portal-card" onclick="enterSystem('welcome')">
+                    <div class="p-icon-box"
+                        style="background: linear-gradient(135deg, #b2dfdb, #80cbc4); color: #00695c;">👋</div>
+                    <div class="p-info">
+                        <h3>מערכת ברוכים הבאים</h3>
+                        <span>עיצוב כרטיסי קבלת פנים</span>
+                    </div>
+                    <div class="p-arrow">←</div>
+                </div>
+
+                <!-- System 2: YKgen Bot (Coming Soon) -->
+                <div class="portal-card disabled" style="opacity: 0.7; cursor: default;">
+                    <div class="p-icon-box bot-color" style="filter: grayscale(0.5);">🤖</div>
+                    <div class="p-info">
+                        <h3>YKgen Bot</h3>
+                        <span>המחולל בטלגרם (בקרוב)</span>
+                    </div>
+                    <!-- <div class="p-arrow">←</div> -->
+                </div>
+            </div>
+            <div class="portal-footer">
+                <span>© פיתוח ועיצוב: ליפז</span> | <span>לע"נ ניב בן שרון</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="mobile-warning">
+        <h1 style="font-size: 4rem; margin: 0;">🤖</h1>
+        <h2 style="color: var(--text-main); margin-bottom: 10px;">המחולל זמין למחשב בלבד</h2>
+        <p style="color: var(--text-detail); font-size: 1.1rem; max-width: 300px; margin: 0 auto;">
+            לשימוש בנייד, אנא עברו לבוט הטלגרם שלנו.<br>
+            שם תוכלו ליצור דוחות וקבלות פנים בקלות!
+        </p>
+        <a href="https://t.me/ModernimanYKBOT" class="btn-telegram" target="_blank">
+            מעבר לבוט בטלגרם ✈️
+        </a>
+    </div>
+
+    <div class="sidebar">
+        <!-- Control Panel -->
+        <div class="control-panel">
+
+            <h2>
+                מחולל ידידים
+                <div style="display:flex; gap:5px;">
+                    <button class="theme-toggle" id="info-btn" title="הוראות שימוש">ℹ️</button>
+                    <button class="theme-toggle" id="theme-toggle" title="מצב כהה/בהיר">🌙</button>
+                </div>
+            </h2>
+
+            <!-- Project Controls (Save/Load) -->
+            <div class="controls-section" style="padding: 10px; display: flex; gap: 10px; justify-content: center;">
+                <button class="tab-btn" id="btn-save-data" onclick="exportProjectData()" title="שמור נתונים לקובץ"
+                    style="border:none; color: #fff; transition: background 0.3s ease;">💾 שמור נתונים</button>
+                <button class="tab-btn" id="btn-load-data" onclick="document.getElementById('file-upload').click()"
+                    title="טען נתונים מקובץ" style="border:none; color: #fff; transition: background 0.3s ease;">📂 טען
+                    נתונים</button>
+                <input type="file" id="file-upload" accept=".ydm" style="display: none;"
+                    onchange="importProjectData(this)">
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="tab-stats" onclick="switchTab('stats')">📊 דוח שבועי</button>
+                <button class="tab-btn" data-tab="tab-welcome" onclick="switchTab('welcome')">👋 קבלת פנים</button>
+            </div>
+
+            <!-- STATS INPUTS -->
+            <div id="inputs-stats">
+                <button class="paste-email-btn" onclick="openEmailModal()">📧 הדבק מייל מעוגן</button>
+                <div class="section-label">נתונים כלליים</div>
+                <div class="input-row">
+                    <div class="input-group"><label>אירועים סה"כ</label><input type="number" id="in-total" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>מתנדבים</label><input type="number" id="in-vols" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>חירום</label><input type="number" id="in-emer" value=""
+                            oninput="renderStats()"></div>
+                </div>
+
+                <div class="section-label">התפלגות אירועים</div>
+                <div class="input-row">
+                    <div class="input-group"><label>הנעה</label><input type="number" id="in-hanaa" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>פנצ'ר</label><input type="number" id="in-pancer" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>רכב נעול</label><input type="number" id="in-locked" value=""
+                            oninput="renderStats()"></div>
+                </div>
+                <div class="input-row" style="margin-top:10px;">
+                    <div class="input-group"><label>שמן/מים/דלק</label><input type="number" id="in-fuel" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>דלת טרוקה</label><input type="number" id="in-door" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>שינוע</label><input type="number" id="in-transport" value=""
+                            oninput="renderStats()"></div>
+                </div>
+                <div class="input-row" style="margin-top:10px;">
+                    <div class="input-group"><label>זמן לחימה</label><input type="number" id="in-war" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>אחר</label><input type="number" id="in-other" value=""
+                            oninput="renderStats()"></div>
+                </div>
+
+                <div class="section-label">רשימת מתנדבים (לפודיום)</div>
+                <div class="input-group">
+                    <textarea id="in-list-stats" class="smart-paste-area" oninput="renderStats()"
+                        placeholder="הדבק שמות ומספרים..."></textarea>
+                </div>
+
+                <!-- מצטיין השבוע - מוסתר לסניף זה -->
+            </div>
+
+            <!-- WELCOME INPUTS -->
+            <div id="inputs-welcome" class="hidden">
+                <div class="section-label">כותרות ראשיות</div>
+                
+                <div class="input-group">
+                    <label>כותרת ראשית</label>
+                    <input type="text" id="in-w-title" value="ברוכים הבאים!" oninput="renderWelcome()">
+                </div>
+                
+
+                <div class="input-row" style="margin-top:10px;">
+                    <div class="input-group">
+                        <label>תת-כותרת (משפחתית)</label>
+                        <input type="text" id="in-w-sub-blue" value="לפורום הסניף - עכו נהריה"
+                            oninput="renderWelcome()">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>תת-כותרת (מבצעית)</label>
+                        <input type="text" id="in-w-sub-red" value="לקבוצה המבצעית של עכו נהריה"
+                            oninput="renderWelcome()">
+                    </div>
+                </div>
+
+                <div class="section-label">שמות מתנדבים</div>
+                <div class="input-group">
+                    <textarea id="in-w-names" oninput="renderWelcome()" placeholder="הכנס שמות (כל שם בשורה)..."
+                        style="height: 120px;"></textarea>
+                </div>
+            </div>
+
+            <div id="btn-stat-down" style="margin-top:auto;">
+                <!-- Buttons injected by JS based on tab -->
+            </div>
+
+            <div id="btn-group-welcome" class="hidden" style="margin-top:auto;">
+                <button class="download-btn" onclick="downloadWelcome('family')"
+                    style="margin-bottom:10px; background:linear-gradient(135deg, #42a5f5, #1565c0);">שמור משפחתית
+                    (כחול) 📥</button>
+                <button class="download-btn" onclick="downloadWelcome('operational')"
+                    style="background:linear-gradient(135deg, #ef5350, #c62828);">שמור מבצעית (אדום) </button>
+            </div>
+
+            <!-- Mobile Scroll Button -->
+            <button class="mobile-scroll-btn" onclick="scrollToPreview()">
+                👀 צפה בתצוגה מקדימה
+                <span style="font-size:12px;">(גלול למטה)</span>
+            </button>
+            <div style="height: 20px;"></div><!-- Space -->
+
+            <div ondblclick="copyTemplateLink()"
+                style="text-align: center; font-size: 11px; color: var(--text-detail); margin-top: 20px; padding-bottom: 10px; opacity: 0.8; cursor: default; user-select: none;">
+                מחולל דוחות ידידים &copy; 2026<br>
+                פיתוח ועיצוב: ליפז | לע"נ ניב בן שרון ✨
+            </div>
+        </div>
+    </div>
+
+    <!-- Instructions Modal -->
+    <div class="modal-overlay" id="instructions-modal">
+        <div class="modal-content">
+            <button class="close-modal" id="close-modal">&times;</button>
+            <h2 style="margin-top:0; color: var(--c-blue-dark);">הוראות שימוש</h2>
+
+            <div class="instruction-step">
+                <h3>1. בחירת מערכת</h3>
+                <p>במסך הפתיחה, בחר בין "מחולל דוחות" (סיכום שבועי) לבין "מערכת ברוכים הבאים" (כרטיסי קבלת פנים).</p>
+            </div>
+
+            <div class="instruction-step">
+                <h3>2. מעבר בין מערכות</h3>
+                <p>בתוך הממשק, השתמש בטאבים "דוח שבועי" ו"קבלת פנים" למעבר בין המערכות. התצוגה המקדימה מתעדכנת בזמן אמת.
+                </p>
+            </div>
+
+            <div class="instruction-step">
+                <h3>3. דוח שבועי</h3>
+                <p>הזן את נתוני האירועים, מספר מתנדבים וחירום. בתיבת רשימת המתנדבים הדבק שמות ומספרים בפורמט: שם - מספר
+                    (כל שורה חדשה). שלושת הראשונים יופיעו בפודיום.</p>
+            </div>
+
+            <div class="instruction-step">
+                <h3>4. שמור וטען נתונים</h3>
+                <p>"שמור נתונים" - שומר את כל הנתונים שהזנת לקובץ (.ydm) במחשב, כדי שתוכל לחזור אליהם מאוחר יותר. "טען
+                    נתונים" - טוען קובץ שנשמר בעבר וממלא את כל השדות מחדש. שימושי לעריכה חוזרת או גיבוי בין שבועות.</p>
+            </div>
+
+            <div class="instruction-step">
+                <h3>5. קבלת פנים</h3>
+                <p>בחר נוסח פנייה (זכר/נקבה), ערוך את הכותרות והכנס שמות (כל שם בשורה חדשה). נוצרים שני כרטיסים: משפחתי
+                    (כחול) ומבצעי (אדום). ניתן לערוך כותרות ישירות על הכרטיס.</p>
+            </div>
+
+            <div class="instruction-step">
+                <h3>6. שמירה והורדה</h3>
+                <p>בדוח שבועי - לחץ על כפתור ההורדה. בקבלת פנים - בחר בין "שמור משפחתית" ו"שמור מבצעית". התמונות נשמרות
+                    בפורמט PNG.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-area">
+        <div id="canvas-container">
+            <!-- Background Map Layer (Shared) -->
+            <div class="map-layer" style="background: url('akko nariya banner.png') center/cover no-repeat;"></div>
+
+            <!-- CARD 1: STATS -->
+            <div id="card-stats" class="main-card">
+                <div class="header-section">
+                    <div class="header-logo">
+                        <div class="header-logo-icon">🛡️</div>
+                        <h1 contenteditable="true">ידידים סניף עכו - נהריה</h1>
+                    </div>
+                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | עכו נהריה</span>
+
+                    <!-- Skyline SVG Removed per user request -->
+                </div>
+
+                <div class="card-body">
+                    <!-- Stats Rows -->
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="stat-circle" style="border-color: var(--ring-blue);">
+                                <div class="stat-icon">🔍</div>
+                                <div id="out-total">0</div>
+                            </div>
+                            <div class="stat-label">אירועים סה"כ</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-circle" style="border-color: var(--ring-green);">
+                                <div class="stat-icon">👥</div>
+                                <div id="out-vols">0</div>
+                            </div>
+                            <div class="stat-label">מתנדבים</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-circle" style="border-color: var(--ring-orange);">
+                                <div class="stat-icon">🔔</div>
+                                <div id="out-emer">0</div>
+                            </div>
+                            <div class="stat-label">אירועי חירום</div>
+                        </div>
+                    </div>
+
+                    <!-- Section Divider -->
+                    <div class="section-divider"></div>
+
+                    <!-- Vertical Column Chart -->
+                    <div class="card-heading" contenteditable="true">התפלגות סוגי האירועים</div>
+                    <div class="graph-container">
+                        <div class="graph-col" id="col-hanaa">
+                            <div class="g-val" id="txt-hanaa">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-hanaa" id="bar-hanaa" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">⚡ הנעה</div>
+                        </div>
+                        <div class="graph-col" id="col-pancer">
+                            <div class="g-val" id="txt-pancer">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-pancer" id="bar-pancer" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">🛞 פנצ'ר</div>
+                        </div>
+                        <div class="graph-col" id="col-locked">
+                            <div class="g-val" id="txt-locked">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-locked" id="bar-locked" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">🔐 נעול</div>
+                        </div>
+                        <div class="graph-col" id="col-fuel">
+                            <div class="g-val" id="txt-fuel">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-fuel" id="bar-fuel" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">⛽ דלק</div>
+                        </div>
+                        <div class="graph-col" id="col-door">
+                            <div class="g-val" id="txt-door">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-door" id="bar-door" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">🚪 דלת</div>
+                        </div>
+                        <div class="graph-col" id="col-transport">
+                            <div class="g-val" id="txt-transport">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-transport" id="bar-transport" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">📦 שינוע</div>
+                        </div>
+                        <div class="graph-col" id="col-war">
+                            <div class="g-val" id="txt-war">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-war" id="bar-war" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">⚔️ לחימה</div>
+                        </div>
+                        <div class="graph-col" id="col-other">
+                            <div class="g-val" id="txt-other">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-other" id="bar-other" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">🤷 אחר</div>
+                        </div>
+                    </div>
+
+                    <!-- Section Divider -->
+                    <div class="section-divider"></div>
+
+                    <!-- Volunteer List (merged into main card) -->
+                    <div id="volunteers-list-content" class="v-list-grid">
+                        <!-- JS Injected -->
+                    </div>
+
+                    <div class="card-footer">כונני עכו נהריה - גאווה ישראלית! | לע"נ ניב בן שרון</div>
+                </div>
+            </div>
+
+            <!-- CARD 2: WELCOME -->
+            <div id="card-welcome" class="cards-wrapper">
+                <!-- 1. Family Card (Blue) -->
+                <div id="card-welcome-family" class="welcome-card-base card-blue">
+                    <div class="w-card-header header-blue">
+                        <h1 class="w-title" contenteditable="true">ברוכים הבאים!</h1>
+                        <h2 class="w-sub-blue" contenteditable="true">לפורום הסניף - עכו נהריה</h2>
+                    </div>
+                    <div class="welcome-content">
+                        <div class="names-grid" id="w-list-family">
+                            <!-- JS Injected -->
+                        </div>
+                        <div class="footer-msg footer-blue" contenteditable="true">
+                            הקבוצה פעילה 6 ימים בשבוע<br>
+                            אינה פעילה בשבת ומועדי ישראל ⛔<br>
+                            סניף עכו נהריה - משפחה אחת גדולה! ❤️<br>
+                            לע"נ ניב בן שרון ✨
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Operational Card (Red) -->
+                <div id="card-welcome-operational" class="welcome-card-base card-red">
+                    <div class="w-card-header header-red">
+                        <div class="alert-badge">⚠️ קבוצה זו היא מבצעית בלבד!</div>
+                        <h1 class="w-title" contenteditable="true">ברוכים הבאים!</h1>
+                        <h2 class="w-sub-red" contenteditable="true">לקבוצה המבצעית של עכו נהריה</h2>
+                    </div>
+                    <div class="welcome-content">
+                        <div class="names-grid" id="w-list-operational">
+                            <!-- JS Injected -->
+                        </div>
+                        <div class="footer-msg footer-red" contenteditable="true">
+                            הקבוצה פעילה 6 ימים בשבוע<br>
+                            אינה פעילה בשבת ומועדי ישראל ⛔<br>
+                            אין להגיב להודעות בקבוצה זו<br>
+                            לע"נ ניב בן שרון ✨
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 3: CERTIFICATE -->
+            <!-- Certificate and Birthday cards removed -->
+        </div>
+    </div>
+
+    <!-- Email Modal -->
+    <div id="email-modal" class="email-modal hidden">
+        <div class="email-modal-content">
+            <h3>📧 הדבק את תוכן המייל מעוגן</h3>
+            <p>העתק את כל תוכן המייל השבועי והדבק כאן</p>
+            <textarea id="email-paste-area" placeholder="הדבק כאן את תוכן המייל..."></textarea>
+            <div class="email-modal-buttons">
+                <button class="email-btn-ok" onclick="parseEmail()">✓ מלא נתונים</button>
+                <button class="email-btn-cancel" onclick="closeEmailModal()">✕ ביטול</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="js/app.js?v=3.1"></script>
+</body>
+
+</html>
