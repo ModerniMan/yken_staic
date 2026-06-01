@@ -1,3 +1,32 @@
+// Global Configuration for Branch Features
+let branchConfig = {
+    showPodium: true,
+    showStarVolunteer: true,
+    showFullVolunteersListCard: true
+};
+
+async function loadConfig() {
+    try {
+        const response = await fetch('config.json');
+        if (response.ok) {
+            const data = await response.json();
+            branchConfig = { ...branchConfig, ...data };
+            console.log('Successfully loaded branch configuration:', branchConfig);
+        }
+    } catch (err) {
+        console.warn('Failed to load config.json, using defaults:', err);
+    }
+    applyConfigToUI();
+}
+
+function applyConfigToUI() {
+    // Hide/show star inputs in sidebar
+    const starInputs = document.getElementById('star-inputs-sidebar');
+    if (starInputs) {
+        starInputs.style.display = branchConfig.showStarVolunteer ? 'block' : 'none';
+    }
+}
+
 let currentTab = 'stats';
 
 // Portal Logic
@@ -201,13 +230,16 @@ function parseNames(text) {
     let result = [];
     lines.forEach(line => {
         let clean = line.trim();
+        // Remove ranking like "1. ", "1 - ", etc. at the start of the line
+        clean = clean.replace(/^\d+[\s\.\-\)]+\s*/, '').trim();
+        
         // Option 1: Name - Score
-        let match = clean.match(/^(.*?)[ \-\.]+(\d+)$/);
+        let match = clean.match(/^(.*?)[ \-\.\u2013\u2014:]+(\d+)$/);
         if (match) {
             result.push({ name: match[1].trim(), score: parseInt(match[2]) });
         } else {
             // Option 2: Score - Name (reverse)
-            let matchRev = clean.match(/^(\d+)[ \-\.]+(.*?)$/);
+            let matchRev = clean.match(/^(\d+)[ \-\.\u2013\u2014:]+(.*?)$/);
             if (matchRev) {
                 result.push({ name: matchRev[2].trim(), score: parseInt(matchRev[1]) });
             }
@@ -294,9 +326,17 @@ function renderStats(triggeredBySelect = false) {
 
     const { top1, top2, top3 } = getPodiumData(list);
 
+    const podiumHeading = document.getElementById('podium-heading');
     const podiumArea = document.getElementById('podium-area');
     if (podiumArea) {
-        podiumArea.innerHTML = `
+        if (!branchConfig.showPodium) {
+            podiumArea.innerHTML = '';
+            podiumArea.style.display = 'none';
+            if (podiumHeading) podiumHeading.style.display = 'none';
+        } else {
+            podiumArea.style.display = 'block';
+            if (podiumHeading) podiumHeading.style.display = 'block';
+            podiumArea.innerHTML = `
                 <div class="excellence-container">
                     <div class="podium-section">
                         <div class="podium-title">🏆 המתנדבים המובילים</div>
@@ -325,63 +365,83 @@ function renderStats(triggeredBySelect = false) {
                         </div>
                     </div>
                 </div>`;
+        }
     }
 
     // 3.5 Star Volunteer
     const starArea = document.getElementById('star-area');
     const starInput = document.getElementById('in-star-select');
+    const noStarCheckbox = document.getElementById('in-no-star');
+    const noStar = noStarCheckbox ? noStarCheckbox.checked : false;
     const starName = starInput ? starInput.value.trim() : '';
 
-    if (starArea && list.length > 0) {
-        let starPerson;
-        if (starName) {
-            starPerson = list.find(p => p.name === starName);
-            if (!starPerson) starPerson = { name: starName, score: '' };
-        } else {
-            starPerson = list[0]; // Default: top volunteer
-        }
+    // Disable/enable the star select input based on checkbox
+    if (starInput) starInput.disabled = noStar;
 
-        const scoreText = starPerson.score ? `${starPerson.score} אירועים` : '';
-        starArea.innerHTML = `
-            <div class="star-section">
-                <div class="star-icon-box">⭐</div>
-                <div class="star-info">
-                    <div class="star-label">מצטיין השבוע</div>
-                    <div class="star-name" contenteditable="true">${starPerson.name}</div>
-                    <div class="star-score">${scoreText}</div>
-                </div>
-            </div>`;
-    } else if (starArea) {
-        starArea.innerHTML = '';
+    if (!branchConfig.showStarVolunteer) {
+        if (starArea) {
+            starArea.innerHTML = '';
+            starArea.style.display = 'none';
+        }
+    } else {
+        if (starArea) starArea.style.display = 'block';
+        if (noStar) {
+            // Hide star area when "no star" is checked
+            if (starArea) starArea.innerHTML = '';
+        } else if (starArea && list.length > 0) {
+            let starPerson;
+            if (starName) {
+                starPerson = list.find(p => p.name === starName);
+                if (!starPerson) starPerson = { name: starName, score: '' };
+            } else {
+                starPerson = list[0]; // Default: top volunteer
+            }
+
+            const scoreText = starPerson.score ? `${starPerson.score} אירועים` : '';
+            starArea.innerHTML = `
+                <div class="star-section">
+                    <div class="star-icon-box">⭐</div>
+                    <div class="star-info">
+                        <div class="star-label">מצטיין השבוע</div>
+                        <div class="star-name" contenteditable="true">${starPerson.name}</div>
+                        <div class="star-score">${scoreText}</div>
+                    </div>
+                </div>`;
+        } else if (starArea) {
+            starArea.innerHTML = '';
+        }
     }
 
-    // 4. Volunteers list (merged into main stats card)
+    // 4. List Card (Full volunteers list)
     const downBtn = document.getElementById('btn-stat-down');
+    const listCard = document.getElementById('card-volunteers-list');
     const volunteersListContent = document.getElementById('volunteers-list-content');
+    const volunteersListContentMerged = document.getElementById('volunteers-list-content-merged');
 
-    if (list.length > 0) {
+    let buttonText = branchConfig.showFullVolunteersListCard ? '📥 שמור דוח פודיום' : '📥 שמור דוח שבועי';
+    let btnsHTML = `<button class="download-btn" onclick="downloadImage()">${buttonText}</button>`;
+
+    if (list.length > 3) {
         let listHTML = '';
 
         // שלושת הראשונים - כרטיסים ממורכזים
-        if (list.length >= 1) {
-            listHTML += '<div class="v-top3-cards">';
-            for (let i = 0; i < Math.min(3, list.length); i++) {
-                const p = list[i];
-                const rank = i + 1;
-                let rowClass = '';
-                let medalEmoji = '';
-                if (rank === 1) { rowClass = 'v-gold'; medalEmoji = '🥇'; }
-                else if (rank === 2) { rowClass = 'v-silver'; medalEmoji = '🥈'; }
-                else if (rank === 3) { rowClass = 'v-bronze'; medalEmoji = '🥉'; }
-                listHTML += `
-                    <div class="v-top3-card ${rowClass}">
-                        <span class="v-top3-medal">${medalEmoji}</span>
-                        <span class="v-top3-name">${p.name}</span>
-                        <span class="v-top3-score">${p.score} אירועים</span>
-                    </div>`;
-            }
-            listHTML += '</div>';
+        listHTML += '<div class="v-top3-cards">';
+        for (let i = 0; i < Math.min(3, list.length); i++) {
+            const p = list[i];
+            const rank = i + 1;
+            let rowClass = '';
+            let medalEmoji = '';
+            if (rank === 1) { rowClass = 'v-gold'; medalEmoji = '🥇'; }
+            else if (rank === 2) { rowClass = 'v-silver'; medalEmoji = '🥈'; }
+            else if (rank === 3) { rowClass = 'v-bronze'; medalEmoji = '🥉'; }
+            listHTML += `
+                <div class="v-top3-card ${rowClass}">
+                    <span class="v-top3-medal">${medalEmoji}</span>
+                    <span class="v-top3-name">${p.name}</span>
+                    <span class="v-top3-score">${p.score} אירועים</span>
+                </div>`;
         }
+        listHTML += '</div>';
 
         // מקומות 4+ - מעל 20 בזוגות, אחרת ממורכז בשורה אחת
         if (list.length > 3) {
@@ -420,13 +480,33 @@ function renderStats(triggeredBySelect = false) {
             listHTML += '</div>';
         }
 
-        if (volunteersListContent) volunteersListContent.innerHTML = listHTML;
+        if (branchConfig.showFullVolunteersListCard) {
+            if (volunteersListContent) volunteersListContent.innerHTML = listHTML;
+            if (volunteersListContentMerged) {
+                volunteersListContentMerged.innerHTML = '';
+                volunteersListContentMerged.style.display = 'none';
+            }
+            if (currentTab === 'stats') {
+                if (listCard) listCard.style.display = 'flex';
+                btnsHTML += `<button class="download-btn" style="background:linear-gradient(135deg, #607d8b, #455a64); margin-top:10px;" onclick="downloadVolunteersList()">📜 הורד רשימה מלאה (${list.length}) 📥</button>`;
+            }
+        } else {
+            if (volunteersListContentMerged) {
+                volunteersListContentMerged.innerHTML = listHTML;
+                if (currentTab === 'stats') volunteersListContentMerged.style.display = 'block';
+            }
+            if (listCard) listCard.style.display = 'none';
+        }
     } else {
-        if (volunteersListContent) volunteersListContent.innerHTML = '';
+        if (listCard) listCard.style.display = 'none';
+        if (volunteersListContentMerged) {
+            volunteersListContentMerged.innerHTML = '';
+            volunteersListContentMerged.style.display = 'none';
+        }
     }
 
     if (currentTab === 'stats' && downBtn) {
-        downBtn.innerHTML = '<button class="download-btn" onclick="downloadImage()">📥 שמור דוח</button>';
+        downBtn.innerHTML = btnsHTML;
     }
 }
 
@@ -542,6 +622,9 @@ function downloadWelcome(type) {
     generateAndDownload(targetId, `yedidim_welcome_${type}.png`);
 }
 
+function downloadVolunteersList() {
+    generateAndDownload('card-volunteers-list', 'yedidim_stats_full_list.png');
+}
 
 // --- Template URL System (Restored) ---
 function copyTemplateLink() {
@@ -645,8 +728,9 @@ function resizePreview() {
 
 window.addEventListener('resize', resizePreview);
 // Call on load and updates
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
     // loadData(); // Auto-load removed
+    await loadConfig();
     loadParamsFromURL(); // Still load from URL if present (legacy sharing)
     resizePreview();
     // Force initial state to hide inactive cards

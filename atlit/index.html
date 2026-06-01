@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
-    <title>מחולל ידידים | סניף עתלית טירת כרמל</title>
+    <title>מחולל ידידים | סניף עתלית - טירה</title>
 
     <!-- External Libraries -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -20,8 +20,6 @@
 </head>
 
 <body>
-    <!-- Banner Image -->
-
     <!-- Security Script (Loaded Early) -->
 
     <!-- PORTAL ENTRY OVERLAY -->
@@ -155,17 +153,18 @@
                         placeholder="הדבק שמות ומספרים..."></textarea>
                 </div>
 
-                <div class="section-label">מצטיין השבוע</div>
-                <div class="input-group">
-                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:6px;">
-                        <input type="checkbox" id="in-no-star" onchange="renderStats()"
-                            style="width:auto; cursor:pointer;">
-                        ללא מצטיין (הסתר מהדוח)
-                    </label>
-                    <label>בחירת מצטיין ידנית (ברירת מחדל: הכונן המוביל)</label>
-                    <input type="text" id="in-star-select" list="star-options" oninput="renderStats(true)"
-                        placeholder="השאר ריק לבחירה אוטומטית...">
-                    <datalist id="star-options"></datalist>
+                <div id="star-inputs-sidebar">
+                    <div class="section-label">מצטיין השבוע</div>
+                    <div class="input-group">
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin-bottom:6px;">
+                            <input type="checkbox" id="in-no-star" onchange="renderStats()" style="width:auto; cursor:pointer;">
+                            ללא מצטיין (הסתר מהדוח)
+                        </label>
+                        <label>בחירת מצטיין ידנית (ברירת מחדל: הכונן המוביל)</label>
+                        <input type="text" id="in-star-select" list="star-options" oninput="renderStats(true)"
+                            placeholder="השאר ריק לבחירה אוטומטית...">
+                        <datalist id="star-options"></datalist>
+                    </div>
                 </div>
             </div>
 
@@ -274,7 +273,9 @@
     <div class="preview-area">
         <div id="canvas-container">
             <!-- Background Map Layer (Shared) -->
-            <div class="map-layer" style="background: url('krayot-map.png') center/cover no-repeat;"></div>
+            <div class="map-layer"
+                style="background: url('krayot-map.png') center/cover no-repeat, linear-gradient(135deg, #e3f2fd 0%, #90caf9 100%);">
+            </div>
 
             <!-- CARD 1: STATS -->
             <div id="card-stats" class="main-card">
@@ -283,7 +284,7 @@
                         <div class="header-logo-icon">🛡️</div>
                         <h1 contenteditable="true">ידידים סניף עתלית - טירה</h1>
                     </div>
-                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | עתלית - טירה</span>
+                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | אלופי עתלית</span>
 
                     <!-- Skyline SVG Removed per user request -->
                 </div>
@@ -382,13 +383,18 @@
                     <div class="section-divider"></div>
 
                     <!-- Podium -->
-                    <div class="card-heading" style="margin-top: 5px;" contenteditable="true">טבלת המובילים</div>
+                    <div class="card-heading" id="podium-heading" style="margin-top: 5px;" contenteditable="true">טבלת המובילים</div>
                     <div id="podium-area">
                         <!-- JS Injected -->
                     </div>
 
                     <!-- Star Volunteer Section -->
                     <div id="star-area">
+                        <!-- JS Injected -->
+                    </div>
+
+                    <!-- Volunteer List Merged (controlled by config) -->
+                    <div id="volunteers-list-content-merged" class="v-list-grid" style="display: none;">
                         <!-- JS Injected -->
                     </div>
 
@@ -405,7 +411,7 @@
                 <div class="v-list-grid" id="volunteers-list-content">
                     <!-- JS Injected -->
                 </div>
-                <div class="card-footer">ידידים סניף עתלית - טירה | לע"נ ניב בן שרון</div>
+                <div class="card-footer">ידידים סניף עתלית - טירה</div>
             </div>
 
             <!-- CARD 2: WELCOME -->
@@ -423,7 +429,7 @@
                         <div class="footer-msg footer-blue" contenteditable="true">
                             הקבוצה פעילה 6 ימים בשבוע<br>
                             אינה פעילה בשבת ומועדי ישראל ⛔<br>
-                            סניף עתלית - משפחה אחת גדולה! ❤️<br>
+                            סניף עתלית - טירה - משפחה אחת גדולה! ❤️<br>
                             לע"נ ניב בן שרון ✨
                         </div>
                     </div>
@@ -470,7 +476,6 @@
 
     <!-- Application Script -->
     <script src="js/app.js?v=3.0"></script>
-    <!-- אין צורך ב-style פנימי להסתרת side-image, side-bg, side-banner -->
 </body>
 
 </html>
