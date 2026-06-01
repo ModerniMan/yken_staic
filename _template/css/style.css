@@ -237,77 +237,101 @@
         }
 
         :root {
+        :root {
             /* Palette */
-            --c-blue-dark: #2c6da6;
-            --c-blue-light: #e3f2fd;
+            --c-blue-dark: #4facfe;
+            --c-blue-light: #0f172a;
             --c-gold: #ffd700;
-            --c-orange: #fbc02d;
-            --c-red: #ef5350;
-            --c-cyan: #80deea;
+            --c-orange: #ff9900;
+            --c-red: #ff0844;
+            --c-cyan: #00f2fe;
 
-            --c-text-main: #37474f;
-            --c-text-muted: #78909c;
-            --c-warning: #d32f2f;
+            --c-text-main: #f3f6f9;
+            --c-text-muted: #94a3b8;
+            --c-warning: #ff0844;
 
             /* Graph Colors */
-            --g-hanaa: #29b6f6;
-            --g-pancer: #ffa726;
-            --g-locked: #ff7043;
-            --ring-blue: #42a5f5;
-            --ring-green: #66bb6a;
-            --ring-orange: #ffa726;
+            --g-hanaa: #00f2fe;
+            --g-pancer: #ff9900;
+            --g-locked: #ff5e62;
+            --ring-blue: #00f2fe;
+            --ring-green: #00ff87;
+            --ring-orange: #ff9900;
 
             /* Horizontal Bar Colors */
-            --hbar-hanaa: #29b6f6;
-            --hbar-pancer: #ffa726;
-            --hbar-locked: #ff7043;
-            --hbar-fuel: #7e57c2;
-            --hbar-door: #ab47bc;
-            --hbar-transport: #26a69a;
-            --hbar-war: #5c6bc0;
-            --hbar-other: #8d6e63;
-        }
+            --hbar-hanaa: #00f2fe;
+            --hbar-pancer: #ff9900;
+            --hbar-locked: #ff5e62;
+            --hbar-fuel: #7b2ff7;
+            --hbar-door: #f107a3;
+            --hbar-transport: #00ff87;
+            --hbar-war: #3b82f6;
+            --hbar-other: #64748b;
 
-        :root {
-            --bg-color: #f0f2f5;
-            --panel-bg: rgba(255, 255, 255, 0.65);
-            /* Enhanced Theme Variables */
-            --sidebar-bg: rgba(255, 255, 255, 0.95);
-            --preview-bg: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            /* Premium Accent Gradients */
+            --accent-blue-start: #00f2fe;
+            --accent-blue-end: #4facfe;
+            --accent-green-start: #00ff87;
+            --accent-green-end: #60efa0;
+            --accent-orange-start: #ff9900;
+            --accent-orange-end: #ff5e62;
+            --accent-purple-start: #f107a3;
+            --accent-purple-end: #7b2ff7;
 
-            --text-main: #37474f;
-            --text-detail: #546e7a;
-            --border-color: rgba(255, 255, 255, 0.4);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            /* Default Workspace Theme Variables (Premium Dark) */
+            --bg-color: #06090e;
+            --panel-bg: rgba(15, 23, 42, 0.45);
+            --sidebar-bg: rgba(10, 15, 30, 0.55);
+            --preview-bg: #06090e;
+
+            --text-main: #f3f6f9;
+            --text-detail: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
         }
 
         body.dark-mode {
-            --bg-color: #121212;
-            --panel-bg: rgba(30, 30, 30, 0.75);
-            --sidebar-bg: #1c1c1c;
-            --preview-bg: linear-gradient(135deg, #232526 0%, #414345 100%);
+            /* Keep same dark mode values or enhance */
+            --bg-color: #06090e;
+            --panel-bg: rgba(15, 23, 42, 0.45);
+            --sidebar-bg: rgba(10, 15, 30, 0.55);
+            --preview-bg: #06090e;
 
-            --text-main: #e0e0e0;
-            --text-detail: #b0bec5;
-            --border-color: rgba(255, 255, 255, 0.1);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+            --text-main: #f3f6f9;
+            --text-detail: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
         }
 
         body {
-            font-family: 'Assistant', sans-serif;
+            font-family: 'Heebo', 'Assistant', sans-serif;
             background-color: var(--bg-color);
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: row;
-            /* Default desktop */
             width: 100%;
             height: 100vh;
-            /* Fixed height for desktop app-like feel */
             overflow: hidden;
-            /* Prevent body scroll on desktop */
             direction: rtl;
             transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        /* 🌌 Glowing Ambient Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(241, 7, 163, 0.05) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 135, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
         }
 
         /* --- Sidebar & Controls --- */
@@ -318,33 +342,51 @@
             display: flex;
             flex-direction: column;
             background: var(--sidebar-bg);
-            /* Use Theme Var */
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-left: 1px solid var(--border-color);
             height: 100%;
-            /* Match body height */
             overflow-y: auto;
-            /* Scroll inside sidebar */
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.2);
             z-index: 100;
             padding: 0;
             transition: background 0.3s ease;
         }
 
+        /* Customize Scrollbars */
+        .sidebar::-webkit-scrollbar,
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track,
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb,
+        .modal-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover,
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(66, 165, 245, 0.2);
+        }
 
         .control-panel {
             width: 100%;
             min-height: 100%;
-            /* Glassmorphism Effect */
             background: var(--panel-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-left: 1px solid var(--border-color);
             box-shadow: var(--glass-shadow);
             padding: 25px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            /* Removed internal overflow to let sidebar handle scroll */
             z-index: 100;
             transition: background 0.3s ease, border-color 0.3s ease;
             box-sizing: border-box;
@@ -357,9 +399,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: #06090e radial-gradient(circle at 15% 15%, rgba(0, 242, 254, 0.15), transparent 45%) radial-gradient(circle at 85% 85%, rgba(241, 7, 163, 0.12), transparent 45%);
             z-index: 3000;
-            /* Highest priority */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -373,13 +414,13 @@
         }
 
         .portal-container {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.45);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 40px;
             border-radius: 24px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             text-align: center;
             max-width: 480px;
             width: 90%;
@@ -391,7 +432,6 @@
                 opacity: 0;
                 transform: scale(0.95) translateY(20px);
             }
-
             to {
                 opacity: 1;
                 transform: scale(1) translateY(0);
@@ -407,15 +447,22 @@
         }
 
         .portal-header p {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-detail);
             margin: 0 0 30px;
             font-size: 16px;
+            font-weight: 300;
         }
 
         .portal-logo {
             font-size: 48px;
             margin-bottom: 10px;
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.4));
+            filter: drop-shadow(0 0 15px rgba(0, 242, 254, 0.4));
+            animation: floatLogo 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatLogo {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-6px); }
         }
 
         .portal-grid {
@@ -425,43 +472,56 @@
         }
 
         .portal-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 16px;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             gap: 15px;
             text-decoration: none;
-            color: #333;
-            transition: transform 0.2s, box-shadow 0.2s;
+            color: var(--text-main);
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             cursor: pointer;
-            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .portal-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px) scale(1.01);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Glowing card themes */
+        .portal-card:nth-child(1):hover {
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.15);
+        }
+        .portal-card:nth-child(2):hover {
+            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.12);
         }
 
         .p-icon-box {
             width: 48px;
             height: 48px;
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 22px;
+            transition: transform 0.3s;
+        }
+
+        .portal-card:hover .p-icon-box {
+            transform: scale(1.08);
         }
 
         .p-icon-box.bot-color {
-            background: linear-gradient(135deg, #e1f5fe, #b3e5fc);
-            color: #0288d1;
-        }
-
-        .p-icon-box.global-color {
-            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
-            color: #8e24aa;
+            background: rgba(171, 71, 188, 0.08);
+            border-color: rgba(171, 71, 188, 0.2);
+            color: var(--accent-purple-start);
         }
 
         .p-info {
@@ -472,35 +532,33 @@
         .p-info h3 {
             margin: 0 0 2px;
             font-size: 16px;
-            font-weight: 700;
-            color: #263238;
+            font-weight: 800;
+            color: var(--text-main);
         }
 
         .p-info span {
             font-size: 13px;
-            color: #455a64;
-            /* Darker grey */
+            color: var(--text-detail);
             display: block;
-            /* Ensure it takes its own line */
-            font-weight: 500;
+            font-weight: 300;
         }
 
         .p-arrow {
-            color: #cfd8dc;
+            color: var(--text-detail);
             font-weight: bold;
             font-size: 18px;
-            transition: color 0.2s;
+            transition: all 0.3s;
         }
 
         .portal-card:hover .p-arrow {
-            color: #2196f3;
-            transform: translateX(-3px);
+            color: #fff;
+            transform: translateX(-4px);
         }
 
         .portal-footer {
             margin-top: 30px;
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--text-detail);
         }
 
         /* Modal Styles (Existing) */
