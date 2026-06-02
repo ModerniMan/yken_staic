@@ -41,21 +41,39 @@
             }
 
             .sidebar {
-                height: auto !important;
-                min-height: 0 !important;
-                box-shadow: none !important;
-                border: none !important;
-                padding: 0 0 20px 0 !important;
-                background: var(--sidebar-bg) !important;
-            }
+            width: 400px;
+            min-width: 320px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border-left: none !important;
+            height: 100%;
+            overflow-y: auto;
+            box-shadow: none !important;
+            z-index: 100;
+            padding: 0;
+            transition: background 0.3s ease;
+        }
 
             .control-panel {
-                padding: 10px 0 0 0 !important;
-                gap: 10px !important;
-                min-height: 0 !important;
-                box-shadow: none !important;
-                border: none !important;
-            }
+            width: 100%;
+            min-height: 100%;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border-left: none !important;
+            box-shadow: none !important;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 100;
+            transition: background 0.3s ease, border-color 0.3s ease;
+            box-sizing: border-box;
+        }
 
             .main-card,
             #card-volunteers-list,
@@ -335,11 +353,11 @@
         }
 
         .map-layer {
-            display: none;
-            /* Removed per user request */
+            display: none !important;
         }
 
         :root {
+            --branch-banner: url('../krayot_banner_city.png');
             /* Palette */
             --c-blue-dark: #2c6da6;
             --c-blue-light: #e3f2fd;
@@ -441,7 +459,7 @@
             background: var(--panel-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-left: 1px solid var(--border-color);
+            border-left: none;
             box-shadow: var(--glass-shadow);
             padding: 25px;
             display: flex;
@@ -980,7 +998,7 @@
         /* --- Header Section (Shared) --- */
         .header-section {
             /* Map background with lighter overlay for visibility */
-            background-image: linear-gradient(180deg, rgba(13, 59, 102, 0.6) 0%, rgba(20, 45, 85, 0.7) 100%), url('../krayot-map.png');
+            background-image: linear-gradient(180deg, rgba(13, 59, 102, 0.6) 0%, rgba(20, 45, 85, 0.7) 100%), var(--branch-banner);
             background-size: cover, cover;
             background-position: center, center;
             background-repeat: no-repeat, no-repeat;
@@ -1634,7 +1652,7 @@
         }
 
         .header-blue {
-            background-image: linear-gradient(135deg, rgba(33, 150, 243, 0.9), rgba(13, 71, 161, 0.9)), url('../krayot-map.png');
+            background-image: linear-gradient(135deg, rgba(33, 150, 243, 0.9), rgba(13, 71, 161, 0.9)), var(--branch-banner);
             background-size: cover, cover;
             background-position: center, center;
             background-repeat: no-repeat, no-repeat;
@@ -1673,7 +1691,7 @@
         }
 
         .header-red {
-            background-image: linear-gradient(135deg, rgba(211, 47, 47, 0.9), rgba(183, 28, 28, 0.9)), url('../krayot-map.png');
+            background-image: linear-gradient(135deg, rgba(211, 47, 47, 0.9), rgba(183, 28, 28, 0.9)), var(--branch-banner);
             background-size: cover, cover;
             background-position: center, center;
             background-repeat: no-repeat, no-repeat;
@@ -1751,6 +1769,7 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 20px;
             transform: none;
             box-sizing: border-box;
@@ -1788,7 +1807,7 @@
         }
 
         .v-list-header {
-            background-image: linear-gradient(135deg, rgba(44, 109, 166, 0.9), rgba(21, 101, 192, 0.95)), url('../krayot-map.png');
+            background-image: linear-gradient(135deg, rgba(44, 109, 166, 0.9), rgba(21, 101, 192, 0.95)), var(--branch-banner);
             background-size: cover, cover;
             background-position: center, center;
             background-repeat: no-repeat, no-repeat;
@@ -2093,3 +2112,9 @@
         }
 
         /* Mobile Blocker Removed */
+
+        /* Portal Title Glowing Light Style */
+        #branch-name-input {
+            color: #ffffff !important;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.7), 0 0 5px rgba(0, 242, 254, 0.4);
+        }
