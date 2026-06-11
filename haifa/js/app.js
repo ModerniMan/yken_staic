@@ -115,7 +115,23 @@ async function shareImage() {
 
     try {
         // Use html2canvas consistent with download function
-        const canvas = await html2canvas(node, { scale: 2, useCORS: true, backgroundColor: null });
+        const canvas = await html2canvas(node, { scale: 2, useCORS: true, allowTaint: false, backgroundColor: null,
+            onclone: (clonedDoc) => {
+                const logos = clonedDoc.querySelectorAll('.municipality-logo');
+                logos.forEach(logo => {
+                    try {
+                        const c = document.createElement('canvas');
+                        const origImg = document.querySelector('.municipality-logo');
+                        if (origImg && origImg.naturalWidth) {
+                            c.width = origImg.naturalWidth;
+                            c.height = origImg.naturalHeight;
+                            c.getContext('2d').drawImage(origImg, 0, 0);
+                            logo.src = c.toDataURL('image/png');
+                        }
+                    } catch(e) { logo.remove(); }
+                });
+            }
+        });
 
         canvas.toBlob(async (blob) => {
             if (!blob) {
@@ -590,6 +606,23 @@ function generateAndDownload(elementId, fileName) {
                 clonedEl.style.margin = '0 auto';
                 clonedEl.style.boxShadow = 'none'; // Optional: remove shadow for cleaner cut
             }
+
+            // Convert municipality logo to base64 to avoid tainted canvas
+            const logos = clonedDoc.querySelectorAll('.municipality-logo');
+            logos.forEach(logo => {
+                try {
+                    const c = document.createElement('canvas');
+                    const origImg = document.querySelector('.municipality-logo');
+                    if (origImg && origImg.naturalWidth) {
+                        c.width = origImg.naturalWidth;
+                        c.height = origImg.naturalHeight;
+                        c.getContext('2d').drawImage(origImg, 0, 0);
+                        logo.src = c.toDataURL('image/png');
+                    }
+                } catch(e) {
+                    logo.remove(); // Remove logo if can't convert
+                }
+            });
         }
     };
 
