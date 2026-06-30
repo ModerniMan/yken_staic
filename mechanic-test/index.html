@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="robots" content="noindex, nofollow">
-    <title>מחולל ידידים | סניף עתלית - טירה</title>
+    <title>מחולל ידידים | סניף פיתוח מכונאי</title>
 
     <!-- External Libraries -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
@@ -27,7 +27,7 @@
         <div class="portal-container">
             <div class="portal-header">
                 <div class="portal-logo">🛡️</div>
-                <h1><input id="branch-name-input" value="ידידים סניף עתלית - טירה"
+                <h1><input id="branch-name-input" value="ידידים סניף פיתוח מכונאי"
                         style="font-size:1.5em;text-align:center;border:none;background:transparent;width:90%;font-weight:bold;"
                         onchange="updateBranchName()"></h1>
                 <p>פורטל מערכת עיצוב</p>
@@ -98,6 +98,16 @@
             <div class="tabs">
                 <button class="tab-btn active" data-tab="tab-stats" onclick="switchTab('stats')">📊 דוח שבועי</button>
                 <button class="tab-btn" data-tab="tab-welcome" onclick="switchTab('welcome')">👋 קבלת פנים</button>
+            </div>
+
+            <!-- עיצוב דוח שבועי -->
+            <div class="input-group" id="theme-selector-group" style="padding: 0 15px; margin-top: 10px; margin-bottom: 5px;">
+                <label>עיצוב דוח שבועי</label>
+                <select id="in-theme" onchange="changeReportTheme(this.value)">
+                    <option value="classic">קלאסי (בהיר) 📄</option>
+                    <option value="dark-neon">ניאון מודרני (כהה) 🌌</option>
+                    <option value="mechanic-garage">מכונאות וסיוע (מוסך) 🔧</option>
+                </select>
             </div>
 
             <!-- STATS INPUTS -->
@@ -171,14 +181,14 @@
                 <div class="input-row" style="margin-top:10px;">
                     <div class="input-group">
                         <label>תת-כותרת (משפחתית)</label>
-                        <input type="text" id="in-w-sub-blue" value="לפורום הסניף - אלופי עתלית"
+                        <input type="text" id="in-w-sub-blue" value="לפורום הסניף - פיתוח מכונאי"
                             oninput="renderWelcome()">
                     </div>
                 </div>
                 <div class="input-row">
                     <div class="input-group">
                         <label>תת-כותרת (מבצעית)</label>
-                        <input type="text" id="in-w-sub-red" value="לקבוצה המבצעית של אלופי עתלית"
+                        <input type="text" id="in-w-sub-red" value="לקבוצה המבצעית של פיתוח מכונאי"
                             oninput="renderWelcome()">
                     </div>
                 </div>
@@ -264,7 +274,7 @@
         <div id="canvas-container">
             <!-- Background Map Layer (Shared) -->
             <div class="map-layer"
-                style="background: url('krayot-map.png') center/cover no-repeat, linear-gradient(135deg, #e3f2fd 0%, #90caf9 100%);">
+                style="background: url('haifa_banner.png?v=2') center/cover no-repeat, linear-gradient(135deg, #e3f2fd 0%, #90caf9 100%);">
             </div>
 
             <!-- CARD 1: STATS -->
@@ -272,9 +282,9 @@
                 <div class="header-section">
                     <div class="header-logo">
                         <div class="header-logo-icon">🛡️</div>
-                        <h1 contenteditable="true">ידידים סניף עתלית - טירה</h1>
+                        <h1 contenteditable="true">ידידים סניף פיתוח מכונאי</h1>
                     </div>
-                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | אלופי עתלית</span>
+                    <span class="header-subtitle" contenteditable="true">סיכום שבועי | פיתוח מכונאי</span>
 
                     <!-- Skyline SVG Removed per user request -->
                 </div>
@@ -388,20 +398,20 @@
                         <!-- JS Injected -->
                     </div>
 
-                    <div class="card-footer">כונני עתלית - גאווה ישראלית! | לע"נ ניב בן שרון</div>
+                    <div class="card-footer">סביבת פיתוח - עיצוב מכונאי חדש | לע"נ ניב בן שרון</div>
                 </div>
             </div>
 
             <!-- CARD 1.5: VOLUNTEERS LIST (Hidden by default, shown if needed) -->
             <div id="card-volunteers-list" class="main-card" style="display:none;">
                 <div class="v-list-header">
-                    <div class="v-list-title">🏆 אלופי עתלית - הרשימה המלאה</div>
+                    <div class="v-list-title">🏆 פיתוח מכונאי - הרשימה המלאה</div>
                     <div class="v-list-sub">תודה על העשייה המבורכת!</div>
                 </div>
                 <div class="v-list-grid" id="volunteers-list-content">
                     <!-- JS Injected -->
                 </div>
-                <div class="card-footer">ידידים סניף עתלית - טירה</div>
+                <div class="card-footer">ידידים סניף פיתוח מכונאי</div>
             </div>
 
             <!-- CARD 2: WELCOME -->
@@ -410,7 +420,7 @@
                 <div id="card-welcome-family" class="welcome-card-base card-blue">
                     <div class="w-card-header header-blue">
                         <h1 class="w-title" contenteditable="true">ברוכים הבאים!</h1>
-                        <h2 class="w-sub-blue" contenteditable="true">לפורום הסניף - אלופי עתלית</h2>
+                        <h2 class="w-sub-blue" contenteditable="true">לפורום הסניף - פיתוח מכונאי</h2>
                     </div>
                     <div class="welcome-content">
                         <div class="names-grid" id="w-list-family">
@@ -419,7 +429,7 @@
                         <div class="footer-msg footer-blue" contenteditable="true">
                             הקבוצה פעילה 6 ימים בשבוע<br>
                             אינה פעילה בשבת ומועדי ישראל ⛔<br>
-                            סניף עתלית - טירה - משפחה אחת גדולה! ❤️
+                            סניף פיתוח מכונאי - משפחה אחת גדולה! ❤️
                         </div>
                     </div>
                     <div style="text-align: center; font-size: 11px; padding-bottom: 8px; opacity: 0.85; color: #1565c0;">לע"נ ניב בן שרון ✨</div>
@@ -430,7 +440,7 @@
                     <div class="w-card-header header-red">
                         <div class="alert-badge">⚠️ קבוצה זו היא מבצעית בלבד!</div>
                         <h1 class="w-title" contenteditable="true">ברוכים הבאים!</h1>
-                        <h2 class="w-sub-red" contenteditable="true">לקבוצה המבצעית של אלופי עתלית</h2>
+                        <h2 class="w-sub-red" contenteditable="true">לקבוצה המבצעית של פיתוח מכונאי</h2>
                     </div>
                     <div class="welcome-content">
                         <div class="names-grid" id="w-list-operational">
@@ -465,7 +475,7 @@
     </div>
 
     <!-- Application Script -->
-    <script src="js/app.js?v=3.0"></script>
+    <script src="js/app.js?v=3.2"></script>
 </body>
 
 </html>

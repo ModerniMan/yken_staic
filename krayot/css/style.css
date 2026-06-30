@@ -1950,3 +1950,17 @@
             color: #ffffff !important;
             text-shadow: 0 0 15px rgba(0, 242, 254, 0.7), 0 0 5px rgba(0, 242, 254, 0.4);
         }
+
+
+.welcome-card-subfooter {
+    text-align: center;
+    font-size: 11px;
+    padding-bottom: 8px;
+    opacity: 0.85;
+}
+.card-blue .welcome-card-subfooter {
+    color: #1565c0;
+}
+.card-red .welcome-card-subfooter {
+    color: #c62828;
+}

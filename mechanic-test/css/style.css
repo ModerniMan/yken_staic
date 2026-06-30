@@ -254,7 +254,7 @@
         }
 
         :root {
-            --branch-banner: url('../haifa_banner.png');
+            --branch-banner: url('../haifa_banner.png?v=2');
             /* Palette */
             --c-blue-dark: #4facfe;
             --c-blue-light: #0f172a;
@@ -1950,6 +1950,273 @@
             color: #ffffff !important;
             text-shadow: 0 0 15px rgba(0, 242, 254, 0.7), 0 0 5px rgba(0, 242, 254, 0.4);
         }
+
+        /* ======================================================
+           🌌 THEME: DARK NEON
+           ====================================================== */
+        .theme-dark-neon.main-card, 
+        #card-volunteers-list.theme-dark-neon {
+            background: rgba(13, 20, 35, 0.95) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #f3f6f9 !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5) !important;
+        }
+        .theme-dark-neon .card-body {
+            background: transparent !important;
+        }
+        .theme-dark-neon .header-section {
+            background: linear-gradient(135deg, rgba(13, 20, 35, 0.9), rgba(20, 30, 55, 0.95)) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .theme-dark-neon .header-section h1, 
+        .theme-dark-neon .v-list-title,
+        .theme-dark-neon .card-heading {
+            color: #ffffff !important;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5) !important;
+        }
+        .theme-dark-neon .header-subtitle, 
+        .theme-dark-neon .v-list-sub {
+            color: #94a3b8 !important;
+        }
+        .theme-dark-neon .stats-row {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+        }
+        .theme-dark-neon .stat-circle {
+            background: rgba(13, 20, 35, 0.6) !important;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.05), inset 0 0 10px rgba(255, 255, 255, 0.05) !important;
+        }
+        .theme-dark-neon .stat-circle div {
+            color: #ffffff !important;
+            text-shadow: 0 0 8px currentColor !important;
+        }
+        .theme-dark-neon .stat-label {
+            color: #94a3b8 !important;
+        }
+        .theme-dark-neon .g-track {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-radius: 6px !important;
+        }
+        .theme-dark-neon .g-val {
+            color: #ffffff !important;
+        }
+        .theme-dark-neon .g-label {
+            color: #cbd5e1 !important;
+        }
+        .theme-dark-neon .graph-container {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+        .theme-dark-neon .graph-container::before {
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px) !important;
+        }
+        .theme-dark-neon .p-block {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .theme-dark-neon .place-1 .p-block {
+            background: linear-gradient(135deg, rgba(67, 160, 71, 0.25), rgba(67, 160, 71, 0.05)) !important;
+            border-color: rgba(102, 187, 106, 0.3) !important;
+            box-shadow: 0 10px 25px rgba(67, 160, 71, 0.2) !important;
+        }
+        .theme-dark-neon .place-2 .p-block {
+            background: linear-gradient(135deg, rgba(66, 165, 245, 0.25), rgba(66, 165, 245, 0.05)) !important;
+            border-color: rgba(100, 181, 246, 0.3) !important;
+            box-shadow: 0 4px 15px rgba(66, 165, 245, 0.2) !important;
+        }
+        .theme-dark-neon .place-3 .p-block {
+            background: linear-gradient(135deg, rgba(92, 107, 192, 0.25), rgba(92, 107, 192, 0.05)) !important;
+            border-color: rgba(121, 134, 203, 0.3) !important;
+            box-shadow: 0 4px 15px rgba(92, 107, 192, 0.2) !important;
+        }
+        .theme-dark-neon .p-avatar {
+            color: #ffffff !important;
+        }
+        .theme-dark-neon .rank-num {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+        .theme-dark-neon .star-section {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.05), rgba(255, 235, 59, 0.02)) !important;
+            border: 1px solid rgba(255, 224, 130, 0.25) !important;
+            box-shadow: 0 4px 20px rgba(255, 193, 7, 0.15) !important;
+        }
+        .theme-dark-neon .star-name {
+            color: #ffd700 !important;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.4) !important;
+        }
+        .theme-dark-neon .star-label {
+            color: #94a3b8 !important;
+        }
+        .theme-dark-neon .star-score {
+            color: #cbd5e1 !important;
+        }
+        .theme-dark-neon .v-list-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+            color: #cbd5e1 !important;
+        }
+        .theme-dark-neon .v-top3-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+        }
+        .theme-dark-neon .v-top3-card.v-gold {
+            border-color: #ffd700 !important;
+        }
+        .theme-dark-neon .v-top3-card.v-silver {
+            border-color: #cfd8dc !important;
+        }
+        .theme-dark-neon .v-top3-card.v-bronze {
+            border-color: #ffcc80 !important;
+        }
+        .theme-dark-neon .section-divider {
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, transparent 70%) !important;
+        }
+        .theme-dark-neon .card-footer {
+            background: rgba(0, 0, 0, 0.25) !important;
+            color: #94a3b8 !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        /* ======================================================
+           🎨 THEME: PREMIUM ILLUSTRATED MECHANIC
+           ====================================================== */
+        .theme-mechanic-garage.main-card, 
+        #card-volunteers-list.theme-mechanic-garage {
+            /* Set the beautiful illustrated background */
+            background: url('../../img/bg_mechanic_tools.png') center top / cover no-repeat !important;
+            border: none !important;
+            color: #1a293f !important; /* Deep navy text for contrast */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+            position: relative;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+        }
+
+        /* Semi-transparent overlay to ensure text is always readable even if image is busy */
+        .theme-mechanic-garage.main-card::before, 
+        #card-volunteers-list.theme-mechanic-garage::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 255, 255, 0.5); /* Whitewash to push background back slightly */
+            background-image: none !important; /* Remove any tactical dots */
+            z-index: 0;
+            opacity: 1 !important;
+        }
+
+        .theme-mechanic-garage .card-body {
+            background: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .theme-mechanic-garage .header-section {
+            background: rgba(255, 255, 255, 0.85) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #0056b3 !important; /* Corporate Blue */
+        }
+
+        .theme-mechanic-garage .header-section h1, 
+        .theme-mechanic-garage .v-list-title,
+        .theme-mechanic-garage .card-heading {
+            color: #004085 !important;
+            font-weight: 900 !important;
+            text-shadow: none !important;
+        }
+
+        .theme-mechanic-garage .header-subtitle, 
+        .theme-mechanic-garage .v-list-sub {
+            color: #ff7f00 !important; /* Safety orange */
+            font-weight: 700 !important;
+        }
+
+        /* Stats row */
+        .theme-mechanic-garage .stats-row {
+            background: rgba(255, 255, 255, 0.85) !important;
+            border: 1px solid rgba(0, 86, 179, 0.1) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06) !important;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Stat circles */
+        .theme-mechanic-garage .stat-circle {
+            background: #ffffff !important;
+            border: 3px solid #ff7f00 !important;
+            box-shadow: 0 4px 10px rgba(255, 127, 0, 0.2) !important;
+            border-radius: 50% !important;
+        }
+        .theme-mechanic-garage .stat-circle div {
+            color: #004085 !important;
+            font-weight: 900 !important;
+            text-shadow: none !important;
+        }
+        .theme-mechanic-garage .stat-label {
+            color: #495057 !important;
+            font-weight: 700 !important;
+        }
+
+        /* Graph */
+        .theme-mechanic-garage .graph-container {
+            background: rgba(255, 255, 255, 0.85) !important;
+            border: 1px solid rgba(0, 86, 179, 0.1) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06) !important;
+            backdrop-filter: blur(5px);
+        }
+        .theme-mechanic-garage .graph-container::before { background-image: none !important; }
+        .theme-mechanic-garage .g-track {
+            background: rgba(0,0,0,0.04) !important;
+            border-radius: 4px !important;
+            border: none !important;
+        }
+        .theme-mechanic-garage .g-bar {
+            background: linear-gradient(180deg, #0056b3 0%, #003366 100%) !important;
+            border-radius: 4px !important;
+            box-shadow: 0 4px 8px rgba(0, 86, 179, 0.3) !important;
+        }
+        .theme-mechanic-garage .g-bar::after { display: none !important; }
+        .theme-mechanic-garage .g-val { color: #004085 !important; font-weight: 900 !important; text-shadow: none !important; }
+        .theme-mechanic-garage .g-label { color: #495057 !important; font-weight: 700 !important; }
+
+        /* Podium */
+        .theme-mechanic-garage .p-block {
+            border-radius: 8px !important;
+            border: none !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+            background: rgba(255, 255, 255, 0.95) !important;
+        }
+        .theme-mechanic-garage .p-block::before { display: none !important; }
+        .theme-mechanic-garage .place-1 .p-block { border-top: 5px solid #FFD700 !important; }
+        .theme-mechanic-garage .place-2 .p-block { border-top: 5px solid #C0C0C0 !important; }
+        .theme-mechanic-garage .place-3 .p-block { border-top: 5px solid #CD7F32 !important; }
+        .theme-mechanic-garage .p-avatar { color: #004085 !important; font-weight: 800 !important; }
+        .theme-mechanic-garage .rank-num { color: #495057 !important; font-size: 2rem !important; font-weight: 900 !important; text-shadow: none !important; }
+
+        /* Star section */
+        .theme-mechanic-garage .star-section {
+            background: rgba(255, 255, 255, 0.85) !important;
+            border: 2px solid rgba(255, 127, 0, 0.5) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06) !important;
+            backdrop-filter: blur(5px);
+        }
+        .theme-mechanic-garage .star-name { color: #004085 !important; font-weight: 900 !important; text-shadow: none !important;}
+        .theme-mechanic-garage .star-label { color: #ff7f00 !important; font-weight: 700 !important; }
+        .theme-mechanic-garage .star-score { color: #495057 !important; }
+
+        /* Volunteer list */
+        .theme-mechanic-garage .v-list-row { border-bottom: 1px solid rgba(0,0,0,0.05) !important; color: #1a293f !important; }
+        .theme-mechanic-garage .v-top3-card { background: rgba(255, 255, 255, 0.9) !important; border: none !important; box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important; color: #1a293f !important; border-radius: 8px !important; }
+        .theme-mechanic-garage .v-top3-card.v-gold { border-right: 4px solid #FFD700 !important; border-left: none !important; }
+        .theme-mechanic-garage .v-top3-card.v-silver { border-right: 4px solid #C0C0C0 !important; border-left: none !important; }
+        .theme-mechanic-garage .v-top3-card.v-bronze { border-right: 4px solid #CD7F32 !important; border-left: none !important; }
+        .theme-mechanic-garage .section-divider { background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent) !important; height: 1px !important; }
+        .theme-mechanic-garage .card-footer { background: rgba(255, 255, 255, 0.8) !important; color: #495057 !important; border-top: 1px solid rgba(0,0,0,0.05) !important; }
+
+
 
 
 .welcome-card-subfooter {
