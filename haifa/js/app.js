@@ -115,23 +115,7 @@ async function shareImage() {
 
     try {
         // Use html2canvas consistent with download function
-        const canvas = await html2canvas(node, { scale: 2, useCORS: true, allowTaint: false, backgroundColor: null,
-            onclone: (clonedDoc) => {
-                const logos = clonedDoc.querySelectorAll('.municipality-logo');
-                logos.forEach(logo => {
-                    try {
-                        const c = document.createElement('canvas');
-                        const origImg = document.querySelector('.municipality-logo');
-                        if (origImg && origImg.naturalWidth) {
-                            c.width = origImg.naturalWidth;
-                            c.height = origImg.naturalHeight;
-                            c.getContext('2d').drawImage(origImg, 0, 0);
-                            logo.src = c.toDataURL('image/png');
-                        }
-                    } catch(e) { logo.remove(); }
-                });
-            }
-        });
+        const canvas = await html2canvas(node, { scale: 2, useCORS: true, backgroundColor: null });
 
         canvas.toBlob(async (blob) => {
             if (!blob) {
@@ -244,20 +228,40 @@ function parseNames(text) {
     if (!text) return [];
     const lines = text.split('\n');
     let result = [];
+    
+    // Keywords that indicate a line is an event category summary, not a volunteer
+    const eventKeywords = ['התנעה', 'הנעה', "פנצ'ר", 'פנצר', 'פנצ', 'נעול', 'דלק', 'דלת', 'שינוע', 'לחימה', 'אחר', 'שמן', 'מים'];
+    
     lines.forEach(line => {
         let clean = line.trim();
+        if (!clean) return;
+        
         // Remove ranking like "1. ", "1 - ", etc. at the start of the line
         clean = clean.replace(/^\d+[\s\.\-\)]+\s*/, '').trim();
+        
+        let name = "";
+        let score = 0;
         
         // Option 1: Name - Score
         let match = clean.match(/^(.*?)[ \-\.\u2013\u2014:]+(\d+)$/);
         if (match) {
-            result.push({ name: match[1].trim(), score: parseInt(match[2]) });
+            name = match[1].trim();
+            score = parseInt(match[2]);
         } else {
             // Option 2: Score - Name (reverse)
             let matchRev = clean.match(/^(\d+)[ \-\.\u2013\u2014:]+(.*?)$/);
             if (matchRev) {
-                result.push({ name: matchRev[2].trim(), score: parseInt(matchRev[1]) });
+                name = matchRev[2].trim();
+                score = parseInt(matchRev[1]);
+            }
+        }
+        
+        if (name && !isNaN(score)) {
+            // Check if the parsed name is actually an event category
+            // We do a strict comparison to avoid filtering out volunteers named "אחרן" etc.
+            const isEvent = eventKeywords.some(kw => name === kw || name.startsWith(kw + ' ') || name.endsWith(' ' + kw) || name === 'רכב נעול' || name === 'דלת טרוקה');
+            if (!isEvent) {
+                result.push({ name: name, score: score });
             }
         }
     });
@@ -524,6 +528,31 @@ function renderStats(triggeredBySelect = false) {
     if (currentTab === 'stats' && downBtn) {
         downBtn.innerHTML = btnsHTML;
     }
+
+    // Update theme based on selection
+    const themeSelect = document.getElementById('in-theme');
+    if (themeSelect) {
+        changeReportTheme(themeSelect.value);
+    }
+}
+
+function changeReportTheme(themeName) {
+    const cardStats = document.getElementById('card-stats');
+    const cardVolunteersList = document.getElementById('card-volunteers-list');
+    
+    if (cardStats) {
+        cardStats.classList.remove('theme-classic', 'theme-dark-neon', 'theme-mechanic-garage');
+        cardStats.classList.add('theme-' + themeName);
+    }
+    if (cardVolunteersList) {
+        cardVolunteersList.classList.remove('theme-classic', 'theme-dark-neon', 'theme-mechanic-garage');
+        cardVolunteersList.classList.add('theme-' + themeName);
+    }
+    
+    const themeSelect = document.getElementById('in-theme');
+    if (themeSelect && themeSelect.value !== themeName) {
+        themeSelect.value = themeName;
+    }
 }
 
 function renderWelcome() {
@@ -606,23 +635,6 @@ function generateAndDownload(elementId, fileName) {
                 clonedEl.style.margin = '0 auto';
                 clonedEl.style.boxShadow = 'none'; // Optional: remove shadow for cleaner cut
             }
-
-            // Convert municipality logo to base64 to avoid tainted canvas
-            const logos = clonedDoc.querySelectorAll('.municipality-logo');
-            logos.forEach(logo => {
-                try {
-                    const c = document.createElement('canvas');
-                    const origImg = document.querySelector('.municipality-logo');
-                    if (origImg && origImg.naturalWidth) {
-                        c.width = origImg.naturalWidth;
-                        c.height = origImg.naturalHeight;
-                        c.getContext('2d').drawImage(origImg, 0, 0);
-                        logo.src = c.toDataURL('image/png');
-                    }
-                } catch(e) {
-                    logo.remove(); // Remove logo if can't convert
-                }
-            });
         }
     };
 
