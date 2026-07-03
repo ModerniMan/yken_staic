@@ -254,7 +254,7 @@
         }
 
         :root {
-            --branch-banner: url('../krayot_banner_abstract.png');
+            --branch-banner: url('../krayot-map.png');
             /* Palette */
             --c-blue-dark: #4facfe;
             --c-blue-light: #0f172a;
