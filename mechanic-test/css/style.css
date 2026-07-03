@@ -283,6 +283,7 @@
             --hbar-door: #f107a3;
             --hbar-transport: #00ff87;
             --hbar-war: #3b82f6;
+            --hbar-ev: #22c55e;
             --hbar-other: #64748b;
 
             /* Premium Accent Gradients */
@@ -1227,6 +1228,10 @@
 
         .bar-war {
             background: var(--hbar-war);
+        }
+
+        .bar-ev {
+            background: var(--hbar-ev);
         }
 
         .bar-other {

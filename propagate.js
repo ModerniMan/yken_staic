@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Active branches list
-const branches = ['mechanic-test'];
+const branches = ['akko-nahariya', 'atlit', 'haifa', 'krayot', 'mechanic-test'];
 
 // Paths to template files
 const templateIndexPage = path.join(__dirname, '_template', 'index.html');

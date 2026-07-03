@@ -230,7 +230,7 @@ function parseNames(text) {
     let result = [];
     
     // Keywords that indicate a line is an event category summary, not a volunteer
-    const eventKeywords = ['התנעה', 'הנעה', "פנצ'ר", 'פנצר', 'פנצ', 'נעול', 'דלק', 'דלת', 'שינוע', 'לחימה', 'אחר', 'שמן', 'מים'];
+    const eventKeywords = ['התנעה', 'הנעה', "פנצ'ר", 'פנצר', 'פנצ', 'נעול', 'דלק', 'דלת', 'שינוע', 'לחימה', 'חשמלי', 'הטענת', 'אחר', 'שמן', 'מים'];
     
     lines.forEach(line => {
         let clean = line.trim();
@@ -270,7 +270,7 @@ function parseNames(text) {
 
 // Logic: Calculate Graph Data
 function calculateGraphData() {
-    const ids = ['pancer', 'hanaa', 'locked', 'fuel', 'door', 'transport', 'war', 'other'];
+    const ids = ['pancer', 'hanaa', 'locked', 'fuel', 'door', 'transport', 'war', 'ev', 'other'];
     const vals = ids.map(id => {
         const el = document.getElementById('in-' + id);
         return {
@@ -978,6 +978,7 @@ function parseEmail() {
         'in-door': 0,
         'in-transport': 0,
         'in-war': 0,
+        'in-ev': 0,
         'in-other': 0
     };
 
@@ -1000,6 +1001,8 @@ function parseEmail() {
             categoryValues['in-transport'] += parseInt(m[1]);
         } else if (m = cleanLine.match(/^(?:לחימה|זמן\s+לחימה)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-war'] += parseInt(m[1]);
+        } else if (m = cleanLine.match(/^(?:רכב\s+חשמלי|הטענת\s+רכב\s+חשמלי|חשמלי|הטענה)\s*[-–—:]?\s*(\d+)$/)) {
+            categoryValues['in-ev'] += parseInt(m[1]);
         } else if (m = cleanLine.match(/^אחר\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-other'] += parseInt(m[1]);
         }
@@ -1013,7 +1016,7 @@ function parseEmail() {
     const listMatch = text.match(/(?:רשימת\s+(?:כל\s+)?(?:המתנדבים|הכוננים|החברים)|דירוג\s+(?:המתנדבים|הכוננים|החברים)|טבלת\s+(?:המתנדבים|הכוננים|החברים))[^\n]*\n([\s\S]*?)(?:עד כאן הספירה|בברכה|שבת שלום|$|על מנת|הדוח המלא)/);
     
     let volunteerLines = [];
-    const excludeKeywords = ['סה"כ', 'סך הכל', 'אירועים', 'מתנדבים', 'כוננים', 'השתתפו', 'קריאות', 'חירום', 'התנעה', 'הנעה', 'פנצ', 'נעול', 'דלק', 'דלת', 'שינוע', 'לחימה', 'אחר', 'שמן', 'מים', 'תודה', 'השתדלות', 'אזרחי'];
+    const excludeKeywords = ['סה"כ', 'סך הכל', 'אירועים', 'מתנדבים', 'כוננים', 'השתתפו', 'קריאות', 'חירום', 'התנעה', 'הנעה', 'פנצ', 'נעול', 'דלק', 'דלת', 'שינוע', 'לחימה', 'חשמלי', 'הטענת', 'אחר', 'שמן', 'מים', 'תודה', 'השתדלות', 'אזרחי'];
     
     if (listMatch) {
         const rawLines = listMatch[1].trim().split('\n');

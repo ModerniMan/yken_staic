@@ -100,6 +100,16 @@
                 <button class="tab-btn" data-tab="tab-welcome" onclick="switchTab('welcome')">👋 קבלת פנים</button>
             </div>
 
+            <!-- עיצוב דוח שבועי -->
+            <div class="input-group" id="theme-selector-group" style="padding: 0 15px; margin-top: 10px; margin-bottom: 5px;">
+                <label>עיצוב דוח שבועי</label>
+                <select id="in-theme" onchange="changeReportTheme(this.value)">
+                    <option value="classic">קלאסי (בהיר) 📄</option>
+                    <option value="dark-neon">ניאון מודרני (כהה) 🌌</option>
+                    <option value="mechanic-garage">מכונאות וסיוע (מוסך) 🔧</option>
+                </select>
+            </div>
+
             <!-- STATS INPUTS -->
             <div id="inputs-stats">
                 <button class="paste-email-btn" onclick="openEmailModal()">📧 הדבק מייל מעוגן</button>
@@ -132,6 +142,8 @@
                 </div>
                 <div class="input-row" style="margin-top:10px;">
                     <div class="input-group"><label>זמן לחימה</label><input type="number" id="in-war" value=""
+                            oninput="renderStats()"></div>
+                    <div class="input-group"><label>רכב חשמלי</label><input type="number" id="in-ev" value=""
                             oninput="renderStats()"></div>
                     <div class="input-group"><label>אחר</label><input type="number" id="in-other" value=""
                             oninput="renderStats()"></div>
@@ -360,6 +372,13 @@
                             </div>
                             <div class="g-label">⚔️ לחימה</div>
                         </div>
+                        <div class="graph-col" id="col-ev">
+                            <div class="g-val" id="txt-ev">0</div>
+                            <div class="g-track">
+                                <div class="g-bar bar-ev" id="bar-ev" style="height:0%;"></div>
+                            </div>
+                            <div class="g-label">🔋 חשמל</div>
+                        </div>
                         <div class="graph-col" id="col-other">
                             <div class="g-val" id="txt-other">0</div>
                             <div class="g-track">
@@ -465,7 +484,7 @@
     </div>
 
     <!-- Application Script -->
-    <script src="js/app.js?v=3.0"></script>
+    <script src="js/app.js?v=3.2"></script>
 </body>
 
 </html>
