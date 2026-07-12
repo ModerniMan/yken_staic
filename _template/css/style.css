@@ -954,6 +954,29 @@
             box-shadow: 0 6px 20px rgba(66, 165, 245, 0.5);
         }
 
+        .actions-wrapper {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .actions-wrapper .download-btn,
+        .actions-wrapper .share-btn {
+            flex: 1;
+            margin-top: 0 !important;
+        }
+
+        /* Tab button disabled state for Draft restore */
+        .tab-btn.disabled, .tab-btn:disabled {
+            background: #1e293b !important;
+            color: #475569 !important;
+            cursor: not-allowed !important;
+            opacity: 0.6;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
         /* --- Header Section (Shared) --- */
         .header-section {
             /* Map background with lighter overlay for visibility */

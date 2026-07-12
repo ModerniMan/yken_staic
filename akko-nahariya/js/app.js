@@ -114,69 +114,75 @@ inputsToSave.forEach(id => {
 */
 
 // 3. Smart Share Logic
-async function shareImage() {
-    const activeTabId = document.querySelector('.tab-btn.active').dataset.tab;
-    let targetId;
-    if (activeTabId === 'tab-stats') targetId = 'card-stats';
-    else if (activeTabId === 'tab-welcome') targetId = 'card-welcome';
-
+async function shareImage(targetId, filename = 'yedidim_share.png') {
     const node = document.getElementById(targetId);
-    const shareBtnText = document.getElementById('share-text');
-    const originalText = shareBtnText ? shareBtnText.textContent : 'Share';
-    if (shareBtnText) shareBtnText.textContent = '...מכין שיתוף';
+    if (!node) {
+        console.error('Target element not found:', targetId);
+        return;
+    }
+
+    // Find feedback element if exists
+    let shareTextEl = null;
+    if (targetId === 'card-stats') shareTextEl = document.getElementById('share-text-stats');
+    else if (targetId === 'card-volunteers-list') shareTextEl = document.getElementById('share-text-list');
+    else if (targetId === 'card-welcome-family') shareTextEl = document.getElementById('share-text-family');
+    else if (targetId === 'card-welcome-operational') shareTextEl = document.getElementById('share-text-operational');
+
+    const originalText = shareTextEl ? shareTextEl.textContent : '📤 שיתוף מהיר';
+    if (shareTextEl) shareTextEl.textContent = '...מכין שיתוף';
 
     try {
-        // Use html2canvas consistent with download function
         const canvas = await html2canvas(node, { scale: 2, useCORS: true, backgroundColor: null });
 
         canvas.toBlob(async (blob) => {
             if (!blob) {
                 console.error('Canvas to Blob failed');
-                if (shareBtnText) {
-                    shareBtnText.textContent = 'שגיאה';
-                    setTimeout(() => { shareBtnText.textContent = originalText; }, 3000);
+                if (shareTextEl) {
+                    shareTextEl.textContent = 'שגיאה';
+                    setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
                 }
                 return;
             }
 
-            const file = new File([blob], "yedidim_share.png", { type: "image/png" });
+            const file = new File([blob], filename, { type: "image/png" });
 
             // Try Native Share
-            if (navigator.share && navigator.canShare({ files: [file] })) {
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 try {
                     await navigator.share({
                         files: [file],
                         title: 'מחולל ידידים',
                         text: 'הנה התמונה שיצרתי במחולל!'
                     });
-                    if (shareBtnText) shareBtnText.textContent = 'שיתוף הצליח!';
+                    if (shareTextEl) shareTextEl.textContent = 'שיתוף הצליח!';
                 } catch (shareErr) {
                     console.log('Share cancelled or failed', shareErr);
-                    if (shareBtnText) shareBtnText.textContent = 'בוטל/נכשל';
+                    if (shareTextEl) shareTextEl.textContent = 'בוטל/נכשל';
                 }
             } else {
-                // Fallback to Clipboard
+                // Fallback to Clipboard & Open WhatsApp
                 try {
                     await navigator.clipboard.write([
                         new ClipboardItem({ [blob.type]: blob })
                     ]);
-                    alert("התמונה הועתקה ללוח! ניתן להדביק בוואטסאפ (Ctrl+V)");
-                    if (shareBtnText) shareBtnText.textContent = 'הועתק! הדבק בוואטסאפ';
+                    alert("התמונה הועתקה ללוח! 📋\nכעת נעביר אותך לוואטסאפ, שם תוכל פשוט להדביק (Ctrl+V או לחיצה ארוכה -> הדבק) ולשלוח בקבוצה.");
+                    window.open('https://api.whatsapp.com/send', '_blank');
+                    if (shareTextEl) shareTextEl.textContent = 'הועתק! הדבק בוואטסאפ';
                 } catch (clipErr) {
                     console.error('Clipboard failed:', clipErr);
                     alert("לא ניתן לשתף בדפדפן זה. אנא השתמש בכפתור ההורדה.");
-                    if (shareBtnText) shareBtnText.textContent = 'שגיאה';
+                    if (shareTextEl) shareTextEl.textContent = 'שגיאה';
                 }
             }
-            if (shareBtnText) setTimeout(() => { shareBtnText.textContent = originalText; }, 3000);
+            if (shareTextEl) setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
         }, 'image/png');
 
     } catch (err) {
         console.error('Sharing generation failed:', err);
         alert("שגיאה ביצירת התמונה לשיתוף.");
-        if (shareBtnText) {
-            shareBtnText.textContent = 'שגיאה';
-            setTimeout(() => { shareBtnText.textContent = originalText; }, 3000);
+        if (shareTextEl) {
+            shareTextEl.textContent = 'שגיאה';
+            setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
         }
     }
 }
@@ -451,7 +457,14 @@ function renderStats(triggeredBySelect = false) {
     const volunteersListContentMerged = document.getElementById('volunteers-list-content-merged');
 
     let buttonText = branchConfig.showFullVolunteersListCard ? '📥 שמור דוח פודיום' : '📥 שמור דוח שבועי';
-    let btnsHTML = `<button class="download-btn" onclick="downloadImage()">${buttonText}</button>`;
+    let btnsHTML = `
+        <div class="actions-wrapper">
+            <button class="download-btn" onclick="downloadImage()">${buttonText}</button>
+            <button class="share-btn" onclick="shareImage('card-stats', 'yedidim_stats.png')">
+                <span id="share-text-stats">📤 שיתוף מהיר</span>
+            </button>
+        </div>
+    `;
 
     if (list.length > 3) {
         let listHTML = '';
@@ -520,7 +533,14 @@ function renderStats(triggeredBySelect = false) {
             }
             if (currentTab === 'stats') {
                 if (listCard) listCard.style.display = 'flex';
-                btnsHTML += `<button class="download-btn" style="background:linear-gradient(135deg, #607d8b, #455a64); margin-top:10px;" onclick="downloadVolunteersList()">📜 הורד רשימה מלאה (${list.length}) 📥</button>`;
+                btnsHTML += `
+                    <div class="actions-wrapper" style="margin-top:10px;">
+                        <button class="download-btn" style="background:linear-gradient(135deg, #607d8b, #455a64);" onclick="downloadVolunteersList()">📜 הורד רשימה מלאה (${list.length}) 📥</button>
+                        <button class="share-btn" style="background:linear-gradient(135deg, #455a64, #37474f);" onclick="shareImage('card-volunteers-list', 'yedidim_stats_full_list.png')">
+                            <span id="share-text-list">📤 שיתוף מהיר</span>
+                        </button>
+                    </div>
+                `;
             }
         } else {
             if (volunteersListContentMerged) {
@@ -793,6 +813,7 @@ window.addEventListener('load', async () => {
     // Force initial state to hide inactive cards
     switchTab('stats');
     document.body.classList.add('m-view-edit');
+    checkSavedDraft(); // Check if there is any draft to enable restore button
 });
 
 // Hook into switchTab to update scale based on content
@@ -1092,8 +1113,71 @@ function setField(id, value) {
 }
 
 // Removed Auto-Save Listeners per user request
-// window.addEventListener('input', saveData); 
-// document.body.addEventListener('blur', ...) 
+// Draft Auto-Save & Manual Restore Logic
+function autoSaveDraft() {
+    const data = {};
+    const inputs = document.querySelectorAll('input[id^="in-"], textarea[id^="in-"]');
+    inputs.forEach(input => {
+        if (input.type === 'checkbox') {
+            data[input.id] = input.checked;
+        } else {
+            data[input.id] = input.value;
+        }
+    });
+    localStorage.setItem('yedidim_draft_data', JSON.stringify(data));
+    
+    // Enable the load draft button if it exists
+    const loadBtn = document.getElementById('btn-load-draft');
+    if (loadBtn) {
+        loadBtn.disabled = false;
+        loadBtn.classList.remove('disabled');
+    }
+}
+
+// Add global listener to auto-save draft on any input event
+window.addEventListener('input', autoSaveDraft);
+
+function checkSavedDraft() {
+    const saved = localStorage.getItem('yedidim_draft_data');
+    const loadBtn = document.getElementById('btn-load-draft');
+    if (loadBtn) {
+        if (saved) {
+            loadBtn.disabled = false;
+            loadBtn.classList.remove('disabled');
+        } else {
+            loadBtn.disabled = true;
+            loadBtn.classList.add('disabled');
+        }
+    }
+}
+
+function loadDraft() {
+    const saved = localStorage.getItem('yedidim_draft_data');
+    if (!saved) {
+        alert("לא נמצאה טיוטה שמורה בדפדפן.");
+        return;
+    }
+    try {
+        const data = JSON.parse(saved);
+        Object.keys(data).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (el.type === 'checkbox') {
+                    el.checked = data[id];
+                } else {
+                    el.value = data[id];
+                }
+            }
+        });
+        // Render both views to apply values
+        renderStats(true);
+        renderWelcome();
+        alert("הטיוטה שוחזרה בהצלחה! 🎉");
+    } catch (e) {
+        console.error('Failed to parse draft:', e);
+        alert("שגיאה בטעינת הטיוטה.");
+    }
+} 
 
 function resetData() {
     if (confirm("האם לאפס את כל הנתונים?")) {
