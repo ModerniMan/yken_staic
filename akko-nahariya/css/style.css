@@ -2241,13 +2241,13 @@
    MOBILE BOTTOM NAVIGATION & TOGGLE STYLES
    ========================================== */
 .mobile-tabs-nav {
-    display: none;
+    display: none !important;
 }
 
 @media (max-width: 850px) {
-    /* Mobile Tab Bar */
-    .mobile-tabs-nav {
-        display: flex;
+    /* Mobile Tab Bar - Only show when portal is closed */
+    body.portal-closed .mobile-tabs-nav {
+        display: flex !important;
         position: fixed;
         bottom: 0;
         left: 0;
@@ -2262,7 +2262,7 @@
         padding: 0 10px;
     }
 
-    .m-nav-btn {
+    body.portal-closed .m-nav-btn {
         flex: 1;
         height: 100%;
         background: none;
@@ -2280,23 +2280,23 @@
         transition: all 0.2s ease;
     }
 
-    .m-nav-btn.active {
+    body.portal-closed .m-nav-btn.active {
         color: #38bdf8; /* Vibrant sky blue */
         border-bottom: 3px solid #38bdf8;
     }
 
-    /* Toggle visibility of panels based on active view class */
-    body.m-view-edit .sidebar {
+    /* Toggle visibility of panels based on active view class - ONLY when portal is closed */
+    body.portal-closed.m-view-edit .sidebar {
         display: block !important;
     }
-    body.m-view-edit .preview-area {
+    body.portal-closed.m-view-edit .preview-area {
         display: none !important;
     }
 
-    body.m-view-preview .sidebar {
+    body.portal-closed.m-view-preview .sidebar {
         display: none !important;
     }
-    body.m-view-preview .preview-area {
+    body.portal-closed.m-view-preview .preview-area {
         display: flex !important;
         width: 100% !important;
         height: calc(100vh - 60px) !important;
@@ -2306,15 +2306,15 @@
         justify-content: center !important;
     }
 
-    /* Lock body height on mobile to prevent double scrolling */
-    body {
+    /* Lock body height on mobile to prevent double scrolling - ONLY when portal is closed */
+    body.portal-closed {
         height: 100vh !important;
         overflow: hidden !important;
-        display: flex;
-        flex-direction: column;
+        display: flex !important;
+        flex-direction: column !important;
     }
 
-    .sidebar {
+    body.portal-closed .sidebar {
         height: calc(100vh - 60px) !important;
         overflow-y: auto !important;
         padding-bottom: 80px !important;

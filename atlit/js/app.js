@@ -46,6 +46,7 @@ function enterSystem(tab = 'stats') {
     if (portal) {
         portal.classList.add('hidden');
     }
+    document.body.classList.add('portal-closed');
     // Switch to the requested tab after a short delay for smooth transition
     setTimeout(() => {
         switchTab(tab);
