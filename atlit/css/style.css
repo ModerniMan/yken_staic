@@ -246,9 +246,6 @@
                 border-radius: 12px;
             }
         }
-        #mobile-warning {
-            display: none;
-        }
         .map-layer {
             display: none !important;
         }
