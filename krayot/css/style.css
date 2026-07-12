@@ -967,14 +967,39 @@
             margin-top: 0 !important;
         }
 
-        /* Tab button disabled state for Draft restore */
-        .tab-btn.disabled, .tab-btn:disabled {
-            background: #1e293b !important;
-            color: #475569 !important;
+        /* Draft Restore Button Styling */
+        #btn-load-draft {
+            transition: all 0.3s ease !important;
+        }
+
+        #btn-load-draft:not(:disabled):not(.disabled) {
+            background: linear-gradient(135deg, #6366f1, #4f46e5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3) !important;
+            cursor: pointer !important;
+        }
+
+        #btn-load-draft:not(:disabled):not(.disabled):hover {
+            background: linear-gradient(135deg, #818cf8, #6366f1) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4) !important;
+        }
+
+        /* Disabled state */
+        #btn-load-draft:disabled, #btn-load-draft.disabled {
+            background: #e2e8f0 !important; /* Light mode disabled background */
+            color: #94a3b8 !important; /* Light mode disabled text */
             cursor: not-allowed !important;
-            opacity: 0.6;
             box-shadow: none !important;
             transform: none !important;
+            opacity: 0.7 !important;
+        }
+
+        /* Dark mode disabled override */
+        body.dark-mode #btn-load-draft:disabled,
+        body.dark-mode #btn-load-draft.disabled {
+            background: #1e293b !important;
+            color: #475569 !important;
         }
 
         /* --- Header Section (Shared) --- */
