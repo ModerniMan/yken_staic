@@ -1,3 +1,14 @@
+// Helper to escape HTML to prevent XSS vulnerabilities
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
 // Global Configuration for Branch Features
 let branchConfig = {
     showPodium: true,
@@ -362,21 +373,21 @@ function renderStats(triggeredBySelect = false) {
                         <div class="podium-title">🏆 המתנדבים המובילים</div>
                         <div class="podium-wrapper">
                             <div class="podium-col place-2">
-                                <div class="p-avatar" contenteditable="true">${top2.name}<br>${top2.score} אירועים</div>
+                                <div class="p-avatar" contenteditable="true">${escapeHTML(top2.name)}<br>${escapeHTML(top2.score)} אירועים</div>
                                 <div class="p-block">
                                     <div class="rank-num">2</div>
                                     <div class="medal-icon"></div>
                                 </div>
                             </div>
                             <div class="podium-col place-1">
-                                <div class="p-avatar" contenteditable="true">${top1.name}<br>${top1.score} אירועים</div>
+                                <div class="p-avatar" contenteditable="true">${escapeHTML(top1.name)}<br>${escapeHTML(top1.score)} אירועים</div>
                                 <div class="p-block">
                                     <div class="rank-num">1</div>
                                     <div class="medal-icon"></div>
                                 </div>
                             </div>
                             <div class="podium-col place-3">
-                                <div class="p-avatar" contenteditable="true">${top3.name}<br>${top3.score} אירועים</div>
+                                <div class="p-avatar" contenteditable="true">${escapeHTML(top3.name)}<br>${escapeHTML(top3.score)} אירועים</div>
                                 <div class="p-block">
                                     <div class="rank-num">3</div>
                                     <div class="medal-icon"></div>
@@ -417,13 +428,13 @@ function renderStats(triggeredBySelect = false) {
                 starPerson = list[0]; // Default: top volunteer
             }
 
-            const scoreText = starPerson.score ? `${starPerson.score} אירועים` : '';
+            const scoreText = starPerson.score ? `${escapeHTML(starPerson.score)} אירועים` : '';
             starArea.innerHTML = `
                 <div class="star-section">
                     <div class="star-icon-box">⭐</div>
                     <div class="star-info">
                         <div class="star-label">מצטיין השבוע</div>
-                        <div class="star-name" contenteditable="true">${starPerson.name}</div>
+                        <div class="star-name" contenteditable="true">${escapeHTML(starPerson.name)}</div>
                         <div class="star-score">${scoreText}</div>
                     </div>
                 </div>`;
@@ -492,8 +503,8 @@ function renderStats(triggeredBySelect = false) {
                     listHTML += `
                         <div class="v-list-row">
                             <span class="v-rank">${i + 1}.</span>
-                            <span class="v-name">${p.name}</span>
-                            <span class="v-score">${p.score}</span>
+                            <span class="v-name">${escapeHTML(p.name)}</span>
+                            <span class="v-score">${escapeHTML(p.score)}</span>
                         </div>`;
                 }
             }
@@ -584,12 +595,12 @@ function renderWelcome() {
 
         let divF = document.createElement('div');
         divF.className = 'name-tag';
-        divF.innerHTML = `👋 ${cleanName}`;
+        divF.textContent = `👋 ${cleanName}`;
         if (listFamily) listFamily.appendChild(divF);
 
         let divO = document.createElement('div');
         divO.className = 'name-tag';
-        divO.innerHTML = `🛑 ${cleanName}`;
+        divO.textContent = `🛑 ${cleanName}`;
         if (listOperational) listOperational.appendChild(divO);
     });
 }
