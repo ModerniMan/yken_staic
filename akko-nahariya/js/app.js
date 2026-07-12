@@ -791,6 +791,7 @@ window.addEventListener('load', async () => {
     resizePreview();
     // Force initial state to hide inactive cards
     switchTab('stats');
+    document.body.classList.add('m-view-edit');
 });
 
 // Hook into switchTab to update scale based on content
@@ -1097,5 +1098,23 @@ function resetData() {
     if (confirm("האם לאפס את כל הנתונים?")) {
         document.querySelectorAll('input, textarea').forEach(el => el.value = '');
         location.reload();
+    }
+}
+
+// Mobile View Switcher
+function showMobileView(view) {
+    document.body.classList.remove('m-view-edit', 'm-view-preview');
+    document.body.classList.add('m-view-' + view);
+    
+    document.querySelectorAll('.m-nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    const activeBtn = document.getElementById('m-nav-' + view);
+    if (activeBtn) activeBtn.classList.add('active');
+    
+    // Trigger preview resize if preview tab is loaded
+    if (view === 'preview') {
+        setTimeout(resizePreview, 100);
     }
 }
