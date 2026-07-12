@@ -859,6 +859,11 @@
                 flex-direction: row !important;
             }
 
+            #inputs-stats .input-row .input-group {
+                width: auto !important;
+                max-width: 100% !important;
+            }
+
             /* Make odd last item in a 3-item row span full width */
             #inputs-stats .input-row .input-group:last-child:nth-child(odd) {
                 grid-column: span 2 !important;
