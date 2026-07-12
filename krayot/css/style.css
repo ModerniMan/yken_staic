@@ -2250,6 +2250,12 @@
 }
 
 @media (max-width: 850px) {
+    /* Hide editor and preview when portal is open */
+    body:not(.portal-closed) .sidebar,
+    body:not(.portal-closed) .preview-area {
+        display: none !important;
+    }
+
     /* Mobile Tab Bar - Only show when portal is closed */
     body.portal-closed .mobile-tabs-nav {
         display: flex !important;
