@@ -834,9 +834,34 @@
                 font-size: 30px;
             }
 
-            .input-row {
-                flex-direction: column !important;
-                gap: 12px !important;
+            /* Optimized Form Layout for Mobile */
+            .control-panel {
+                padding: 15px 12px !important;
+            }
+
+            .input-group label {
+                font-size: 12px !important;
+                margin-bottom: 3px !important;
+            }
+
+            .input-group input, 
+            .input-group textarea, 
+            .input-group select {
+                padding: 10px 12px !important;
+                font-size: 15px !important;
+                border-radius: 8px !important;
+            }
+
+            #inputs-stats .input-row {
+                display: grid !important;
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+                flex-direction: row !important;
+            }
+
+            /* Make odd last item in a 3-item row span full width */
+            #inputs-stats .input-row .input-group:last-child:nth-child(odd) {
+                grid-column: span 2 !important;
             }
 
             .mobile-scroll-btn {
@@ -881,6 +906,11 @@
 
             .w-card-header {
                 padding: 20px 10px;
+            }
+
+            .modal-content {
+                padding: 20px 15px !important;
+                border-radius: 12px !important;
             }
         }
 
