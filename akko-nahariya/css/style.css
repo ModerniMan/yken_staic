@@ -837,6 +837,11 @@
                 font-size: 30px;
             }
 
+            .input-row {
+                flex-direction: column !important;
+                gap: 12px !important;
+            }
+
             .mobile-scroll-btn {
                 display: block;
                 position: fixed;
