@@ -131,59 +131,98 @@ async function shareImage(targetId, filename = 'yedidim_share.png') {
     const originalText = shareTextEl ? shareTextEl.textContent : '📤 שיתוף מהיר';
     if (shareTextEl) shareTextEl.textContent = '...מכין שיתוף';
 
+    const options = {
+        scale: 2.5,
+        useCORS: true,
+        allowTaint: false,
+        backgroundColor: null,
+        windowWidth: 1600,
+        windowHeight: 1200,
+        scrollX: 0,
+        scrollY: 0,
+        onclone: (clonedDoc) => {
+            const clonedEl = clonedDoc.getElementById(targetId);
+            const clonedContainer = clonedDoc.getElementById('canvas-container');
+
+            if (clonedContainer) {
+                clonedContainer.style.transform = 'none';
+                clonedContainer.style.width = 'auto';
+                clonedContainer.style.height = 'auto';
+                clonedContainer.style.position = 'static';
+                clonedContainer.style.overflow = 'visible';
+            }
+
+            if (clonedEl) {
+                clonedEl.style.position = 'relative';
+                clonedEl.style.transform = 'none';
+                clonedEl.style.maxWidth = 'none';
+                clonedEl.style.width = '500px';
+                clonedEl.style.margin = '0 auto';
+                clonedEl.style.boxShadow = 'none';
+            }
+        }
+    };
+
     try {
-        const canvas = await html2canvas(node, { scale: 2, useCORS: true, backgroundColor: null });
+        await document.fonts.ready;
+        const canvas = await html2canvas(node, options);
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+        
+        if (!blob) {
+            throw new Error("Blob creation failed");
+        }
 
-        canvas.toBlob(async (blob) => {
-            if (!blob) {
-                console.error('Canvas to Blob failed');
-                if (shareTextEl) {
-                    shareTextEl.textContent = 'שגיאה';
-                    setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
-                }
-                return;
-            }
+        const file = new File([blob], filename, { type: "image/png" });
 
-            const file = new File([blob], filename, { type: "image/png" });
-
-            // Try Native Share
-            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        files: [file],
-                        title: 'מחולל ידידים',
-                        text: 'הנה התמונה שיצרתי במחולל!'
-                    });
-                    if (shareTextEl) shareTextEl.textContent = 'שיתוף הצליח!';
-                } catch (shareErr) {
-                    console.log('Share cancelled or failed', shareErr);
-                    if (shareTextEl) shareTextEl.textContent = 'בוטל/נכשל';
-                }
-            } else {
-                // Fallback to Clipboard & Open WhatsApp
-                try {
-                    await navigator.clipboard.write([
-                        new ClipboardItem({ [blob.type]: blob })
-                    ]);
-                    alert("התמונה הועתקה ללוח! 📋\nכעת נעביר אותך לוואטסאפ, שם תוכל פשוט להדביק (Ctrl+V או לחיצה ארוכה -> הדבק) ולשלוח בקבוצה.");
-                    window.open('https://api.whatsapp.com/send', '_blank');
-                    if (shareTextEl) shareTextEl.textContent = 'הועתק! הדבק בוואטסאפ';
-                } catch (clipErr) {
-                    console.error('Clipboard failed:', clipErr);
-                    alert("לא ניתן לשתף בדפדפן זה. אנא השתמש בכפתור ההורדה.");
-                    if (shareTextEl) shareTextEl.textContent = 'שגיאה';
-                }
-            }
-            if (shareTextEl) setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
-        }, 'image/png');
+        // Try Native Mobile Share
+        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                files: [file],
+                title: 'מחולל ידידים',
+                text: 'הנה התמונה שיצרתי במחולל ידידים!'
+            });
+            if (shareTextEl) shareTextEl.textContent = 'שיתוף הצליח! ✅';
+        } else if (navigator.clipboard && navigator.clipboard.write) {
+            // Fallback 1: Clipboard
+            await navigator.clipboard.write([
+                new ClipboardItem({ [blob.type]: blob })
+            ]);
+            alert("התמונה הועתקה ללוח! 📋\nנעביר אותך כעת לוואטסאפ - לחץ הדבק (Paste) בקבוצה כדי לשלוח את התמונה.");
+            window.open('https://api.whatsapp.com/send', '_blank');
+            if (shareTextEl) shareTextEl.textContent = 'הועתק! הדבק בוואטסאפ';
+        } else {
+            // Fallback 2: Direct Download
+            const link = document.createElement("a");
+            link.download = filename;
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            alert("התמונה יורדת למכשירך. ניתן לשתף אותה ישירות בוואטסאפ!");
+            if (shareTextEl) shareTextEl.textContent = 'הורד למכשיר!';
+        }
 
     } catch (err) {
-        console.error('Sharing generation failed:', err);
-        alert("שגיאה ביצירת התמונה לשיתוף.");
-        if (shareTextEl) {
-            shareTextEl.textContent = 'שגיאה';
-            setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
+        console.log('Sharing process info:', err);
+        if (err.name === 'AbortError') {
+            if (shareTextEl) shareTextEl.textContent = 'בוטל';
+        } else {
+            // Fallback to download on any canvas/share exception
+            try {
+                const canvas = await html2canvas(node, options);
+                const link = document.createElement("a");
+                link.download = filename;
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+                alert("הורדנו את התמונה למכשירך. תוכל לשתף אותה בווטסאפ!");
+                if (shareTextEl) shareTextEl.textContent = 'הורד למכשיר!';
+            } catch (fallbackErr) {
+                alert("לא ניתן לשתף בדפדפן זה. אנא השתמש בכפתור ההורדה.");
+                if (shareTextEl) shareTextEl.textContent = 'שגיאה';
+            }
         }
+    }
+
+    if (shareTextEl) {
+        setTimeout(() => { shareTextEl.textContent = originalText; }, 3500);
     }
 }
 
