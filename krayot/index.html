@@ -82,6 +82,8 @@
                 </div>
                 <button class="tab-btn disabled" id="btn-load-draft" onclick="loadDraft()" disabled
                     title="שחזר טיוטה אחרונה שנשמרה בדפדפן" style="border:none; transition: background 0.3s ease; width: 100%;">🔄 שחזר טיוטה אחרונה</button>
+                <button class="tab-btn" id="btn-reset-data" onclick="resetData()"
+                    title="נקה את כל השדות והטיוטה" style="border:none; background: linear-gradient(135deg, #ef5350, #c62828); color: #fff; transition: background 0.3s ease; width: 100%;">🧹 איפוס נתונים</button>
                 <input type="file" id="file-upload" accept=".ydm" style="display: none;"
                     onchange="importProjectData(this)">
             </div>
@@ -190,6 +192,9 @@
                 <div class="input-group">
                     <textarea id="in-w-names" oninput="renderWelcome()" placeholder="הכנס שמות (כל שם בשורה)..."
                         style="height: 120px;"></textarea>
+                </div>
+                <div id="welcome-overflow-warning" style="display: none; background: rgba(255, 152, 0, 0.15); border: 1px solid rgba(255, 152, 0, 0.4); color: #ffb74d; border-radius: 8px; padding: 10px; font-size: 13px; margin-top: 8px; font-weight: 500; text-align: center;">
+                    ⚠️ שימו לב: הוכנסו יותר מ-12 שמות. חלקם עלולים להיחתך בתמונת המדיה המיוצאת.
                 </div>
             </div>
 

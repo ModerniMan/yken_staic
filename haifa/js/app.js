@@ -624,6 +624,11 @@ function renderWelcome() {
         divO.textContent = `🛑 ${cleanName}`;
         if (listOperational) listOperational.appendChild(divO);
     });
+
+    const overflowWarnEl = document.getElementById('welcome-overflow-warning');
+    if (overflowWarnEl) {
+        overflowWarnEl.style.display = (names.length > 12) ? 'block' : 'none';
+    }
 }
 
 // Helper to generate canvas with consistent settings
@@ -1021,23 +1026,23 @@ function parseEmail() {
         if (!cleanLine) return;
 
         let m;
-        if (m = cleanLine.match(/^(?:הנעה|התנעה)\s*[-–—:]?\s*(\d+)$/)) {
+        if (m = cleanLine.match(/^(?:הנעה|התנעה|כבלים)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-hanaa'] += parseInt(m[1]);
-        } else if (m = cleanLine.match(/^פנצ['\u05F3\u2019]?ר\s*[-–—:]?\s*(\d+)$/)) {
+        } else if (m = cleanLine.match(/^פנצ['\u05F3\u2019]?ר(?:ים)?\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-pancer'] += parseInt(m[1]);
-        } else if (m = cleanLine.match(/^(?:רכב\s+)?נעול\s*[-–—:]?\s*(\d+)$/)) {
+        } else if (m = cleanLine.match(/^(?:רכב\s+)?נעול|מנעולנות\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-locked'] += parseInt(m[1]);
-        } else if (m = cleanLine.match(/^(?:דלק|שמן[\+\/\\ ]+מים|מים[\+\/\\ ]+שמן|שמן\/מים\/דלק)\s*[-–—:]?\s*(\d+)$/)) {
+        } else if (m = cleanLine.match(/^(?:דלק|שמן[\+\/\\ ]+מים|מים[\+\/\\ ]+שמן|שמן\/מים\/דלק|שמן|מים)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-fuel'] += parseInt(m[1]);
         } else if (m = cleanLine.match(/^(?:דלת|דלת\s+טרוקה)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-door'] += parseInt(m[1]);
-        } else if (m = cleanLine.match(/^שינוע\s*[-–—:]?\s*(\d+)$/)) {
+        } else if (m = cleanLine.match(/^(?:שינוע|ציוד|תרופות|שינוע\s+ציוד)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-transport'] += parseInt(m[1]);
         } else if (m = cleanLine.match(/^(?:לחימה|זמן\s+לחימה)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-war'] += parseInt(m[1]);
-        } else if (m = cleanLine.match(/^(?:רכב\s+חשמלי|הטענת\s+רכב\s+חשמלי|חשמלי|הטענה)\s*[-–—:]?\s*(\d+)$/)) {
+        } else if (m = cleanLine.match(/^(?:רכב\s+חשמלי|הטענת\s+רכב\s+חשמלי|חשמלי|הטענה|סוללה)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-ev'] += parseInt(m[1]);
-        } else if (m = cleanLine.match(/^אחר\s*[-–—:]?\s*(\d+)$/)) {
+        } else if (m = cleanLine.match(/^(?:אחר|שונות)\s*[-–—:]?\s*(\d+)$/)) {
             categoryValues['in-other'] += parseInt(m[1]);
         }
     });
@@ -1180,9 +1185,13 @@ function loadDraft() {
 } 
 
 function resetData() {
-    if (confirm("האם לאפס את כל הנתונים?")) {
+    if (confirm("האם למחוק את כל הנתונים ולהתחיל מחדש?")) {
         document.querySelectorAll('input, textarea').forEach(el => el.value = '');
-        location.reload();
+        localStorage.removeItem('yedidim_draft_data');
+        checkSavedDraft();
+        renderStats();
+        renderWelcome();
+        alert("הנתונים והטיוטה אופסו בהצלחה 🧹");
     }
 }
 
