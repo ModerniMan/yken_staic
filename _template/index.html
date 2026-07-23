@@ -490,6 +490,24 @@
         </div>
     </div>
 
+    <!-- Share Image Modal -->
+    <div id="share-modal" class="modal-overlay" style="display: none; z-index: 3500;">
+        <div class="modal-content" style="text-align: center; max-width: 450px;">
+            <button class="close-modal" onclick="closeShareModal()">&times;</button>
+            <h3 style="margin-top: 0; color: #1976d2; font-size: 20px;">📤 התמונה מוכנה לשיתוף!</h3>
+            <p style="font-size: 13px; color: #546e7a; margin-bottom: 12px; line-height: 1.4;">
+                💡 <b>במכשיר נייד:</b> לחץ לחיצה ארוכה על התמונה ובחר <b>"שתף"</b> או <b>"העתק"</b> לשליחה בוואטסאפ.
+            </p>
+            <div style="margin: 10px 0; max-height: 50vh; overflow-y: auto; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1);">
+                <img id="share-modal-img" src="" alt="תמונה לשיתוף" style="width: 100%; display: block; border-radius: 12px;">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <a id="share-modal-download" href="" download="yedidim_share.png" class="download-btn" style="text-decoration: none; display: inline-block; flex: 1; padding: 10px 0; font-size: 14px; text-align: center;">📥 הורד תמונה</a>
+                <button onclick="closeShareModal()" class="tab-btn" style="flex: 1; margin: 0; padding: 10px 0; font-size: 14px;">✕ סגור</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Mobile Bottom Navigation -->
     <div class="mobile-tabs-nav">
         <button class="m-nav-btn active" id="m-nav-edit" onclick="showMobileView('edit')">✏️ עריכת נתונים</button>

@@ -113,7 +113,30 @@ inputsToSave.forEach(id => {
 });
 */
 
-// 3. Smart Share Logic
+// 3. Smart Share Logic & Modal
+function showShareModal(dataUrl, filename) {
+    const modal = document.getElementById('share-modal');
+    const img = document.getElementById('share-modal-img');
+    const downloadLink = document.getElementById('share-modal-download');
+    if (modal && img && downloadLink) {
+        img.src = dataUrl;
+        downloadLink.href = dataUrl;
+        downloadLink.download = filename;
+        modal.style.display = 'flex';
+    } else {
+        // Fallback download if modal missing
+        const link = document.createElement("a");
+        link.download = filename;
+        link.href = dataUrl;
+        link.click();
+    }
+}
+
+function closeShareModal() {
+    const modal = document.getElementById('share-modal');
+    if (modal) modal.style.display = 'none';
+}
+
 async function shareImage(targetId, filename = 'yedidim_share.png') {
     const node = document.getElementById(targetId);
     if (!node) {
@@ -132,12 +155,12 @@ async function shareImage(targetId, filename = 'yedidim_share.png') {
     if (shareTextEl) shareTextEl.textContent = '...מכין שיתוף';
 
     const options = {
-        scale: 2.5,
+        scale: 2.0, // Optimized for mobile memory
         useCORS: true,
         allowTaint: false,
         backgroundColor: null,
-        windowWidth: 1600,
-        windowHeight: 1200,
+        windowWidth: 600, // Optimized width
+        windowHeight: 900,
         scrollX: 0,
         scrollY: 0,
         onclone: (clonedDoc) => {
@@ -166,59 +189,45 @@ async function shareImage(targetId, filename = 'yedidim_share.png') {
     try {
         await document.fonts.ready;
         const canvas = await html2canvas(node, options);
-        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-        
-        if (!blob) {
-            throw new Error("Blob creation failed");
-        }
+        const dataUrl = canvas.toDataURL('image/png');
 
-        const file = new File([blob], filename, { type: "image/png" });
+        let sharedSuccessfully = false;
 
         // Try Native Mobile Share
-        if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({
-                files: [file],
-                title: 'מחולל ידידים',
-                text: 'הנה התמונה שיצרתי במחולל ידידים!'
-            });
-            if (shareTextEl) shareTextEl.textContent = 'שיתוף הצליח! ✅';
-        } else if (navigator.clipboard && navigator.clipboard.write) {
-            // Fallback 1: Clipboard
-            await navigator.clipboard.write([
-                new ClipboardItem({ [blob.type]: blob })
-            ]);
-            alert("התמונה הועתקה ללוח! 📋\nנעביר אותך כעת לוואטסאפ - לחץ הדבק (Paste) בקבוצה כדי לשלוח את התמונה.");
-            window.open('https://api.whatsapp.com/send', '_blank');
-            if (shareTextEl) shareTextEl.textContent = 'הועתק! הדבק בוואטסאפ';
-        } else {
-            // Fallback 2: Direct Download
-            const link = document.createElement("a");
-            link.download = filename;
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-            alert("התמונה יורדת למכשירך. ניתן לשתף אותה ישירות בוואטסאפ!");
-            if (shareTextEl) shareTextEl.textContent = 'הורד למכשיר!';
+        if (navigator.share && navigator.canShare) {
+            try {
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                if (blob) {
+                    const file = new File([blob], filename, { type: "image/png" });
+                    if (navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            files: [file],
+                            title: 'מחולל ידידים',
+                            text: 'הנה התמונה שיצרתי במחולל ידידים!'
+                        });
+                        sharedSuccessfully = true;
+                        if (shareTextEl) shareTextEl.textContent = 'שיתוף הצליח! ✅';
+                    }
+                }
+            } catch (shareErr) {
+                console.log('Native share cancelled or failed:', shareErr);
+                if (shareErr.name === 'AbortError') {
+                    if (shareTextEl) shareTextEl.textContent = 'בוטל';
+                    setTimeout(() => { if (shareTextEl) shareTextEl.textContent = originalText; }, 2000);
+                    return;
+                }
+            }
+        }
+
+        // If native share wasn't supported or failed, open Share Modal
+        if (!sharedSuccessfully) {
+            showShareModal(dataUrl, filename);
+            if (shareTextEl) shareTextEl.textContent = 'תמונה מוכנה! 📸';
         }
 
     } catch (err) {
-        console.log('Sharing process info:', err);
-        if (err.name === 'AbortError') {
-            if (shareTextEl) shareTextEl.textContent = 'בוטל';
-        } else {
-            // Fallback to download on any canvas/share exception
-            try {
-                const canvas = await html2canvas(node, options);
-                const link = document.createElement("a");
-                link.download = filename;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
-                alert("הורדנו את התמונה למכשירך. תוכל לשתף אותה בווטסאפ!");
-                if (shareTextEl) shareTextEl.textContent = 'הורד למכשיר!';
-            } catch (fallbackErr) {
-                alert("לא ניתן לשתף בדפדפן זה. אנא השתמש בכפתור ההורדה.");
-                if (shareTextEl) shareTextEl.textContent = 'שגיאה';
-            }
-        }
+        console.error('Sharing process error:', err);
+        if (shareTextEl) shareTextEl.textContent = 'שגיאה';
     }
 
     if (shareTextEl) {
