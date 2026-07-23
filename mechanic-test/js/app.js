@@ -534,8 +534,8 @@ function renderStats(triggeredBySelect = false) {
             listHTML += `
                 <div class="v-top3-card ${rowClass}">
                     <span class="v-top3-medal">${medalEmoji}</span>
-                    <span class="v-top3-name">${p.name}</span>
-                    <span class="v-top3-score">${p.score} אירועים</span>
+                    <span class="v-top3-name">${escapeHTML(p.name)}</span>
+                    <span class="v-top3-score">${escapeHTML(p.score)} אירועים</span>
                 </div>`;
         }
         listHTML += '</div>';
@@ -551,15 +551,15 @@ function renderStats(triggeredBySelect = false) {
                     listHTML += `
                         <div class="v-list-row">
                             <span class="v-rank">${i + 1}.</span>
-                            <span class="v-name">${row1.name}</span>
-                            <span class="v-score">${row1.score}</span>
+                            <span class="v-name">${escapeHTML(row1.name)}</span>
+                            <span class="v-score">${escapeHTML(row1.score)}</span>
                         </div>`;
                     if (row2) {
                         listHTML += `
                             <div class="v-list-row">
                                 <span class="v-rank">${i + 2}.</span>
-                                <span class="v-name">${row2.name}</span>
-                                <span class="v-score">${row2.score}</span>
+                                <span class="v-name">${escapeHTML(row2.name)}</span>
+                                <span class="v-score">${escapeHTML(row2.score)}</span>
                             </div>`;
                     }
                 }
@@ -1006,7 +1006,7 @@ function applyProjectData(data) {
     }
     if (data['w_footer_blue']) {
         const el = document.querySelector('#card-welcome-family .footer-msg');
-        if (el) el.innerHTML = data['w_footer_blue'];
+        if (el) el.innerHTML = escapeHTML(data['w_footer_blue']).replace(/&lt;br\s*\/?&gt;/gi, '<br>');
     }
     if (data['w_title_op']) {
         const el = document.querySelector('#card-welcome-operational .w-title');
@@ -1018,7 +1018,7 @@ function applyProjectData(data) {
     }
     if (data['w_footer_red']) {
         const el = document.querySelector('#card-welcome-operational .footer-msg');
-        if (el) el.innerHTML = data['w_footer_red'];
+        if (el) el.innerHTML = escapeHTML(data['w_footer_red']).replace(/&lt;br\s*\/?&gt;/gi, '<br>');
     }
 }
 
