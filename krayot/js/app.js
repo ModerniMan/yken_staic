@@ -319,10 +319,14 @@ function parseNames(text) {
             if (matchRev) {
                 name = matchRev[2].trim();
                 score = parseInt(matchRev[1]);
+            } else {
+                // Option 3: Name only (no score provided)
+                name = clean;
+                score = 0;
             }
         }
         
-        if (name && !isNaN(score)) {
+        if (name) {
             // Check if the parsed name is actually an event category
             // We do a strict comparison to avoid filtering out volunteers named "אחרן" etc.
             const isEvent = eventKeywords.some(kw => name === kw || name.startsWith(kw + ' ') || name.endsWith(' ' + kw) || name === 'רכב נעול' || name === 'דלת טרוקה');
@@ -514,7 +518,7 @@ function renderStats(triggeredBySelect = false) {
         </div>
     `;
 
-    if (list.length > 3) {
+    if (list.length > 0) {
         let listHTML = '';
 
         // שלושת הראשונים - כרטיסים ממורכזים
