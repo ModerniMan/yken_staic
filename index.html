@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com data: blob:;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com data: blob:;">
     <title>מחולל ידידים | בחירת סניף</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;800&display=swap"
         rel="stylesheet">
@@ -798,6 +798,17 @@
             // {{INSERT_NEW_BRANCH_HERE}}
         ];
 
+        // Helper to escape HTML to prevent XSS vulnerabilities
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         // ======================================================
         //   Render branch cards
         // ======================================================
@@ -832,8 +843,8 @@
                 // Render list
                 filteredBranches.forEach((branch, index) => {
                     const card = document.createElement('a');
-                    card.href = branch.folder + '/';
-                    card.className = `branch-card color-${branch.color}`;
+                    card.href = encodeURI(branch.folder) + '/';
+                    card.className = `branch-card color-${escapeHTML(branch.color)}`;
                     
                     // Add smooth delayed stagger animation
                     card.style.opacity = "0";
@@ -843,16 +854,16 @@
                     const systemTags = branch.systems.map(s => `
                         <span class="system-tag">
                             <span class="pulse-led"></span>
-                            ${s}
+                            ${escapeHTML(s)}
                         </span>
                     `).join('');
 
                     card.innerHTML = `
                         <div class="card-top">
-                            <div class="card-icon">${branch.icon}</div>
+                            <div class="card-icon">${escapeHTML(branch.icon)}</div>
                             <div class="card-info">
-                                <h3>${branch.name}</h3>
-                                <span>${branch.nickname}</span>
+                                <h3>${escapeHTML(branch.name)}</h3>
+                                <span>${escapeHTML(branch.nickname)}</span>
                             </div>
                             <div class="card-arrow">←</div>
                         </div>
