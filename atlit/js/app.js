@@ -388,8 +388,9 @@ function renderStats(triggeredBySelect = false) {
     if (outVols) outVols.innerText = vols;
     if (outEmer) outEmer.innerText = emer;
 
-    // 2. Graph
+    // 2. Graph (With Infographic Percentages)
     const graphData = calculateGraphData();
+    const sumVal = graphData.vals.reduce((acc, curr) => acc + (parseInt(curr.val, 10) || 0), 0);
     graphData.vals.forEach(item => {
         const col = document.getElementById('col-' + item.id);
         const bar = document.getElementById('bar-' + item.id);
@@ -398,7 +399,8 @@ function renderStats(triggeredBySelect = false) {
             if (item.val > 0) {
                 col.style.display = 'flex';
                 bar.style.height = (item.val / graphData.max * 100) + "%";
-                if (txt) txt.innerText = item.val;
+                const pct = sumVal > 0 ? Math.round((item.val / sumVal) * 100) : 0;
+                if (txt) txt.innerText = `${item.val} (${pct}%)`;
             } else {
                 col.style.display = 'none';
                 bar.style.height = "0%";
@@ -1264,3 +1266,83 @@ function showMobileView(view) {
         setTimeout(resizePreview, 100);
     }
 }
+
+// Aspect Ratio Format Handler (Standard 1:1 / Post vs Story 9:16)
+let currentExportFormat = 'standard';
+
+function setExportFormat(fmt) {
+    currentExportFormat = fmt;
+    const btnStd = document.getElementById('btn-fmt-standard');
+    const btnStory = document.getElementById('btn-fmt-story');
+    const container = document.getElementById('canvas-container');
+
+    if (fmt === 'story') {
+        if (btnStd) {
+            btnStd.style.background = 'rgba(255, 255, 255, 0.1)';
+            btnStd.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+        }
+        if (btnStory) {
+            btnStory.style.background = 'linear-gradient(135deg, #f107a3, #7b2ff7)';
+            btnStory.style.border = 'none';
+        }
+        if (container) container.classList.add('format-story');
+    } else {
+        if (btnStd) {
+            btnStd.style.background = 'linear-gradient(135deg, #1e88e5, #1565c0)';
+            btnStd.style.border = 'none';
+        }
+        if (btnStory) {
+            btnStory.style.background = 'rgba(255, 255, 255, 0.1)';
+            btnStory.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+        }
+        if (container) container.classList.remove('format-story');
+    }
+}
+
+// WhatsApp Direct Image Sharing Helper
+async function shareToWhatsApp(targetId, filename) {
+    const shareTextEl = document.getElementById('share-text-stats') || document.getElementById('share-text-family');
+    const originalText = shareTextEl ? shareTextEl.textContent : '📤 שיתוף';
+    if (shareTextEl) shareTextEl.textContent = '...מכין ל-WhatsApp';
+
+    try {
+        const node = document.getElementById(targetId);
+        if (!node) return;
+        const options = {
+            scale: 2.0,
+            useCORS: true,
+            allowTaint: false,
+            backgroundColor: null
+        };
+        const canvas = await html2canvas(node, options);
+        
+        if (navigator.share && navigator.canShare) {
+            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            if (blob) {
+                const file = new File([blob], filename, { type: "image/png" });
+                if (navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: 'מחולל ידידים',
+                        text: 'סיכום שבועי - ידידים 🛡️'
+                    });
+                    if (shareTextEl) shareTextEl.textContent = 'שותף בהצלחה! ✅';
+                    setTimeout(() => { if (shareTextEl) shareTextEl.textContent = originalText; }, 3000);
+                    return;
+                }
+            }
+        }
+        
+        const dataUrl = canvas.toDataURL('image/png');
+        if (typeof showShareModal === 'function') {
+            showShareModal(dataUrl, filename);
+        }
+        const waText = encodeURIComponent('תמונת הדוח השבועי של ידידים מוכנה!');
+        window.open(`https://api.whatsapp.com/send?text=${waText}`, '_blank');
+    } catch(err) {
+        console.error('WhatsApp Share Error:', err);
+    } finally {
+        if (shareTextEl) setTimeout(() => { shareTextEl.textContent = originalText; }, 3000);
+    }
+}
+

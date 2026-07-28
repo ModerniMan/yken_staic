@@ -2408,7 +2408,33 @@
     body.portal-closed .sidebar {
         height: calc(100vh - 60px) !important;
         overflow-y: auto !important;
-        padding-bottom: 80px !important;
-    }
 }
+
+/* ======================================================
+   📱 Story 9:16 Aspect Ratio & Enhanced Infographics
+   ====================================================== */
+#canvas-container.format-story {
+    padding: 35px 15px !important;
+    background: radial-gradient(circle at center, rgba(15, 23, 42, 0.95), rgba(6, 9, 14, 0.98)) !important;
+    min-height: 850px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#canvas-container.format-story .main-card,
+#canvas-container.format-story #card-welcome,
+#canvas-container.format-story #card-volunteers-list {
+    transform: scale(0.95);
+    box-shadow: 0 15px 50px rgba(0, 242, 254, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important;
+}
+
+.actions-wrapper .whatsapp-btn {
+    background: linear-gradient(135deg, #25D366, #128C7E) !important;
+    color: #fff !important;
+    border: none !important;
+    font-weight: bold;
+}
+
 

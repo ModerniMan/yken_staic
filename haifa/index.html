@@ -94,6 +94,15 @@
                 <button class="tab-btn" data-tab="tab-welcome" onclick="switchTab('welcome')">👋 קבלת פנים</button>
             </div>
 
+            <!-- פורמט תמונה לייצוא (ריבוע / סטורי) -->
+            <div class="input-group" id="format-selector-group" style="padding: 0 15px; margin-top: 10px; margin-bottom: 5px;">
+                <label>פורמט תמונה לייצוא</label>
+                <div style="display: flex; gap: 8px; margin-top: 4px;">
+                    <button class="tab-btn active-fmt" id="btn-fmt-standard" onclick="setExportFormat('standard')" style="flex: 1; font-size: 12px; padding: 8px 4px; background: linear-gradient(135deg, #1e88e5, #1565c0); border: none; color: #fff; border-radius: 6px;">🖼️ פוסט/ריבוע</button>
+                    <button class="tab-btn" id="btn-fmt-story" onclick="setExportFormat('story')" style="flex: 1; font-size: 12px; padding: 8px 4px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.15); color: #fff; border-radius: 6px;">📱 סטורי (9:16)</button>
+                </div>
+            </div>
+
             <!-- עיצוב דוח שבועי -->
             <div class="input-group" id="theme-selector-group" style="display: none; padding: 0 15px; margin-top: 10px; margin-bottom: 5px;">
                 <label>עיצוב דוח שבועי</label>
