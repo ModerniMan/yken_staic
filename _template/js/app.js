@@ -765,13 +765,13 @@ function downloadVolunteersList() {
 // --- Template URL System (Restored) ---
 function copyTemplateLink() {
     const params = new URLSearchParams();
-    const inputs = document.querySelectorAll('input[id^="in-"], textarea[id^="in-"]');
+    const inputs = document.querySelectorAll('input[id^="in-"], textarea[id^="in-"], select[id^="in-"]');
     inputs.forEach(input => {
         if (input.value && input.value.trim() !== '') params.set(input.id, input.value);
     });
-    const branch = document.querySelector('.logo-text .highlight');
+    const branch = document.querySelector('.header-logo h1');
     if (branch) params.set('branch', branch.innerText);
-    const subtitle = document.querySelector('.card-subtitle');
+    const subtitle = document.querySelector('.header-subtitle');
     if (subtitle) params.set('subtitle', subtitle.innerText);
 
     const url = window.location.origin + window.location.pathname + '?' + params.toString();
@@ -788,9 +788,9 @@ function loadParamsFromURL() {
     if (Array.from(params).length === 0) return;
     params.forEach((val, key) => {
         if (key === 'branch') {
-            document.querySelectorAll('.logo-text .highlight').forEach(el => el.innerText = val);
+            document.querySelectorAll('.header-logo h1').forEach(el => el.innerText = val);
         } else if (key === 'subtitle') {
-            document.querySelectorAll('.card-subtitle').forEach(el => el.innerText = val);
+            document.querySelectorAll('.header-subtitle').forEach(el => el.innerText = val);
         } else {
             const el = document.getElementById(key);
             if (el) el.value = val;
@@ -1175,7 +1175,7 @@ function setField(id, value) {
 // Draft Auto-Save & Manual Restore Logic
 function autoSaveDraft() {
     const data = {};
-    const inputs = document.querySelectorAll('input[id^="in-"], textarea[id^="in-"]');
+    const inputs = document.querySelectorAll('input[id^="in-"], textarea[id^="in-"], select[id^="in-"]');
     inputs.forEach(input => {
         if (input.type === 'checkbox') {
             data[input.id] = input.checked;
